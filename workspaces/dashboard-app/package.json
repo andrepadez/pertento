@@ -1,0 +1,12 @@
+{
+  "name": "dashboard",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "source ../../.env && bun x --bun  vite",
+    "build": "source ../../.env && bun x --bun vite build",
+    "start": "source ../../.env && bun x --bun vite preview --port 3000",
+    "postbuild": "bun run --env-file=../../.env ./postbuild.js"
+  }
+}

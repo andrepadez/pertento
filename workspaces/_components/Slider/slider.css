@@ -1,0 +1,15 @@
+.shad-slider.disabled {
+  opacity: 0.5;
+}
+
+.shad-slider.small span:first-child {
+  height: 0.25rem;
+}
+
+.shad-slider.small span:nth-child(2) {
+}
+
+.shad-slider.small span:nth-child(2) span {
+  height: 0.75rem;
+  width: 0.75rem;
+}

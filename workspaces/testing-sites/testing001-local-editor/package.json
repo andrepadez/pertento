@@ -1,0 +1,9 @@
+{
+  "name": "testing001-local-editor",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "PORT=4001 serve ."
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "name": "custom-errors",
+  "main": "src/custom-errors.ts",
+  "version": "0.1.0"
+}

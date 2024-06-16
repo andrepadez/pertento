@@ -1,0 +1,18 @@
+{
+  "manifest_version": 3,
+  "name": "Pertento Editor",
+  "version": "2024.06.14",
+  "icons": {
+    "16": "logos/logo-16.png",
+    "48": "logos/logo-48.png",
+    "128": "logos/logo-128.png"
+  },
+  "background": {
+    "service_worker": "service-worker.js",
+    "type": "module"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": ["tabs", "scripting", "activeTab"]
+}

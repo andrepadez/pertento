@@ -1,0 +1,1 @@
+ALTER TABLE "users" ADD COLUMN "parent_company_id" bigint;

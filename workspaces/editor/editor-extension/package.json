@@ -1,0 +1,12 @@
+{
+  "name": "editor-extension",
+  "private": true,
+  "version": "2024.06.14",
+  "type": "module",
+  "scripts": {
+    "start": "source ../../../.env && bun x --bun vite preview --port 3002",
+    "prebuild": "bun --env-file=../../../.env ./prebuild.ts",
+    "build": "source ../../../.env && bun x --bun vite build",
+    "postbuild": "bun --env-file=../../../.env ./postbuild.ts"
+  }
+}

@@ -1,0 +1,111 @@
+bun test v1.1.8 (89d25807)
+
+testing/api-server/index.test.ts:
+API TESTS http://localhost:8001 super@pertento.ai b6GUnYLuWnY4XNtbnLMT
+19 |       expect(data.pertentoAuthenticationServer).toBeTruthy();
+20 |     });
+21 |   });
+22 | 
+23 |   describe('Signin', () => {
+24 |     testSignup(verificationCode);
+         ^
+ReferenceError: Can't find variable: testSignup
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:24:5
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:23:3
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:5:1
+23 |   describe('Signin', () => {
+24 |     testSignup(verificationCode);
+25 |   });
+26 | 
+27 |   describe('Signup', async () => {
+28 |     testSignin();
+         ^
+ReferenceError: Can't find variable: testSignin
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:28:5
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:27:22
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:27:3
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:5:1
+27 |   describe('Signup', async () => {
+28 |     testSignin();
+29 |   });
+30 | 
+31 |   describe('Forgot Password', () => {
+32 |     testForgotPassword();
+         ^
+ReferenceError: Can't find variable: testForgotPassword
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:32:5
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:31:3
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:5:1
+31 |   describe('Forgot Password', () => {
+32 |     testForgotPassword();
+33 |   });
+34 | 
+35 |   describe('Invite User', () => {
+36 |     testInviteUser();
+         ^
+ReferenceError: Can't find variable: testInviteUser
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:36:5
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:35:3
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:5:1
+23 |   describe('Signin', () => {
+24 |     testSignup(verificationCode);
+25 |   });
+26 | 
+27 |   describe('Signup', async () => {
+28 |     testSignin();
+         ^
+ReferenceError: Can't find variable: testSignin
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:28:5
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:27:22
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:27:3
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:5:1
+12 |   });
+13 | 
+14 |   describe(`it's alive`, () => {
+15 |     test('should return 200', async () => {
+16 |       const response = await fetch(API_URL);
+17 |       expect(response.status).toBe(200);
+           ^
+error: expect(received).toBe(expected)
+
+Expected: 200
+Received: 401
+
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:17:7
+(fail) API Server > it's alive > should return 200 [4.49ms]
+40 |     try {
+41 |       await db.delete(Users).where(eq(Users.id, dbUser.id));
+42 |       await db.delete(Users).where(eq(Users.email, 'test.user+123@pertento.ai'));
+43 |       await db.delete(Companies).where(eq(Companies.id, dbUser.companyId));
+44 |     } catch (ex) {
+45 |       throw new Error('Failed to delete user');
+                 ^
+error: Failed to delete user
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:45:13
+      at /Users/andrepadez/develop/pertento/testing/api-server/index.test.ts:39:12
+
+testing/auth-server/index.test.ts:
+(pass) Auth Server > it's alive > should return 200 [1.62ms]
+(pass) Auth Server > Signin > user should exist in the database [3.15ms]
+(pass) Auth Server > Signin > correct company should have been created [1.04ms]
+(pass) Auth Server > Signin > verification process should be working [3.49ms]
+(pass) Auth Server > Signup > should return 401 with wrong email [0.77ms]
+(pass) Auth Server > Signup > should return 401 with wrong password [36.44ms]
+(pass) Auth Server > Signup > should signin with right credentials [38.21ms]
+(pass) Auth Server > Forgot Password > should get verification code [1.95ms]
+(pass) Auth Server > Forgot Password > should not be able to reset with wrong verification code [0.33ms]
+(pass) Auth Server > Forgot Password > should reset password with correct verification code [38.79ms]
+(pass) Auth Server > Forgot Password > should not be able to signin with old password [36.69ms]
+(pass) Auth Server > Forgot Password > should be able to signin with new password [36.61ms]
+(pass) Auth Server > Forgot Password > should revert to original password [79.83ms]
+(pass) Auth Server > Invite User > need to sign in as the owner first [37.17ms]
+(pass) Auth Server > Invite User > should be able to invite a new user [5.05ms]
+(pass) Auth Server > Invite User > should be able to resend invitation [1.52ms]
+(pass) Auth Server > Invite User > should be able to accept invitation [36.08ms]
+(pass) Auth Server > Invite User > new user should now be able to signin [37.01ms]
+(pass) Auth Server > Invite User > should not be able to invite an existing user [1.65ms]
+
+ 19 pass
+ 1 fail
+ 32 expect() calls
+Ran 20 tests across 2 files. [541.00ms]

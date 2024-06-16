@@ -1,0 +1,1 @@
+ALTER TABLE "passkeys" ADD COLUMN "origin" varchar(256);

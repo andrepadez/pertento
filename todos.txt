@@ -1,0 +1,16 @@
+X useForm -> disconnect mutationObserver on useEffect return
+X useGlobal -> refresh (check implemented in ['CURRENT_USER'] useAuth)
+X changing name in client list does not reflect in other places than client list
+X Add Confirmation Dialog to Ending Experiment
+X if you jump back and forward between stats/settings - the application crashes after a few rounds 
+X in experiment creation, create button isn’t deactivated on the first click 
+    so when things are running slow or of the user i quick it’s quite easy to create multiple experiments
+    due to continuous clicking
+
+
+- Save HTML
+- Query Selector
+- Drag And Drop / Reorder
+- Custom CSS accordion
+
+- GoogleAccounts -> figure out google oAuth

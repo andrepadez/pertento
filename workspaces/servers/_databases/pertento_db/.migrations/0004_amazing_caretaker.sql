@@ -1,0 +1,1 @@
+ALTER TABLE "variants" ADD COLUMN "parent_company_id" bigint;

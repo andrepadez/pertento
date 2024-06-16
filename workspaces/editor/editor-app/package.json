@@ -1,0 +1,12 @@
+{
+  "name": "editor-app",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "source ../../../.env && bun x --bun  vite",
+    "build": "source ../../../.env && bun x --bun vite build",
+    "start": "source ../../../.env && bun x --bun vite preview --port 3001",
+    "postbuild": "bun --env-file=../../../.env ./postbuild.ts"
+  }
+}

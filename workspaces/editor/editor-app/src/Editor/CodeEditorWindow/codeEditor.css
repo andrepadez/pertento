@@ -1,0 +1,7 @@
+code.code-highlight span.token.punctuation {
+  color: white !important;
+}
+
+code.code-highlight span.code-line {
+  color: lightgray;
+}

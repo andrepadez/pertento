@@ -1,0 +1,9 @@
+{
+  "name": "indexeddb",
+  "version": "0.0.1",
+  "main": "src/index.js",
+  "dependencies": {
+    "dexie": "^4.0.4",
+    "dexie-react-hooks": "^1.1.7"
+  }
+}

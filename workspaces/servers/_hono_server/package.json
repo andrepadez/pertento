@@ -1,0 +1,9 @@
+{
+  "name": "hono-server",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "dependencies": {
+    "hono": "^4.4.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}

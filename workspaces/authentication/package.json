@@ -1,0 +1,9 @@
+{
+  "name": "authentication",
+  "module": "src/index.ts",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "bun --env-file=../../.env --watch server/index.ts",
+    "start": "bun --env-file=../../.env server/index.ts"
+  }
+}

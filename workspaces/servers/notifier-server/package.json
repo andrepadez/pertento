@@ -1,0 +1,9 @@
+{
+  "name": "notifier-server",
+  "module": "src/index.ts",
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "bun run --env-file=../../.env --watch src/index.ts",
+    "start": "bun run --env-file=../../.env src/index.ts"
+  }
+}
