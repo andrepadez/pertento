@@ -29,7 +29,10 @@ export const RowActions = ({ user }) => {
         {user.status === 'Blocked' ? (
           <DropdownMenuItem onClick={() => setDialogAction('unblock')}>Unblock user</DropdownMenuItem>
         ) : (
-          <DropdownMenuItem onClick={() => setDialogAction('block')} disabled={user.status !== 'Blocked'}>
+          <DropdownMenuItem
+            onClick={() => setDialogAction('block')}
+            disabled={['Blocked', 'Active'].includes(user.status)}
+          >
             Block user
           </DropdownMenuItem>
         )}
