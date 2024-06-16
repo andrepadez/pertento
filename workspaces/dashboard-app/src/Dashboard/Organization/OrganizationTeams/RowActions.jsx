@@ -31,7 +31,7 @@ export const RowActions = ({ user }) => {
         ) : (
           <DropdownMenuItem
             onClick={() => setDialogAction('block')}
-            disabled={['Blocked', 'Active'].includes(user.status)}
+            disabled={!['Blocked', 'Active'].includes(user.status)}
           >
             Block user
           </DropdownMenuItem>
