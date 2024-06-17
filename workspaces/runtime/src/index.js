@@ -38,6 +38,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
 
     if (experimentData) {
       setupGtag(expVariantMap, experimentData);
+      setupDataLayer(experimentData, expVariantMap);
     }
 
     const opacityDelay = (await idbGet('PERTENTO_OPACITY_DELAY')) || localStorage.getItem('PERTENTO_OPACITY_DELAY');
