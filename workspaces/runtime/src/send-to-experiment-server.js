@@ -8,7 +8,9 @@ export const setupSendToExperimentsServer = (experimentData, expVariantMap) => {
   const script = document.getElementById('pertentoScript');
   const websiteId = new URL(script.src).searchParams.get('website-id');
   const uuid = experimentData.uuid;
-  const expSearch = window.localStorage.getItem('PERTENTO_VARIANTS_URL_SEARCH');
+  const expSearch = Object.keys(expVariantMap)
+    .map((key) => `&exp-${key}=${expVariantMap[key]}`)
+    .join('');
   const experimentIds = Array.from(new URLSearchParams(expSearch).keys()).map((key) => +key.split('-').at(1));
 
   return async (data, isMultiple) => {

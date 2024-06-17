@@ -1,7 +1,9 @@
 import { log } from 'helpers/injector/console';
 import { setupSendToExperimentsServer } from './send-to-experiment-server';
+let animationFrameRequest = null;
 
 export const setupDataLayer = function (experimentData, expVariantMap, tries = 0) {
+  cancelAnimationFrame(animationFrameRequest);
   if (tries++ % 25 === 0) {
     log(tries, 'setting up dataLayer', window.dataLayer);
   }
@@ -28,6 +30,6 @@ export const setupDataLayer = function (experimentData, expVariantMap, tries = 0
       }
       originalDataLayerLength = window.dataLayer.length;
     }
-    requestAnimationFrame(monitorDataLayer);
+    animationFrameRequest = requestAnimationFrame(monitorDataLayer);
   })();
 };

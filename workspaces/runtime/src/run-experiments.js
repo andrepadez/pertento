@@ -15,6 +15,7 @@ export const runExperiments = (experimentData = {}, websiteId) => {
   }
 
   registerVisitor({ websiteId, expVariantMap });
+  setupDataLayer(experimentData, expVariantMap);
 
   listenForUrlChange((url) => {
     log('url changed', url);

@@ -36,6 +36,7 @@ usersRouter.put('/ban/:userId', canActOnUser, async (c) => {
   await db.update(Users).set({ status: 'Banned', statusBy: c.user.id }).where(eq(Users.id, userId));
   return c.json({ ok: true });
 });
+
 usersRouter.delete('/:userId', canActOnUser, async (c) => {
   const { userId } = c.req.param();
   await db.delete(Users).where(eq(Users.id, userId));
