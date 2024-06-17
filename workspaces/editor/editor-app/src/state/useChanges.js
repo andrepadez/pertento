@@ -21,8 +21,6 @@ export const useChanges = () => {
     setDbChanges(dbChanges);
   };
 
-  console.log('dbChanges', dbChanges);
-
   const saveAndAddChange = async (change) => {
     const newDbChanges = await changesMutations.saveChanges([change]);
     setDbChanges((curr) => [...curr, ...newDbChanges]);
