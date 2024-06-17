@@ -14,7 +14,10 @@ export const getFriendlySelector = (element) => {
     for (let i = 0; i < classes.length; i++) {
       if (classes[i].trim().length > 0) {
         if (classes[i].indexOf(':') === -1 && classes[i].indexOf('[') === -1) {
-          str += '.' + classes[i];
+          try {
+            document.querySelector('.' + classes[i]);
+            str += '.' + classes[i];
+          } catch (ex) {}
         }
       }
     }
@@ -22,7 +25,10 @@ export const getFriendlySelector = (element) => {
   }
 
   const id = element.getAttribute('id');
-  str += !!id && id.indexOf('=') < 0 ? '#' + id : '';
+  try {
+    document.querySelector('#' + id);
+    str += !!id && id.indexOf('=') < 0 ? '#' + id : '';
+  } catch (ex) {}
 
   return getFriendlySelector(element.parentNode) + ' > ' + str;
 };
