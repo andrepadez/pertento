@@ -47,7 +47,16 @@ export const setupSendToExperimentsServer = (experimentData, expVariantMap) => {
     let url = `/events`;
     url += `?websiteId=${websiteId}`;
     url += !!uuid ? `&uuid=${uuid}` : '';
-    url += expSearch;
+
+    const theExpSearch = expSearch
+      .split('&')
+      .filter(Boolean)
+      .map((item) => item.match(/exp\-(\d+)/)[1])
+      .filter((item) => !!localStorage.getItem(`PERTENTO-VISITED-${item}`))
+      .map((item) => `&exp-${item}=${expVariantMap[item]}`)
+      .join('&');
+
+    url += theExpSearch;
     log('posting to', url);
     experimentsClient.post(url, dataToSend);
   };
