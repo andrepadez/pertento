@@ -21,19 +21,19 @@ usersRouter.put('/', async (c) => {
 
 usersRouter.put('/block/:userId', canActOnUser, async (c) => {
   const { userId } = c.req.param();
-  await db.update(Users).set({ status: 'Blocked' }).where(eq(Users.id, userId));
+  await db.update(Users).set({ status: 'Blocked', statusBy: c.user.id }).where(eq(Users.id, userId));
   return c.json({ ok: true });
 });
 
 usersRouter.put('/unblock/:userId', canActOnUser, async (c) => {
   const { userId } = c.req.param();
-  await db.update(Users).set({ status: 'Active' }).where(eq(Users.id, userId));
+  await db.update(Users).set({ status: 'Active', statusBy: c.user.id }).where(eq(Users.id, userId));
   return c.json({ ok: true });
 });
 
 usersRouter.put('/ban/:userId', canActOnUser, async (c) => {
   const { userId } = c.req.param();
-  await db.update(Users).set({ status: 'Banned' }).where(eq(Users.id, userId));
+  await db.update(Users).set({ status: 'Banned', statusBy: c.user.id }).where(eq(Users.id, userId));
   return c.json({ ok: true });
 });
 usersRouter.delete('/:userId', canActOnUser, async (c) => {
