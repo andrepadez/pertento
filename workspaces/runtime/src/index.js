@@ -24,40 +24,23 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
   } catch (ex) {}
 
   try {
-    log('Runtime (Live 2024.06.18.3) script loaded!!!');
+    log('Runtime (Live 2024.06.18.4) script loaded!!!');
     const script = document.getElementById('pertentoScript');
     const websiteUrl = window.top.location.href;
     const websiteId = new URL(script.src).searchParams.get('website-id');
     const body = document.body;
     if (checkIfOldEditor()) return;
 
-    const experimentData = await idbGet('PERTENTO_EXPERIMENT_DATA');
+    const experimentData = await getExperimentData(websiteUrl, websiteId);
 
-    log('experimentData from idb', experimentData);
+    log('experimentData', experimentData);
     const { expVariantMap, experimentsToCount, allExpVariantMap } = runExperiments(experimentData, websiteId);
-
-    if (experimentData) {
-      setupGtag(expVariantMap, experimentData);
-      setupDataLayer(experimentData, expVariantMap);
-    }
+    setupGtag(expVariantMap, experimentData);
+    setupDataLayer(experimentData, expVariantMap);
 
     const opacityDelay = (await idbGet('PERTENTO_OPACITY_DELAY')) || localStorage.getItem('PERTENTO_OPACITY_DELAY');
     log('removing opacity with delay', +opacityDelay);
     removeOpacityStyle(opacityDelay ? +opacityDelay : 0);
-
-    const updatedExperimentData = await getExperimentData(websiteUrl, websiteId);
-    log('updatedExperimentData', updatedExperimentData);
-    if (!experimentData) {
-      const { expVariantMap, experimentsToCount, allExpVariantMap } = runExperiments(updatedExperimentData, websiteId);
-      setupGtag(expVariantMap, updatedExperimentData);
-      setupDataLayer(updatedExperimentData, expVariantMap);
-    }
-
-    if (Object.keys(updatedExperimentData).length > 0) {
-      idbSet('PERTENTO_EXPERIMENT_DATA', updatedExperimentData);
-    } else {
-      idbDel('PERTENTO_EXPERIMENT_DATA');
-    }
   } catch (ex) {
     removeOpacityStyle();
     log('exception', ex);
