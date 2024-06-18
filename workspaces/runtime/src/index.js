@@ -1,4 +1,3 @@
-import { get as idbGet, set as idbSet, del as idbDel, update } from 'idb-keyval';
 import { log } from 'helpers/injector/console';
 import { runExperiments } from './run-experiments';
 import { getExperimentData } from './get-experiment-data';
@@ -38,7 +37,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
     setupGtag(expVariantMap, experimentData);
     setupDataLayer(experimentData, expVariantMap);
 
-    const opacityDelay = (await idbGet('PERTENTO_OPACITY_DELAY')) || localStorage.getItem('PERTENTO_OPACITY_DELAY');
+    const opacityDelay = localStorage.getItem('PERTENTO_OPACITY_DELAY');
     log('removing opacity with delay', +opacityDelay);
     removeOpacityStyle(opacityDelay ? +opacityDelay : 0);
   } catch (ex) {
