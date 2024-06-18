@@ -4,7 +4,7 @@ export const applyGlobals = (body, { globalJavascript, globalCSS }) => {
       const existingScript = document.querySelector('#pertento-global-javascript');
       const script = document.createElement('script');
       script.id = 'pertento-global-javascript';
-      script.innerHTML = globalJavascript;
+      script.innerHTML = `;(function(){${globalJavascript}})();`;
 
       if (existingScript) existingScript.remove();
       document.body.appendChild(script);
