@@ -24,7 +24,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
   } catch (ex) {}
 
   try {
-    log('Runtime (Live 2024.06.18.2) script loaded!!!');
+    log('Runtime (Live 2024.06.18.3) script loaded!!!');
     const script = document.getElementById('pertentoScript');
     const websiteUrl = window.top.location.href;
     const websiteId = new URL(script.src).searchParams.get('website-id');
@@ -47,6 +47,11 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
 
     const updatedExperimentData = await getExperimentData(websiteUrl, websiteId);
     log('updatedExperimentData', updatedExperimentData);
+    if (!experimentData) {
+      const { expVariantMap, experimentsToCount, allExpVariantMap } = runExperiments(updatedExperimentData, websiteId);
+      setupGtag(expVariantMap, updatedExperimentData);
+      setupDataLayer(updatedExperimentData, expVariantMap);
+    }
 
     if (Object.keys(updatedExperimentData).length > 0) {
       idbSet('PERTENTO_EXPERIMENT_DATA', updatedExperimentData);
