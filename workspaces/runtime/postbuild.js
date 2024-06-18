@@ -28,6 +28,4 @@ if (isProduction) {
   const targetFile4 = path.resolve('/var/www', 'dashboard', 'pertentoRuntime-beta.js');
   await $`sudo cp ${targetFile1} ${targetFile3}`;
   await $`sudo cp ${targetFile1} ${targetFile4}`;
-  await $`sudo chmod 755 ${targetFile3}`;
-  await $`sudo chmod 755 ${targetFile4}`;
 }
