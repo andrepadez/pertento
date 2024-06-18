@@ -4,6 +4,7 @@ import { getElementFromChange } from './get-element-from-change';
 export * from './apply-globals';
 
 export const applyChanges = async (body = document.body, changes) => {
+  log('apply-changes.js: changes', changes);
   try {
     const unfoundChanges = [];
 
@@ -104,6 +105,7 @@ export const applyChanges = async (body = document.body, changes) => {
       }
     }
 
+    log('unfoundChanges', unfoundChanges);
     if (unfoundChanges.length > 0) {
       log('waiting for unfound Changes', unfoundChanges);
 
