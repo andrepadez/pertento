@@ -11,7 +11,10 @@ export const applyChanges = async (body = document.body, originalChanges) => {
   function applyTheChanges(changes) {
     if (applyingChanges) return;
     applyingChanges = true;
-    mutationObserver?.disconnect();
+    if (changes.length === 0) {
+      mutationObserver.disconnect();
+      return;
+    }
 
     try {
       const unfoundChanges = [];
@@ -112,9 +115,7 @@ export const applyChanges = async (body = document.body, originalChanges) => {
       }
 
       log('unfoundChanges', unfoundChanges);
-      if (unfoundChanges.length > 0) {
-        log('waiting for unfound Changes', unfoundChanges);
-
+      if (unfoundChanges.length > 0 && !mutationObserver) {
         mutationObserver = new MutationObserver((mutations) => {
           log('MutationObserver fired', mutations);
           const newFoundChanges = [];
