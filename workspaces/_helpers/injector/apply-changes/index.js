@@ -117,23 +117,24 @@ export const applyChanges = async (body = document.body, originalChanges) => {
           log('MutationObserver fired', mutations);
           const newFoundChanges = [];
           requestAnimationFrame(() => {
-            for (let i = 0; i < unfoundChanges.length; i++) {
-              const change = unfoundChanges[i];
-              const element = getElementFromChange(change, body);
-              if (element) {
-                unfoundChanges.splice(i, 1);
-                newFoundChanges.push(change);
-              }
-            }
-            if (newFoundChanges.length > 0) {
-              log('newFoundChanges', newFoundChanges);
-              applyChanges(body, newFoundChanges);
-            }
+            applyTheChanges(unfoundChanges);
+            // for (let i = 0; i < unfoundChanges.length; i++) {
+            //   const change = unfoundChanges[i];
+            //   const element = getElementFromChange(change, body);
+            //   if (element) {
+            //     unfoundChanges.splice(i, 1);
+            //     newFoundChanges.push(change);
+            //   }
+            // }
+            // if (newFoundChanges.length > 0) {
+            //   log('newFoundChanges', newFoundChanges);
 
-            if (unfoundChanges.length === 0) {
-              log('disconnecting MutationObserver');
-              mutationObserver.disconnect();
-            }
+            // }
+
+            // if (unfoundChanges.length === 0) {
+            //   log('disconnecting MutationObserver');
+            //   mutationObserver.disconnect();
+            // }
           });
         });
 
