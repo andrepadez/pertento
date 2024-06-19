@@ -2,17 +2,14 @@ import { log } from 'helpers/injector/console';
 import { applyHtmlChange } from './apply-html-change';
 import { getElementFromChange } from './get-element-from-change';
 export * from './apply-globals';
+let mutationObserver = null;
 
 export const applyChanges = async (body = document.body, originalChanges) => {
   log('apply-changes.js: originalChanges', originalChanges);
-  let mutationObserver = null;
-  let applyingChanges = false;
 
   function applyTheChanges(changes) {
-    if (applyingChanges) return;
-    applyingChanges = true;
     if (changes.length === 0) {
-      mutationObserver.disconnect();
+      mutationObserver?.disconnect();
       return;
     }
 
@@ -115,7 +112,7 @@ export const applyChanges = async (body = document.body, originalChanges) => {
       }
 
       log('unfoundChanges', unfoundChanges);
-      if (unfoundChanges.length > 0 && !mutationObserver) {
+      if (!mutationObserver) {
         mutationObserver = new MutationObserver((mutations) => {
           log('MutationObserver fired', mutations);
           const newFoundChanges = [];
