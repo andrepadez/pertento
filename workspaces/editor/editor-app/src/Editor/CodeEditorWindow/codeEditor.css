@@ -10,9 +10,9 @@ code.code-highlight span.attr-name {
   color: #9cdcfe !important;
 }
 code.code-highlight span.attr-value {
-  color: #ce9178;
+  color: #ce9178 !important;
 }
 
 code.code-highlight span.code-line {
-  color: lightgray;
+  color: lightgray !important;
 }
