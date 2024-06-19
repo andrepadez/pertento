@@ -7,6 +7,6 @@ console.log({ BUILD_ENV, isProduction });
 if (isProduction) {
   const originPath = path.resolve('./dist');
   const targetPath = path.resolve(process.cwd(), '..', 'www', 'dashboard');
-  await $`sudo cp -r ${originPath}/* ${targetPath}`;
+  await $`cp -r ${originPath}/* ${targetPath}`;
 }
 console.log('Dashboard postbuild script, done: production?', isProduction);
