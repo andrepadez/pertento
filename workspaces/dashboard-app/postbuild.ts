@@ -6,7 +6,7 @@ console.log({ BUILD_ENV, isProduction });
 
 if (isProduction) {
   const originPath = path.resolve('./dist');
-  const targetPath = path.resolve('/var/www/dashboard');
+  const targetPath = path.resolve('~/production/dashboard');
   await $`sudo cp -r ${originPath}/* ${targetPath}`;
   await $`sudo chmod -R 755 ${targetPath}`;
 }

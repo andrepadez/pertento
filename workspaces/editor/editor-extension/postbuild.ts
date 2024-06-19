@@ -18,8 +18,8 @@ if (isProduction) {
   console.log(`zipping extension at https://app.pertento.ai/editor/pertento-extension-v${version}.zip`);
   const zipCommands = [
     `cp -R dist pertento-extension-v${version}`,
-    `rm -rf /var/www/dashboard/editor/pertento-extension*`,
-    `zip -r /var/www/dashboard/editor/pertento-extension-v${version}.zip pertento-extension-v${version}/*`,
+    `rm -rf ~/production/www/dashboard/editor/pertento-extension*`,
+    `zip -r ~/production/www/dashboard/editor/pertento-extension-v${version}.zip pertento-extension-v${version}/*`,
     `rm -rf pertento-extension-v${version}`,
   ];
 

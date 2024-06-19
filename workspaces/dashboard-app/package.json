@@ -7,6 +7,6 @@
     "dev": "source ../../.env && bun x --bun  vite",
     "build": "source ../../.env && bun x --bun vite build",
     "start": "source ../../.env && bun x --bun vite preview --port 3000",
-    "postbuild": "bun run --env-file=../../.env ./postbuild.js"
+    "postbuild": "bun run --env-file=../../.env ./postbuild.ts"
   }
 }
