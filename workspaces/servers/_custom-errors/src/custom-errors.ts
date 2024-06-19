@@ -23,3 +23,5 @@ export const GONE = () => new CustomError(410, 'Gone');
 export const INTERNAL_SERVER_ERROR = (message, returnValue) => new CustomError(500, message, returnValue);
 
 export const USER_ALREADY_EXISTS = () => new CustomError(511, 'the email address already exists on our platform');
+export const AUDIENCE_ERROR = () =>
+  new CustomError(512, 'there was an error creating the audience in Google Analytics');

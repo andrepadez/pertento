@@ -1,5 +1,16 @@
+code.code-highlight span.token.tag {
+  color: #569cd6 !important;
+}
+
 code.code-highlight span.token.punctuation {
-  color: white !important;
+  color: #808080 !important;
+}
+
+code.code-highlight span.attr-name {
+  color: #9cdcfe !important;
+}
+code.code-highlight span.attr-value {
+  color: #ce9178;
 }
 
 code.code-highlight span.code-line {
