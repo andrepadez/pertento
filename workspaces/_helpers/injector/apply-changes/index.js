@@ -6,11 +6,13 @@ export * from './apply-globals';
 export const applyChanges = async (body = document.body, originalChanges) => {
   log('apply-changes.js: originalChanges', originalChanges);
   let mutationObserver = null;
+  let applyingChanges = false;
 
   function applyTheChanges(changes) {
-    if (mutationObserver) {
-      mutationObserver.disconnect();
-    }
+    if (applyingChanges) return;
+    applyingChanges = true;
+    mutationObserver?.disconnect();
+
     try {
       const unfoundChanges = [];
 
@@ -147,6 +149,9 @@ export const applyChanges = async (body = document.body, originalChanges) => {
       return true;
     } catch (ex) {
       log('apply-changes.js: Error', ex);
+    } finally {
+      log('finally');
+      applyingChanges = false;
     }
   }
 
