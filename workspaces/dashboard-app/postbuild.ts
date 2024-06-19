@@ -6,7 +6,7 @@ console.log({ BUILD_ENV, isProduction });
 
 if (isProduction) {
   const originPath = path.resolve('./dist');
-  const targetPath = '/home/andrepadez/production/dashboard';
+  const targetPath = '/home/andrepadez/production/www/dashboard';
   await $`cp -r ${originPath}/* ${targetPath}`;
 }
 console.log('Dashboard postbuild script, done: production?', isProduction);
