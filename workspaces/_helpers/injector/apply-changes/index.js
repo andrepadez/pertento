@@ -3,7 +3,7 @@ import { applyHtmlChange } from './apply-html-change';
 import { getElementFromChange } from './get-element-from-change';
 export * from './apply-globals';
 
-export const applyChanges = async (body = document.body, changes) => {
+export const applyChanges = (body = document.body, changes) => {
   log('apply-changes.js: changes', changes);
   try {
     const unfoundChanges = [];
@@ -106,40 +106,7 @@ export const applyChanges = async (body = document.body, changes) => {
     }
 
     log('unfoundChanges', unfoundChanges);
-    if (unfoundChanges.length > 0) {
-      log('waiting for unfound Changes', unfoundChanges);
-
-      const mutationObserver = new MutationObserver((mutations) => {
-        log('MutationObserver fired', mutations);
-        const newFoundChanges = [];
-        setTimeout(() => {
-          for (let i = 0; i < unfoundChanges.length; i++) {
-            const change = unfoundChanges[i];
-            const element = getElementFromChange(change, body);
-            if (element) {
-              unfoundChanges.splice(i, 1);
-              newFoundChanges.push(change);
-            }
-          }
-          if (newFoundChanges.length > 0) {
-            log('newFoundChanges', newFoundChanges);
-            applyChanges(body, newFoundChanges);
-          }
-
-          if (unfoundChanges.length === 0) {
-            log('disconnecting MutationObserver');
-            mutationObserver.disconnect();
-          }
-        });
-      });
-
-      mutationObserver.observe(body, {
-        subtree: true,
-        childList: true,
-      });
-    }
-
-    return true;
+    return unfoundChanges;
   } catch (ex) {
     log('apply-changes.js: Error', ex);
   }

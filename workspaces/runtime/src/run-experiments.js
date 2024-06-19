@@ -3,15 +3,26 @@ import { applyChanges, applyGlobals } from 'helpers/injector/apply-changes';
 import { checkUrlTargeting } from 'helpers/url-match';
 import { listenForUrlChange } from 'helpers/listen-for-url-changes';
 import { registerVisitor } from './register-visitor';
+let mutationObserver = null;
 
 export const runExperiments = (experimentData = {}, websiteId) => {
-  log('runExperiments');
+  mutationObserver?.disconnect();
   const data = getExperimentsByUrlTarget(experimentData);
   const { expVariantMap, experimentsToCount } = data;
 
+  const allChanges = [];
   for (let experiment of experimentsToCount) {
     applyGlobals(document.body, experiment);
-    applyChanges(document.body, experiment.changes);
+    allChanges.push(...experiment.changes);
+  }
+
+  let unfoundChanges = applyChanges(document.body, allChanges);
+
+  if (unfoundChanges.length > 0) {
+    mutationObserver = new MutationObserver(() => {
+      unfoundChanges = applyChanges(document.body, unfoundChanges);
+    });
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
   }
 
   registerVisitor({ websiteId, expVariantMap });

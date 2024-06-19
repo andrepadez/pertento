@@ -26,6 +26,6 @@ await Bun.write(targetFile2, text);
 if (isProduction) {
   const targetFile3 = path.resolve('/var/www', 'dashboard', 'pertentoRuntime.js');
   const targetFile4 = path.resolve('/var/www', 'dashboard', 'pertentoRuntime-beta.js');
-  await $`sudo cp ${targetFile1} ${targetFile3}`;
+  // await $`sudo cp ${targetFile1} ${targetFile3}`;
   await $`sudo cp ${targetFile1} ${targetFile4}`;
 }
