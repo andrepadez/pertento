@@ -10,9 +10,8 @@ import { useOrganizations } from './useOrganizations';
 const lsKey = 'PERTENTO_WEBSITE';
 
 export const useWebsites = () => {
-  const [website, setWebsite] = useQueryState('ws', null, true);
   const { user } = useAuth();
-  const { organization } = useOrganizations();
+  const { organization, website, setWebsite } = useOrganizations();
   const [options, setOptions] = useState(null);
   const [rechecking, setRechecking] = useState(false);
   const navigate = useNavigate();
@@ -20,32 +19,21 @@ export const useWebsites = () => {
   const apiClient = useClient();
   const ganClient = useClient(`${import.meta.env.VITE_GAN_URL}`);
 
-  const { data: websites, isLoading } = useQuery({
-    queryKey: ['WEBSITES', organization?.id],
-    enabled: !!organization,
-    queryFn: async () => apiClient.get(`websites/${organization.id}`),
-  });
-
   useEffect(() => {
-    if (websites) {
+    if (organization) {
+      const { websites } = organization;
       setOptions(websites.map((org) => ({ value: org.id, label: org.url })));
-      const searchParams = new URLSearchParams(window.location.search);
-      const qsWs = +searchParams.get('ws');
-      if (!website && qsWs && websites.find((ws) => ws.id === qsWs)) {
-        setWebsite(qsWs);
-      } else {
-        setWebsite(websites[0]?.id);
-      }
     }
-  }, [websites]);
+  }, [organization]);
 
   useEffect(() => {
-    if (user && user.company.type === 'Company') {
+    if (user && user.company.type === 'Company' && organization) {
+      const { website } = organization;
       if (websites?.length > 0 && !website) {
         setWebsite(websites[0].id);
       }
     }
-  }, [user, websites, website]);
+  }, [user, organization]);
 
   const createWebsite = async (values) => {
     const { id: userId } = user;
@@ -61,10 +49,6 @@ export const useWebsites = () => {
     const newWebsite = await apiClient.post('/websites', payload);
     queryClient.invalidateQueries({ queryKey: ['WEBSITES'] });
     setTimeout(() => setWebsite(newWebsite.id), 50);
-  };
-
-  const changeWebsite = (id) => {
-    setWebsite(id);
   };
 
   const refreshPropertyTags = async (website) => {
@@ -86,12 +70,11 @@ export const useWebsites = () => {
   };
 
   return {
-    websites,
-    isLoading,
-    website: websites?.find((ws) => ws.id === +website),
+    websites: organization?.websites,
+    website: organization?.websites?.find((ws) => ws.id === +website),
     options,
     rechecking,
-    setWebsite: changeWebsite,
+    setWebsite,
     createWebsite,
     refreshPropertyTags,
     deleteWebsite,

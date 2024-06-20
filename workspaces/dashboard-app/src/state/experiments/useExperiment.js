@@ -26,11 +26,11 @@ export const useExperiment = (experimentId) => {
   });
 
   useEffect(() => {
-    if (experiment) {
+    if (experiment && organizations) {
       setOrganization(experiment.website.company.id);
       setTimeout(() => setWebsite(experiment.website.id));
     }
-  }, [experiment]);
+  }, [experiment, organizations]);
 
   const createExperiment = async ({ name }) => {
     const { id: websiteId } = website;

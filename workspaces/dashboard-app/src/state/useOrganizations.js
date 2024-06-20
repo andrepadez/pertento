@@ -10,10 +10,10 @@ const lsKey = 'PERTENTO_ORGANIZATION';
 
 export const useOrganizations = () => {
   const [clientAccount, setClientAccount] = useQueryState('org', null, true);
+  const [website, setWebsite] = useQueryState('ws', null, true);
   const [searchText, setSearchText] = useQueryState('searchText', '');
   const [options, setOptions] = useState();
   const [filteredOrgs, setFilteredOrgs] = useState();
-  const [, setWebsite] = useGlobal('WEBSITE');
   const { user, isAuthenticated } = useAuth();
   const queryClient = useQueryClient();
   const apiClient = useClient();
@@ -45,7 +45,13 @@ export const useOrganizations = () => {
       if (!clientAccount || !options.find(({ value }) => value === clientAccount)) {
         const searchParams = new URLSearchParams(window.location.search);
         const qsOrg = searchParams.get('org');
-        setClientAccount(+qsOrg || options[0]?.value);
+        const qsWebsite = searchParams.get('ws');
+        const selectedClientAccount = clientAccounts.find((ca) => ca.id === (+qsOrg || options[0]?.value));
+        const selectedWebsite = selectedClientAccount.websites.find((ws) => {
+          if (qsWebsite && ws.id === +qsWebsite) return ws;
+        });
+        setClientAccount(selectedClientAccount.id);
+        setWebsite(selectedWebsite?.id || selectedClientAccount.websites[0]?.id);
       }
 
       clientAccounts.forEach((org) => {
@@ -82,9 +88,10 @@ export const useOrganizations = () => {
   }, [clientAccounts, searchText]);
 
   const changeOrganization = (id) => {
-    localStorage.setItem(lsKey, id);
-    setWebsite('');
-    setClientAccount(id);
+    const selectedClientAccount = clientAccounts.find((ca) => ca.id === id);
+    if (!selectedClientAccount) return;
+    setClientAccount(selectedClientAccount.id);
+    setWebsite(selectedClientAccount.websites[0]?.id);
   };
 
   const changeFriendlyName = async (id, friendlyName) => {
@@ -100,6 +107,8 @@ export const useOrganizations = () => {
     organizations: clientAccounts,
     organization: clientAccounts?.find((ca) => ca.id === clientAccount),
     companySizeOptions: COMPANY_SIZES,
+    website,
+    setWebsite,
     filteredOrgs,
     options,
     setOrganization: changeOrganization,

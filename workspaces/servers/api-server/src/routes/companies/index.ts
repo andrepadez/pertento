@@ -9,6 +9,7 @@ companiesRouter.get('/:companyId/clients', async (c) => {
   const companies = await db.query.Companies.findMany({
     where: eq(Companies.parentCompanyId, companyId),
     orderBy: [Companies.name],
+    with: { websites: true },
   });
 
   return c.json(companies);
