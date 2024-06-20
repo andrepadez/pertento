@@ -2,7 +2,7 @@ import { db, eq, desc, Experiments, ActivityLog } from 'pertentodb';
 import * as errors from 'custom-errors';
 
 export const canExperiment = async (c, next) => {
-  let experimentId = c.req.param('experimentId') || c.body.experimentId;
+  let experimentId = c.req.param('experimentId') || c.body?.experimentId;
   if (!experimentId || isNaN(experimentId)) return next();
 
   const experiment = await db.query.Experiments.findFirst({

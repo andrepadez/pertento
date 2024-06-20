@@ -1,7 +1,7 @@
 import { db, eq, Websites } from 'pertentodb';
 
 export const canWebsite = async (c, next) => {
-  const websiteId = c.req.param('websiteId') || c.body.websiteId;
+  const websiteId = c.req.param('websiteId') || c.body?.websiteId;
   const user = c.user;
 
   const website = await db.query.Websites.findFirst({
