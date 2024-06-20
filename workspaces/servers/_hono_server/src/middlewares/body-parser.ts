@@ -7,6 +7,7 @@ export const bodyParser = () => async (c, next) => {
     c.body = await c.req.json();
   } catch (ex) {
   } finally {
+    c.body = c.body || {};
     return next();
   }
 };
