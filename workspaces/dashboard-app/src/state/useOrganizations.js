@@ -51,7 +51,7 @@ export const useOrganizations = () => {
           if (qsWebsite && ws.id === +qsWebsite) return ws;
         });
         setClientAccount(selectedClientAccount.id);
-        setWebsite(selectedWebsite?.id || selectedClientAccount.websites[0]?.id);
+        setWebsite(selectedWebsite?.id || selectedClientAccount?.websites?.[0]?.id);
       }
 
       clientAccounts.forEach((org) => {
