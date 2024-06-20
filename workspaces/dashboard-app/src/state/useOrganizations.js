@@ -34,6 +34,7 @@ export const useOrganizations = () => {
 
   useEffect(() => {
     if (clientAccounts) {
+      console.log(clientAccounts);
       const lsDisabledAccountClients = localStorage.getItem('DISABLED_ACCOUNT_CLIENTS');
       const disabledAccountClients = new Set(JSON.parse(lsDisabledAccountClients) || []);
       const options = clientAccounts
