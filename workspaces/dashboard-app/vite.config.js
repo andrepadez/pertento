@@ -32,7 +32,7 @@ export default defineConfig({
     ],
   },
   build: {
-    minify: isProduction,
+    minify: false, // isProduction,
   },
   plugins: [
     react(),
