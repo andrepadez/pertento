@@ -1,5 +1,5 @@
 import { Hono } from 'hono-server';
-import { db, eq, Companies } from 'pertentodb';
+import { db, eq, Companies, Websites } from 'pertentodb';
 
 export const companiesRouter = new Hono();
 
@@ -11,6 +11,7 @@ companiesRouter.get('/:companyId/clients', async (c) => {
     orderBy: [Companies.name],
     with: {
       websites: {
+        where: eq(Websites.deleted, false),
         with: { ganProperty: true, ganPropertyTags: true },
       },
     },
