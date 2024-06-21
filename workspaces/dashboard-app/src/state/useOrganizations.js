@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, startTransition } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useGlobal } from 'hooks/useGlobal';
 import { useClient } from 'hooks/useClient';
@@ -50,8 +50,10 @@ export const useOrganizations = () => {
         const selectedWebsite = selectedClientAccount.websites.find((ws) => {
           if (qsWebsite && ws.id === +qsWebsite) return ws;
         });
-        setClientAccount(selectedClientAccount.id);
-        setWebsite(selectedWebsite?.id || selectedClientAccount.websites[0]?.id);
+        startTransition(() => {
+          setClientAccount(selectedClientAccount.id);
+          setWebsite(selectedWebsite?.id || selectedClientAccount.websites[0]?.id);
+        });
       }
 
       clientAccounts.forEach((org) => {
@@ -90,8 +92,10 @@ export const useOrganizations = () => {
   const changeOrganization = (id) => {
     const selectedClientAccount = clientAccounts.find((ca) => ca.id === id);
     if (!selectedClientAccount) return;
-    setClientAccount(selectedClientAccount.id);
-    setWebsite(selectedClientAccount.websites[0]?.id);
+    startTransition(() => {
+      setClientAccount(selectedClientAccount.id);
+      setWebsite(selectedClientAccount.websites[0]?.id);
+    });
   };
 
   const changeFriendlyName = async (id, friendlyName) => {
