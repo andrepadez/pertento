@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, startTransition } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useClient } from 'hooks/useClient';
 import { useGlobal } from 'hooks/useGlobal';
@@ -27,14 +27,13 @@ export const useExperimentsList = () => {
 
   const handleSortChange = (sortKey) => {
     const dir = sortKey !== sortBy ? 'asc' : direction === 'desc' ? 'asc' : 'desc';
-    localStorage.setItem(lsKeySortBy, sortKey);
-    setSortBy(sortKey);
-    localStorage.setItem(lsKeySortDirection, dir);
-    setDirection(dir);
+    startTransition(() => {
+      setSortBy(sortKey);
+      setDirection(dir);
+    });
   };
 
   const handleSearch = (text) => {
-    localStorage.setItem(lsKeySearchText, text);
     setSearchText(text);
   };
 
