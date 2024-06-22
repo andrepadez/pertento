@@ -7,6 +7,30 @@ import { useDebounce } from 'hooks/useDebounce';
 export const useQueryState = (key, defaultValue, isGlobal = false) => {
   const queryClient = useQueryClient();
   const location = useLocation();
+  const currentLocation = useGlobal('LOCATION', location, true);
+
+  useDebounce(
+    () => {
+      if (location.pathname !== currentLocation.pathname) {
+        const globalCache = queryClient
+          .getQueryCache()
+          .getAll()
+          .filter((cache) => cache.queryKey[1] === 'QUERY_STATE')
+          .map((cache) => ({ key: cache.queryKey[2], data: cache.state.data }));
+        const globalKeys = globalCache.map((cache) => cache.key);
+        const globalQuery = globalCache
+          .filter((cache) => cache.data !== null)
+          .map((cache) => `${cache.key}=${cache.data}`)
+          .toSorted()
+          .join('&');
+
+        const url = `${window.location.pathname}?${globalQuery}`;
+        window.history.pushState({}, '', url);
+      }
+    },
+    100,
+    [location],
+  );
 
   const [value, setValue] = isGlobal
     ? useGlobal(['QUERY_STATE', key], () => {
@@ -18,46 +42,59 @@ export const useQueryState = (key, defaultValue, isGlobal = false) => {
         return searchParams.get(key) || defaultValue;
       });
 
-  useDebounce(
-    () => {
-      const searchParams = new URLSearchParams(location.search);
-      if (value) {
-        searchParams.set(key, value);
-      } else {
-        searchParams.delete(key);
-      }
+  const setTheValue = (newValue) => {
+    const searchParams = new URLSearchParams(window.location.search);
+    if (newValue) {
+      searchParams.set(key, newValue);
+    } else {
+      searchParams.delete(key);
+    }
 
-      const globalCache = queryClient
-        .getQueryCache()
-        .getAll()
-        .filter((cache) => cache.queryKey[1] === 'QUERY_STATE')
-        .map((cache) => ({ key: cache.queryKey[2], data: cache.state.data }));
+    const url = `${window.location.pathname}?${searchParams.toString()}${window.location.hash}`;
+    window.history.pushState({}, '', url);
+    setValue(newValue);
+  };
 
-      const globalKeys = globalCache.map((cache) => cache.key);
-      const globalQuery = globalCache
-        .filter((cache) => cache.data !== null)
-        .map((cache) => `${cache.key}=${cache.data}`)
-        .toSorted()
-        .join('&');
+  const reset = () => setTheValue(defaultValue);
+  const clear = () => setTheValue(null);
 
-      const params = Array.from(searchParams)
-        .filter(([key, value]) => !globalKeys.includes(key))
-        .sort(([a], [b]) => (a < b ? 1 : a > b ? -1 : 0))
-        .map(([key, value]) => `${key}=${value}`)
-        .join('&');
-
-      const finalQueryString = [globalQuery, params].join('&').replace(/\&$/, '');
-      const hash = location.hash;
-
-      const url = `${window.location.pathname}?${finalQueryString}${hash}`;
-      window.history.pushState({}, '', url);
-    },
-    100,
-    [key, value, location],
-  );
-
-  const reset = () => setValue(defaultValue);
-  const clear = () => setValue(null);
-
-  return [value, setValue, reset, clear];
+  return [value, setTheValue, reset, clear];
 };
+
+// useDebounce(
+//   () => {
+//     const searchParams = new URLSearchParams(location.search);
+//     if (value) {
+//       searchParams.set(key, value);
+//     } else {
+//       searchParams.delete(key);
+//     }
+
+//     const globalCache = queryClient
+//       .getQueryCache()
+//       .getAll()
+//       .filter((cache) => cache.queryKey[1] === 'QUERY_STATE')
+//       .map((cache) => ({ key: cache.queryKey[2], data: cache.state.data }));
+
+//     const globalKeys = globalCache.map((cache) => cache.key);
+//     const globalQuery = globalCache
+//       .filter((cache) => cache.data !== null)
+//       .map((cache) => `${cache.key}=${cache.data}`)
+//       .toSorted()
+//       .join('&');
+
+//     const params = Array.from(searchParams)
+//       .filter(([key, value]) => !globalKeys.includes(key))
+//       .sort(([a], [b]) => (a < b ? 1 : a > b ? -1 : 0))
+//       .map(([key, value]) => `${key}=${value}`)
+//       .join('&');
+
+//     const finalQueryString = [globalQuery, params].join('&').replace(/\&$/, '');
+//     const hash = location.hash;
+
+//     const url = `${window.location.pathname}?${finalQueryString}${hash}`;
+//     window.history.pushState({}, '', url);
+//   },
+//   100,
+//   [key, value, location],
+// );

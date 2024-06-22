@@ -1,8 +1,8 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'shadcn/tabs';
 
-export const ExperimentsTabs = ({ view, changeView, counts }) => {
+export const ExperimentsTabs = ({ view, setView, counts }) => {
   return (
-    <Tabs value={view} onValueChange={changeView}>
+    <Tabs value={view} onValueChange={setView}>
       <TabsList className="flex gap-5">
         {VIEW_OPTIONS.map((option) => (
           <TabsTrigger key={option.label} value={option.value}>

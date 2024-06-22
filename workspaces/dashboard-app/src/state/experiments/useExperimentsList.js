@@ -26,7 +26,7 @@ export const useExperimentsList = () => {
   });
 
   const handleSortChange = (sortKey) => {
-    const dir = sortKey !== sortBy ? 'asc' : direction === 'desc' ? 'asc' : 'desc';
+    const dir = sortKey !== sortBy ? 'desc' : direction === 'asc' ? 'desc' : 'asc';
     startTransition(() => {
       setSortBy(sortKey);
       setDirection(dir);
@@ -99,11 +99,6 @@ export const useExperimentsList = () => {
     return counts;
   }, [allExperiments]);
 
-  const changeView = (view) => {
-    setView(view);
-    window.location.hash = view;
-  };
-
   return {
     experiments: theExperiments,
     counts,
@@ -114,7 +109,7 @@ export const useExperimentsList = () => {
     error,
     visitorCounts: [],
     searchText,
-    changeView,
+    setView,
     setError,
     setPage,
     handleSortChange,

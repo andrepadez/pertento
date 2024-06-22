@@ -13,7 +13,7 @@ export const ExperimentsListScreen = () => {
   const { page, setSearchText, sortBy, direction } = manager;
   const { handleSortChange, handlePageChange, handleSearch, resetFilters, searchText } = manager;
   const { experiments, counts, quantities, loading, setLoading } = manager;
-  const { view, changeView, error, setError } = manager;
+  const { view, setView, error, setError } = manager;
 
   if (!website || !user) return null;
 
@@ -34,7 +34,7 @@ export const ExperimentsListScreen = () => {
         <CreateExperiment />
       </div>
       <ExperimentsSearch searchText={searchText} handleSearch={handleSearch} resetFilters={resetFilters} />
-      <ExperimentsTabs view={view} changeView={changeView} counts={counts} />
+      <ExperimentsTabs view={view} setView={setView} counts={counts} />
       <ExperimentsTable manager={manager} handleSortChange={handleSortChange} />
     </div>
   );
