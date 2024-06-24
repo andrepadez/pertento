@@ -16,10 +16,7 @@ const app = HonoServer(PORT, 'Authentication Server');
 
 app.use(originMiddleware);
 
-app.use('/', (c) => {
-  console.log(c.origin);
-  return c.json({ pertentoAuthenticationServer: 'v0.1.0' });
-});
+app.use('/', (c) => c.json({ pertentoAuthenticationServer: 'v0.1.0' }));
 
 app.get('/me', userMiddleware, usersMe);
 app.post('/signin', signinHandler);
