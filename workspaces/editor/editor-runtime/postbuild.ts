@@ -11,7 +11,7 @@ const originPath = path.resolve('./dist/assets');
 
 const dashboardPublic = path.resolve('..', '..', 'dashboard-app', 'public');
 const dashboardDist = path.resolve('..', '..', 'dashboard-app', 'dist');
-const productionPath = path.resolve('/home/andrepadez/production/www/dashboard');
+const productionPath = path.resolve('/var/www/dashboard');
 
 const files = await fs.readdir(originPath);
 for (let file of files) {

@@ -16,5 +16,5 @@ await Bun.write(target, idb);
 
 if (isProduction) {
   console.log(`zipping extension at https://app.pertento.ai/editor/pertento-extension-v${version}.zip`);
-  await $`zip -r /home/andrepadez/production/www/dashboard/editor/pertento-extension-v${version}.zip dist`.text();
+  await $`zip -r /var/www/dashboard/editor/pertento-extension-v${version}.zip dist`.text();
 }
