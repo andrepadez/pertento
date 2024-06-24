@@ -2,7 +2,7 @@ import { db, eq, Experiments, Variants, ActivityLog } from 'pertentodb';
 
 export const finishSetupHandler = async (c) => {
   const { experimentId } = c.req.param();
-  const { editorUrl, variantName, testing } = c.body;
+  const { editorUrl, variantName, testing } = c.req.body;
 
   const [experiment] = await db
     .update(Experiments)

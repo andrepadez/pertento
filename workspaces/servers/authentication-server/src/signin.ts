@@ -5,7 +5,7 @@ import argon2 from 'argon2';
 import * as errors from 'custom-errors';
 
 export const signinHandler = async (c) => {
-  const { email, password } = c.body;
+  const { email, password } = c.req.body;
   const dbUser = await db.query.Users.findFirst({
     where: eq(Users.email, email),
   });

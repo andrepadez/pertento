@@ -2,7 +2,7 @@ import { db, eq, DeviceTargeting, ActivityLog } from 'pertentodb';
 
 export const deleteDeviceTargetingHandler = async (c) => {
   const { deviceTargetingId } = c.req.param();
-  const { testing } = c.body;
+  const { testing } = c.req.body;
 
   const dbDeviceTargeting = await db.query.DeviceTargeting.findFirst({
     where: eq(DeviceTargeting.id, deviceTargetingId),

@@ -1,7 +1,7 @@
 import { db, eq, Changes } from 'pertentodb';
 
 export const createChangeHandler = async (c) => {
-  const changes = c.body.map((change) => {
+  const changes = c.req.body.map((change) => {
     change.userId = change.userId || c.user.id;
     return change;
   });

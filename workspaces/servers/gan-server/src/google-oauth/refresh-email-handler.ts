@@ -7,7 +7,7 @@ import * as errors from 'custom-errors';
 const queueManager = new QueueManager();
 
 export const refreshEmailHandler = async (c) => {
-  const { email } = c.body;
+  const { email } = c.req.body;
   console.log('refreshEmailHandler', email);
 
   const oauthAccount = await db.query.GanOauth.findFirst({

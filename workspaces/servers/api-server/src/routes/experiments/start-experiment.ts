@@ -3,7 +3,7 @@ import { db, eq, Variants, Experiments, ActivityLog, VisitorCount, Websites } fr
 
 export const startExperimentHandler = async (c) => {
   const { experimentId } = c.req.param();
-  const { variantWeights, startsAt = new Date().valueOf(), testing } = c.body;
+  const { variantWeights, startsAt = new Date().valueOf(), testing } = c.req.body;
 
   return db.transaction(async (tx) => {
     const variantIds = variantWeights.map((v) => v.id);

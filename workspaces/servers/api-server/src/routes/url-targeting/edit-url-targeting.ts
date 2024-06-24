@@ -3,7 +3,7 @@ import { db, eq, UrlTargeting, ActivityLog } from 'pertentodb';
 export const editUrlTargetingHandler = async (c) => {
   const now = new Date().valueOf();
   const { urlTargetingId } = c.req.param();
-  const { testing } = c.body;
+  const { testing } = c.req.body;
 
   const where = eq(UrlTargeting.id, urlTargetingId);
 

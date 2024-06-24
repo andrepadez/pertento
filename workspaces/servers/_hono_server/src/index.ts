@@ -6,6 +6,7 @@ import { CustomError } from 'custom-errors';
 import { sendMail } from 'emailer';
 export * from 'hono';
 export * from './middlewares';
+export * from 'hono/jsx-renderer';
 
 export const HonoServer = (port, serverName) => {
   const app = new Hono();

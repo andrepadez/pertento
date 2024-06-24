@@ -3,7 +3,7 @@ import { UrlTargeting, DeviceTargeting, ActivityLog } from 'pertentodb';
 
 export const duplicateExperimentHandler = async (c) => {
   const { experimentId } = c.req.param();
-  const { name, testing } = c.body;
+  const { name, testing } = c.req.body;
   const { id: createdBy } = c.user;
   const now = new Date().valueOf();
   const where = eq(Experiments.id, experimentId);

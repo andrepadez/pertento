@@ -2,7 +2,7 @@ import { db, eq, DeviceTargeting, ActivityLog } from 'pertentodb';
 
 export const createDeviceTargetingHandler = async (c) => {
   const now = new Date().valueOf();
-  const { device, experimentId, testing } = c.body;
+  const { device, experimentId, testing } = c.req.body;
   const newTargeting = { device, experimentId, createdBy: c.user.id, createdAt: now };
   const [targeting] = await db.insert(DeviceTargeting).values(newTargeting).returning();
 

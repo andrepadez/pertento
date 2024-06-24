@@ -22,7 +22,7 @@ companiesRouter.get('/:companyId/clients', async (c) => {
 
 companiesRouter.post('/', async (c) => {
   const newCompany = { ...c.body };
-  newCompany.friendlyName = c.body.name;
+  newCompany.friendlyName = c.req.body.name;
   if (!newCompany.parentCompanyId) {
     newCompany.parentCompanyId = c.user.company.id;
   }

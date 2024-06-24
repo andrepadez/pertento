@@ -2,7 +2,7 @@ import { db, eq, Variants, ActivityLog } from 'pertentodb';
 
 export const changeWeightHandler = async (c) => {
   const { variantId } = c.req.param();
-  const { weight, testing } = c.body;
+  const { weight, testing } = c.req.body;
   const where = eq(Variants.id, variantId);
   const dbVariant = await db.query.Variants.findFirst({ where });
   const [newVariant] = await db.update(Variants).set({ weight }).where(where).returning();

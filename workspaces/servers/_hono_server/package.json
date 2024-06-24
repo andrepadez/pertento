@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "dependencies": {
+    "@hono/node-server": "^1.11.4",
     "hono": "^4.4.0",
     "jsonwebtoken": "^9.0.2"
   }

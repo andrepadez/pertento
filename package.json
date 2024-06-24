@@ -17,7 +17,7 @@
     "dev:gan": "cd workspaces/servers/gan-server && bun run dev",
     "dev:statistics": "cd workspaces/servers/statistics-server && bun run dev",
     "dev:notifier": "cd workspaces/notifier-server && bun run dev",
-    "dev:aggregator": "cd workspaces/aggregator-server && bun run dev",
+    "dev:admin": "cd workspaces/servers/admin-app && bun run dev",
     "dev:dashboard": "cd workspaces/dashboard-app && bun run dev",
     "dev:editor": "cd workspaces/editor-app && bun run dev",
     "dev:extension": "cd workspaces/editor-extension && bun run dev",

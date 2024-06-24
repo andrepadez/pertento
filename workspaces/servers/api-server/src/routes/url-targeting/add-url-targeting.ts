@@ -2,7 +2,7 @@ import { db, eq, UrlTargeting, ActivityLog } from 'pertentodb';
 
 export const addUrlTargetingHandler = async (c) => {
   const now = new Date().valueOf();
-  const payload = c.body;
+  const payload = c.req.body;
   const newTargeting = { ...payload, createdBy: c.user.id, createdAt: now, updatedAt: now };
 
   const [dbUrlTargeting] = await db.insert(UrlTargeting).values(newTargeting).returning();
