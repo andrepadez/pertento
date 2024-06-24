@@ -17,12 +17,12 @@ export const SigninPage = () => {
   const onSubmit = async () => {
     try {
       const token = await signin(formState);
-      if (navigator.serviceWorker && navigator.serviceWorker.controller) {
-        navigator.serviceWorker.controller.postMessage({
-          type: 'SIGN_IN',
-          token: token,
-        });
-      }
+      // if (navigator.serviceWorker && navigator.serviceWorker.controller) {
+      //   navigator.serviceWorker.controller.postMessage({
+      //     type: 'SIGN_IN',
+      //     token: token,
+      //   });
+      // }
       setTimeout(() => navigate('/'), 100);
     } catch (ex) {
       alert('Invalid credentials');
