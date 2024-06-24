@@ -21,15 +21,15 @@ export const Layout = ({ children }) => {
 
   if (isLoading) return null;
 
-  // if (user?.passkeys === 0 && !location.pathname.startsWith('/auth')) {
-  //   return (
-  //     <div className="flex h-[600px] w-[740px] flex-col py-0">
-  //       <Header />
-  //       <PasskeysPage />
-  //       <Footer />
-  //     </div>
-  //   );
-  // }
+  if (user?.passkeys === 0 && !location.pathname.startsWith('/auth')) {
+    return (
+      <div className="flex h-[600px] w-[740px] flex-col py-0">
+        <Header />
+        <PasskeysPage />
+        <Footer />
+      </div>
+    );
+  }
 
   return (
     <div className="flex h-[600px] w-[740px] flex-col py-0">
