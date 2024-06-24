@@ -15,7 +15,7 @@ usersRouter.get('/me', async (c) => {
 });
 
 usersRouter.put('/', async (c) => {
-  await db.update(Users).set(c.body).where(eq(Users.id, c.user.id)).returning();
+  await db.update(Users).set(c.req.body).where(eq(Users.id, c.user.id)).returning();
   return c.json({ ok: true });
 });
 

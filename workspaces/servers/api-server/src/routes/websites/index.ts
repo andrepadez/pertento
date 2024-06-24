@@ -16,7 +16,7 @@ websitesRouter.get('/:companyId', async (c) => {
 });
 
 websitesRouter.post('/', async (c) => {
-  const [website] = await db.insert(Websites).values(c.body).returning();
+  const [website] = await db.insert(Websites).values(c.req.body).returning();
   return c.json(website);
 });
 

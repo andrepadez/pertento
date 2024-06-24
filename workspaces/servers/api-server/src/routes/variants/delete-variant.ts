@@ -5,7 +5,7 @@ export const deleteVariantHandler = async (c) => {
   const where = eq(Variants.id, variantId);
   const [{ name, experimentId }] = await db.delete(Variants).where(where).returning();
 
-  if (c.body.testing) return c.json({ ok: true });
+  if (c.req.body.testing) return c.json({ ok: true });
 
   const log = {
     experimentId,

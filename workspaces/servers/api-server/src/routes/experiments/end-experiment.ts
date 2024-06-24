@@ -10,7 +10,7 @@ export const endExperimentHandler = async (c) => {
     .where(eq(Experiments.id, experimentId))
     .returning();
 
-  if (c.body.testing) return c.json(experiment);
+  if (c.req.body.testing) return c.json(experiment);
 
   const log = {
     experimentId,

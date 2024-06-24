@@ -2,7 +2,7 @@ import { db, Variants, ActivityLog } from 'pertentodb';
 
 export const createVariantHandler = async (c) => {
   const variant = {
-    ...c.body,
+    ...c.req.body,
     createdBy: c.user.id,
   };
 
@@ -10,7 +10,7 @@ export const createVariantHandler = async (c) => {
   const variantValues = { ...variant, createdAt: vts, updatedAt: vts };
   const [newVariant] = await db.insert(Variants).values(variantValues).returning();
 
-  if (c.body.testing) return c.json(newVariant);
+  if (c.req.body.testing) return c.json(newVariant);
 
   const log = {
     experimentId: variant.experimentId,

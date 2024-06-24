@@ -7,7 +7,7 @@ export const editUrlTargetingHandler = async (c) => {
 
   const where = eq(UrlTargeting.id, urlTargetingId);
 
-  const [dbUrlTargeting] = await db.update(UrlTargeting).set(c.body).where(where).returning();
+  const [dbUrlTargeting] = await db.update(UrlTargeting).set(c.req.body).where(where).returning();
 
   const { url, condition, experimentId } = dbUrlTargeting;
 

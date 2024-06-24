@@ -5,7 +5,7 @@ export const testDataMiddleware = async (c, next) => {
   const now = Date.now();
   const nowValue = now.valueOf();
   const { websiteId } = c.req.query();
-  const data = JSON.stringify(c.body.data);
+  const data = JSON.stringify(c.req.body.data);
   await client.HSET(`PERTENTO:TESTDATA:${websiteId}`, nowValue, data);
 };
 

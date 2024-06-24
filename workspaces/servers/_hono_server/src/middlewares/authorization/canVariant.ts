@@ -2,7 +2,7 @@ import { db, eq, Variants } from 'pertentodb';
 import * as errors from 'custom-errors';
 
 export const canVariant = async (c, next) => {
-  const variantId = c.req.param('variantId') || c.body?.variantId;
+  const variantId = c.req.param('variantId') || c.req.body?.variantId;
   if (!variantId || isNaN(variantId)) return next();
 
   const variant = await db.query.Variants.findFirst({

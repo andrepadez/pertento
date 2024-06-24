@@ -8,23 +8,23 @@ const { VITE_DASHBOARD_URL } = process.env;
 export const inviteUserHandler = async (c) => {
   const { id: invitedBy } = c.user;
   const now = Date.now().valueOf();
-  const values = { ...c.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
+  const values = { ...c.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
 
   return db.transaction(async (tx) => {
     const existingUser = await db.query.Users.findFirst({
-      where: eq(Users.email, c.body.email),
+      where: eq(Users.email, c.req.body.email),
     });
     let dbUserId = null;
     if (existingUser) {
       throw errors.USER_ALREADY_EXISTS();
     } else {
-      const newUser = { ...c.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
+      const newUser = { ...c.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
       await db.insert(Users).values(values);
       const dbUser = await db.query.Users.findFirst({
-        where: eq(Users.email, c.body.email),
+        where: eq(Users.email, c.req.body.email),
         with: { company: true, inviter: true },
       });
-      const verificationCode = await sendInvite(dbUser, c.body.testing);
+      const verificationCode = await sendInvite(dbUser, c.req.body.testing);
       return c.json({ ok: true, verificationCode });
     }
   });
@@ -33,11 +33,11 @@ export const inviteUserHandler = async (c) => {
 export const resendInvitationHandler = async (c) => {
   const { email } = c.req.body;
   const dbUser = await db.query.Users.findFirst({
-    where: eq(Users.email, c.body.email),
+    where: eq(Users.email, c.req.body.email),
     with: { company: true, inviter: true },
   });
   if (!dbUser) throw errors.NOT_FOUND();
-  const verificationCode = await sendInvite(dbUser, c.body.testing);
+  const verificationCode = await sendInvite(dbUser, c.req.body.testing);
   return c.json({ ok: true, verificationCode });
 };
 

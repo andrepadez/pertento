@@ -6,7 +6,7 @@ export const resetWeightHandler = async (c) => {
   const dbVariant = await db.query.Variants.findFirst({ where });
   const [newVariant] = await db.update(Variants).set({ weight: null }).where(where).returning();
 
-  if (c.body.testing) return c.json(newVariant);
+  if (c.req.body.testing) return c.json(newVariant);
 
   const message = `resetted weight for variant ${dbVariant.name}`;
   await db.insert(ActivityLog).values({

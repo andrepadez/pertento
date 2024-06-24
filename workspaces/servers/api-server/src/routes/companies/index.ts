@@ -21,7 +21,7 @@ companiesRouter.get('/:companyId/clients', async (c) => {
 });
 
 companiesRouter.post('/', async (c) => {
-  const newCompany = { ...c.body };
+  const newCompany = { ...c.req.body };
   newCompany.friendlyName = c.req.body.name;
   if (!newCompany.parentCompanyId) {
     newCompany.parentCompanyId = c.user.company.id;
@@ -33,7 +33,7 @@ companiesRouter.post('/', async (c) => {
 
 companiesRouter.put('/:companyId', async (c) => {
   const companyId = +c.req.param('companyId');
-  const [dbCompany] = await db.update(Companies).set(c.body).where(eq(Companies.id, companyId)).returning();
+  const [dbCompany] = await db.update(Companies).set(c.req.body).where(eq(Companies.id, companyId)).returning();
   return c.json(dbCompany);
 });
 

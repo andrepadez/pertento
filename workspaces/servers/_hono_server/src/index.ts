@@ -23,7 +23,7 @@ export const HonoServer = (port, serverName) => {
     const headers = c.req.header();
     const stack = error.stack;
     const message = error.message;
-    const body = typeof c.body === 'object' ? c.body : null;
+    const body = typeof c.req.body === 'object' ? c.req.body : null;
     const user = c.user;
     const url = c.req.url;
     const method = c.req.method;

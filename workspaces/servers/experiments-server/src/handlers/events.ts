@@ -15,7 +15,7 @@ export const eventsMiddleware = async (c, next) => {
 
   const experimentIds = experimentVariantMap.map((ev) => ev.experimentId);
 
-  for (let event of c.body) {
+  for (let event of c.req.body) {
     if (Array.isArray(event)) {
       // if (event[0] === 'purchase') {
       for (let { experimentId, variantId } of experimentVariantMap) {

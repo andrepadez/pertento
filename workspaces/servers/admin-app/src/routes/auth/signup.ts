@@ -8,8 +8,8 @@ const { VITE_DASHBOARD_URL } = process.env;
 export const signupHandler = async (c) => {
   const now = Date.now().valueOf();
   const newUser = {
-    ...c.body,
-    password: await argon2.hash(c.body.password),
+    ...c.req.body,
+    password: await argon2.hash(c.req.body.password),
     status: 'Unverified',
     role: 'Owner',
     createdAt: now,
@@ -30,7 +30,7 @@ export const signupHandler = async (c) => {
 
   const url = `${VITE_DASHBOARD_URL}/auth/verify?verificationCode=${verificationCode}`;
 
-  if (!c.body.testing) {
+  if (!c.req.body.testing) {
     sendMail({
       to: newUser.email,
       subject: 'Email Confirmation - Pertento.ai',

@@ -10,7 +10,7 @@ export const setMaxWeightHandler = async (c) => {
   await db.update(Variants).set({ weight: null }).where(experimentWhere);
   const [updatedVariant] = await db.update(Variants).set({ weight: 10000 }).where(where).returning();
 
-  if (c.body.testing) return c.json(updatedVariant);
+  if (c.req.body.testing) return c.json(updatedVariant);
 
   const message = `set 100% weight for variant ${dbVariant.name}`;
   await db.insert(ActivityLog).values({
