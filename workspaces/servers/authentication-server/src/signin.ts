@@ -15,7 +15,7 @@ export const signinHandler = async (c) => {
   });
 
   if (c.origin.startsWith('chrome-extension://')) {
-    consol.log(email, password, passkeys.length, c.origin);
+    console.log(email, password, passkeys.length, c.origin);
   }
 
   if (!dbUser) throw errors.UNAUTHORIZED();
