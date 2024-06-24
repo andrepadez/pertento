@@ -23,7 +23,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
   } catch (ex) {}
 
   try {
-    log('Runtime (Live 2024.06.21.0) script loaded!!!');
+    log('Runtime (Live 2024.06.24.0) script loaded!!!');
     const script = document.getElementById('pertentoScript');
     const websiteUrl = window.top.location.href;
     const websiteId = new URL(script.src).searchParams.get('website-id');

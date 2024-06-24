@@ -17,11 +17,17 @@ const SigninForm = ({ email = '', errors }) => {
       <form class="mt-5 grid gap-8" method="post" action="/auth/signin">
         <label class="grid w-full min-w-[30rem] gap-3">
           <span>Email address</span>
-          <input class="w-full border-4" value={email} type="email" name="email" autoComplete="username" />
+          <input
+            class="w-full rounded-lg border-4 px-3 py-1"
+            value={email}
+            type="email"
+            name="email"
+            autoComplete="username"
+          />
         </label>
         <label class="grid w-full min-w-[30rem] gap-3">
           <span>Password</span>
-          <input class="w-full border-4" type="password" name="password" autoComplete="off" />
+          <input class="w-full rounded-lg border-4 px-3 py-1" type="password" name="password" autoComplete="off" />
         </label>
         <button class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500">
           Signin
