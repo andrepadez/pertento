@@ -1,7 +1,7 @@
 {
   "name": "editor-extension",
   "private": true,
-  "version": "2024.06.24.1",
+  "version": "2024.06.24.2",
   "type": "module",
   "scripts": {
     "start": "source ../../../.env && bun x --bun vite preview --port 3002",
