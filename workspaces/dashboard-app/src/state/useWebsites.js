@@ -32,7 +32,7 @@ export const useWebsites = () => {
           }
         }
       } else {
-        // setOptions([]);
+        setOptions([]);
       }
     }
   }, [organization]);

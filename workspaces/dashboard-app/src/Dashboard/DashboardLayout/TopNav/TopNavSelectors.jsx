@@ -46,7 +46,7 @@ export const TopNavSelectors = () => {
           <Separator className="mt-3 h-10 bg-[#667085]" orientation="vertical" />
         </>
       )}
-      {websites && (
+      {websites && organization && (
         <div className="flex flex-col justify-center">
           <Combobox
             options={[{ value: '00000', label: '+ Create New', href: '/websites?create' }, ...websites]}
