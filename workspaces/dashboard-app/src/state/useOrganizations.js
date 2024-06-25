@@ -47,13 +47,13 @@ export const useOrganizations = () => {
         const qsOrg = searchParams.get('org');
         const qsWebsite = searchParams.get('ws');
         const selectedClientAccount = clientAccounts.find((ca) => ca.id === (+qsOrg || options[0]?.value));
-        const selectedWebsite = selectedClientAccount.websites.find((ws) => {
-          if (qsWebsite && ws.id === +qsWebsite) return ws;
-        });
-        startTransition(() => {
+        if (selectedClientAccount) {
+          const selectedWebsite = selectedClientAccount.websites.find((ws) => {
+            if (qsWebsite && ws.id === +qsWebsite) return ws;
+          });
           setClientAccount(selectedClientAccount.id);
           setWebsite(selectedWebsite?.id || selectedClientAccount.websites[0]?.id);
-        });
+        }
       }
 
       clientAccounts.forEach((org) => {
