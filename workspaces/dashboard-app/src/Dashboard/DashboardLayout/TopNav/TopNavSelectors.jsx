@@ -43,18 +43,20 @@ export const TopNavSelectors = () => {
               className="w-52 lg:w-60 xl:w-80"
             />
           </div>
-          <Separator className="mt-3 h-10 bg-[#667085]" orientation="vertical" />
         </>
       )}
       {websites && organization && (
-        <div className="flex flex-col justify-center">
-          <Combobox
-            options={[{ value: '00000', label: '+ Create New', href: '/websites?create' }, ...websites]}
-            value={website?.id}
-            onChange={onChangeWebsite}
-            className="w-52 lg:w-60 xl:w-80"
-          />
-        </div>
+        <>
+          <Separator className="mt-3 h-10 bg-[#667085]" orientation="vertical" />
+          <div className="flex flex-col justify-center">
+            <Combobox
+              options={[{ value: '00000', label: '+ Create New', href: '/websites?create' }, ...websites]}
+              value={website?.id}
+              onChange={onChangeWebsite}
+              className="w-52 lg:w-60 xl:w-80"
+            />
+          </div>
+        </>
       )}
     </div>
   );
