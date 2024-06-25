@@ -32,8 +32,6 @@ export const useOrganizations = () => {
     enabled: isAuthenticated,
   });
 
-  console.log('clientAccountOptions', options);
-
   useEffect(() => {
     if (clientAccounts) {
       const lsDisabledAccountClients = localStorage.getItem('DISABLED_ACCOUNT_CLIENTS');

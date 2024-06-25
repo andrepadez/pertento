@@ -37,7 +37,7 @@ export const TopNavSelectors = () => {
         <>
           <div className="flex flex-col justify-center">
             <Combobox
-              options={[{ value: '00000', label: '+ Create New', href: '/organizations?create' }, ...organizations]}
+              options={[{ value: '00000', label: '+ Create New', href: '/clients?create' }, ...organizations]}
               value={organization?.id}
               onChange={onChangeOrganization}
               className="w-52 lg:w-60 xl:w-80"
