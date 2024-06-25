@@ -20,9 +20,16 @@ export const useWebsites = () => {
   const ganClient = useClient(`${import.meta.env.VITE_GAN_URL}`);
 
   useEffect(() => {
-    if (organization) {
+    if (organization && user) {
       const { websites } = organization;
       setOptions(websites.map((org) => ({ value: org.id, label: org.url })));
+      if (user.company.type === 'Client Account') {
+        if (!website) {
+          const searchParams = new URLSearchParams(window.location.search);
+          const qsWebsite = searchParams.get('ws');
+          setWebsite(+qsWebsite || websites[0].id);
+        }
+      }
     }
   }, [organization]);
 
@@ -41,7 +48,6 @@ export const useWebsites = () => {
     const { protocol, host, pathname } = new URL(url);
 
     const payload = {
-      // ganPropertyId,
       companyId: organization.id,
       parentCompanyId: organization.parentCompanyId,
       url: `${protocol}//${host}${pathname}`,

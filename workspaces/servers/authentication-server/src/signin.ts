@@ -14,10 +14,6 @@ export const signinHandler = async (c) => {
     where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
   });
 
-  if (c.origin.startsWith('chrome-extension://')) {
-    console.log(email, password, passkeys.length, c.origin);
-  }
-
   if (!dbUser) throw errors.UNAUTHORIZED();
   const { status } = dbUser;
   if (status !== 'Active') throw errors.UNAUTHORIZED();
