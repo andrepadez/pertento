@@ -8,6 +8,7 @@
     "start:gan": "cd workspaces/servers/gan-server && bun run start",
     "start:statistics": "cd workspaces/servers/statistics-server && bun run start",
     "start:notifier": "cd workspaces/notifier-server && bun run start",
+    "start:admin": "cd workspaces/servers/admin-app && bun run start",
     "start:aggregator": "cd workspaces/aggregator-server && bun run start",
     "start:dashboard": "cd workspaces/dashboard-app && bun run start",
     "start:editor": "cd workspaces/editor-app && bun run start",
