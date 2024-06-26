@@ -1,7 +1,6 @@
-const MIN = 0;
-const MAX = 10;
-
 export const Counter = ({ count }) => {
+  const MIN = 0;
+  const MAX = 10;
   return (
     <div id="counter-component">
       <div class="mx-auto flex w-[50%] justify-between">

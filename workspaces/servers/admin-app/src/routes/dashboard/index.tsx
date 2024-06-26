@@ -11,7 +11,7 @@ dashboardRouter.get('/', async (c) => {
   return c.render(
     <div class="mt-12 flex flex-col gap-10 text-center">
       <h1 class="text-xl lg:text-4xl">Admin fullstack HTMX App</h1>
-      {/* <Counter count={5} /> */}
+      <Counter count={5} />
     </div>,
   );
 });

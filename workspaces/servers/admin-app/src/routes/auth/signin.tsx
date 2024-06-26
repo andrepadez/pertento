@@ -58,20 +58,15 @@ authSigninRouter.get('/', async (c) => {
 
 authSigninRouter.post('/', async (c) => {
   const { email, password } = c.req.body;
-  console.log('signin', { email, password });
 
   const dbUser = await db.query.Users.findFirst({
     where: eq(Users.email, email),
     with: { company: true },
   });
 
-  console.log('dbUser', dbUser);
-
   const passkeys = await db.query.Passkeys.findMany({
     where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
   });
-
-  console.log('passkeys', passkeys.length);
 
   if (!dbUser) {
     c.status(401);
@@ -110,8 +105,6 @@ authSigninRouter.post('/', async (c) => {
   const token = await sign(tokenUser);
 
   setCookie(c, 'bearer_token', token, { secure: true, httpOnly: true });
-
-  console.log('token', token);
 
   return c.redirect('/');
 });
