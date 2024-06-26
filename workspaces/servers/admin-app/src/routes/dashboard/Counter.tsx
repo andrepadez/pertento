@@ -1,4 +1,4 @@
-export const Counter = ({ count }) => {
+export const Counter = ({ count = 5 }) => {
   const MIN = 0;
   const MAX = 10;
   return (
