@@ -8,33 +8,45 @@ export const authSigninRouter = new Hono();
 
 const SigninForm = ({ email = '', errors }) => {
   return (
-    <div class="flex flex-col gap-5 py-10">
+    <div class="mx-3 flex w-full flex-col gap-5 rounded-lg border-2 border-slate-300 p-10 lg:w-[60%]">
       <div class="flex items-center justify-between">
-        <h1>Sign In</h1>
-        <a href="/auth/signup">Sign Up</a>
+        <h1 className="text-2xl">Sign In</h1>
+        <a className="text-blue-500 underline" href="/auth/signup">
+          Sign Up
+        </a>
       </div>
 
-      <form class="mt-5 grid gap-8" method="post" action="/auth/signin">
-        <label class="grid w-full min-w-[30rem] gap-3">
+      <form class="mt-5 grid gap-2 lg:gap-8" method="post" action="/auth/signin">
+        <label class="grid w-full gap-3">
           <span>Email address</span>
           <input
-            class="w-full rounded-lg border-4 px-3 py-1"
+            class="w-full rounded-lg border-4 border-blue-500 bg-slate-300 px-3 py-1 outline-offset-4 outline-blue-500"
             value={email}
             type="email"
             name="email"
+            placeholder="email@example.com"
             autoComplete="username"
+            required
           />
         </label>
-        <label class="grid w-full min-w-[30rem] gap-3">
+        <label class="grid w-full gap-3">
           <span>Password</span>
-          <input class="w-full rounded-lg border-4 px-3 py-1" type="password" name="password" autoComplete="off" />
+          <input
+            class="w-full rounded-lg border-4 border-blue-500 px-3 py-1 outline-offset-4 outline-blue-500"
+            type="password"
+            name="password"
+            autoComplete="off"
+            required
+          />
         </label>
-        <button class="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500">
+        <button class="mt-5 rounded-lg bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:bg-gray-300 disabled:text-gray-500">
           Signin
         </button>
       </form>
       <div class="flex justify-center">
-        <a href="/auth/forgot-password">Forgot password?</a>
+        <a className="text-blue-500 underline" href="/auth/forgot-password">
+          Forgot password?
+        </a>
       </div>
     </div>
   );
@@ -46,14 +58,20 @@ authSigninRouter.get('/', async (c) => {
 
 authSigninRouter.post('/', async (c) => {
   const { email, password } = c.req.body;
+  console.log('signin', { email, password });
+
   const dbUser = await db.query.Users.findFirst({
     where: eq(Users.email, email),
     with: { company: true },
   });
 
+  console.log('dbUser', dbUser);
+
   const passkeys = await db.query.Passkeys.findMany({
     where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
   });
+
+  console.log('passkeys', passkeys.length);
 
   if (!dbUser) {
     c.status(401);
@@ -91,7 +109,9 @@ authSigninRouter.post('/', async (c) => {
 
   const token = await sign(tokenUser);
 
-  setCookie(c, 'bearer_token', token);
+  setCookie(c, 'bearer_token', token, { secure: true, httpOnly: true });
+
+  console.log('token', token);
 
   return c.redirect('/');
 });

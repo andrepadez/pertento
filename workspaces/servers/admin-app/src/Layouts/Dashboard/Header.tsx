@@ -7,8 +7,8 @@ export const Header = ({ user }) => {
         <div>
           <img class="h-20" src="/pertento_dark.png" alt="pertento logo" />
         </div>
-        <details class="group before:hidden">
-          <summary class="cursor-pointer list-none text-xl">
+        <details class="group list-none before:hidden">
+          <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
             <div class="flex w-96 items-center justify-end gap-5">
               <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
                 <i class="h-8 w-8 text-black" data-lucide="user"></i>
@@ -20,9 +20,9 @@ export const Header = ({ user }) => {
               <i data-lucide="chevron-down" class="h-6 w-6 text-white transition-all group-open:rotate-180"></i>
             </div>
           </summary>
-          <div class="absolute">
-            <div class="ml-6 mt-6 w-96 text-black">
-              <ul class="rounded-lg border-2 border-gray-300 bg-white pb-4 pt-2">
+          <div class="fixed left-[5vw] w-[90vw] lg:left-auto lg:right-6 lg:w-64">
+            <div class="mt-6 text-black">
+              <ul class="rounded-lg border-2 border-gray-300 bg-white/95 pb-4 pt-2 lg:bg-white/75">
                 <li class="flex flex-col gap-3 py-3 pl-4 pt-2">
                   <div className="flex">
                     <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
@@ -40,7 +40,7 @@ export const Header = ({ user }) => {
                       <i class="h-8 w-8" data-lucide="building"></i>
                     </div>
                     <div class="flex flex-col justify-center pl-4">
-                      <div class="text-lg">Organization</div>
+                      <a class="text-lg">Organization</a>
                     </div>
                   </div>
                   <hr />
@@ -51,7 +51,7 @@ export const Header = ({ user }) => {
                       <i class="h-8 w-8" data-lucide="user"></i>
                     </div>
                     <div class="flex flex-col justify-center pl-4">
-                      <div class="text-lg">Account</div>
+                      <a class="text-lg">Account</a>
                     </div>
                   </div>
                   <hr />
