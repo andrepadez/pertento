@@ -6,7 +6,6 @@ export const AuthLayout = ({ children }) => {
     <html lang="en" class="">
       <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <title>Document</title>
         <link rel="stylesheet" href="/tailwind.css" />
