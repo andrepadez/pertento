@@ -15,7 +15,7 @@ export const DashboardLayout = ({ children, user }) => {
       </head>
       <body>
         <Header user={user} />
-        <main class="mx-auto min-h-dvh w-[50%] max-w-[1024px] pt-20">{children}</main>
+        <main class="mx-auto min-h-dvh w-full max-w-[1024px] px-2 pt-20">{children}</main>
         <script>lucide.createIcons();</script>
       </body>
     </html>
