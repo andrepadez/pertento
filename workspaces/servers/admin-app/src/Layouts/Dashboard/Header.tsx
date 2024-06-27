@@ -5,11 +5,11 @@ export const Header = ({ user }) => {
     <header class="fixed z-50 w-full">
       <div class="flex h-20 items-center justify-between bg-[#101828] px-8 text-white">
         <div>
-          <img class="h-20" src="/pertento_dark.png" alt="pertento logo" />
+          <img class="h-14 lg:h-20" src="/pertento_dark.png" alt="pertento logo" />
         </div>
         <details class="group list-none before:hidden">
           <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
-            <div class="flex w-96 items-center justify-end gap-5">
+            <div class="flex items-center justify-end gap-5 lg:w-96">
               <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
                 <i class="h-8 w-8 text-black" data-lucide="user"></i>
               </div>

@@ -2,19 +2,19 @@ import { verify } from 'jwt';
 import { getCookie } from 'hono/cookie';
 
 export const userMiddleware = async (c, next) => {
-  const authorization = getCookie(c, 'bearer_token');
-  if (!authorization) {
+  const bearerToken = getCookie(c, 'bearer_token');
+  if (!bearerToken) {
     c.status(401);
     return c.redirect('/auth/signin');
   }
 
   try {
-    const user = await verify(authorization);
+    const user = await verify(bearerToken);
     if (!user) {
       c.status(401);
       return c.redirect('/auth/signin');
     }
-    c.user = user;
+    c.set('user', user);
   } catch (ex) {
     c.status(401);
     return c.redirect('/auth/signin');

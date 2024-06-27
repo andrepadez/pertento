@@ -16,7 +16,7 @@ const SigninForm = ({ email = '', errors }) => {
         </a>
       </div>
 
-      <form class="mt-5 grid gap-2 lg:gap-8" method="post" action="/auth/signin">
+      <form class="mt-5 grid gap-2 lg:gap-8" method="POST">
         <label class="grid w-full gap-3">
           <span>Email address</span>
           <input
@@ -64,9 +64,9 @@ authSigninRouter.post('/', async (c) => {
     with: { company: true },
   });
 
-  const passkeys = await db.query.Passkeys.findMany({
-    where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
-  });
+  // const passkeys = await db.query.Passkeys.findMany({
+  //   where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
+  // });
 
   if (!dbUser) {
     c.status(401);
@@ -95,16 +95,16 @@ authSigninRouter.post('/', async (c) => {
     companyId,
     parentCompanyId,
     role,
-    passkeys: passkeys.length,
+    // passkeys: passkeys.length,
   };
 
-  if (passkeys.length > 0) {
-    return c.json({ user: tokenUser });
-  }
+  // if (passkeys.length > 0) {
+  //   return c.json({ user: tokenUser });
+  // }
 
   const token = await sign(tokenUser);
 
-  setCookie(c, 'bearer_token', token, { secure: true, httpOnly: true });
+  setCookie(c, 'bearer_token', token);
 
   return c.redirect('/');
 });

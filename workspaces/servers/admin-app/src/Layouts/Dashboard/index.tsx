@@ -26,7 +26,9 @@ export const DashboardLayout = ({ children, user }) => {
 
 export const dashboardRenderer = jsxRenderer(
   (props, c) => {
-    return <DashboardLayout user={c.user}>{props.children}</DashboardLayout>;
+    const user = c.get('user');
+    console.log(user);
+    return <DashboardLayout user={c.get('user')}>{props.children}</DashboardLayout>;
   },
   {
     docType: '<!DOCTYPE html>',
