@@ -11,7 +11,11 @@ export const Header = ({ user }) => {
           <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
             <div class="flex items-center justify-end gap-5 lg:w-96">
               <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
-                <i class="h-8 w-8 text-black" data-lucide="user"></i>
+                {user.avatar ? (
+                  <img src={user.avatar} alt="avatar" />
+                ) : (
+                  <i class="h-8 w-8 text-black" data-lucide="user"></i>
+                )}
               </div>
               <div class="flex flex-col">
                 <div class="text-sm text-gray-400">{user.company}</div>

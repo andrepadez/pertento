@@ -83,7 +83,7 @@ authSigninRouter.post('/', async (c) => {
     return c.render(<SigninForm email={email} />);
   }
 
-  const { id, companyId, parentCompanyId, firstName, lastName, role } = dbUser;
+  const { id, companyId, parentCompanyId, avatar, firstName, lastName, role } = dbUser;
   const { name: company } = dbUser.company;
 
   const tokenUser = {
@@ -95,6 +95,7 @@ authSigninRouter.post('/', async (c) => {
     companyId,
     parentCompanyId,
     role,
+    avatar,
     // passkeys: passkeys.length,
   };
 
