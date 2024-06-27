@@ -6,13 +6,11 @@ export const DashboardLayout = ({ children, user }) => {
     <html lang="en">
       <head>
         <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta name="viewport" content="width=device-width, user-scalable=no" />
         <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
         <title>Document</title>
+        <link rel="stylesheet" href="/tailwind.css" />
         <script src="https://unpkg.com/htmx.org@2.0.0"></script>
-        {/* <script src="https://cdn.jsdelivr.net/gh/gnat/surreal@main/surreal.js"></script> */}
-        <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
       <body>
@@ -27,7 +25,6 @@ export const DashboardLayout = ({ children, user }) => {
 export const dashboardRenderer = jsxRenderer(
   (props, c) => {
     const user = c.get('user');
-    console.log(user);
     return <DashboardLayout user={c.get('user')}>{props.children}</DashboardLayout>;
   },
   {
