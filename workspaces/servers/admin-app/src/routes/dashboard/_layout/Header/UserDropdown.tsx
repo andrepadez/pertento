@@ -1,9 +1,12 @@
+import { Details } from '@/Components/Details';
 import LINKS from '../links.json';
+
 export const UserDropdown = ({ c, user }) => {
   const { company, website } = c.var;
   const qs = `?org=${company.id}&ws=${website.id}`;
+
   return (
-    <details class="group list-none before:hidden">
+    <Details class="group list-none before:hidden">
       <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
         <div class="flex items-center justify-end gap-5 lg:w-96">
           <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 lg:h-12 lg:w-12">
@@ -75,6 +78,6 @@ export const UserDropdown = ({ c, user }) => {
           </ul>
         </div>
       </div>
-    </details>
+    </Details>
   );
 };

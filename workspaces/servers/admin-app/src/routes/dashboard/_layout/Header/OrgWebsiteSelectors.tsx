@@ -1,3 +1,5 @@
+import { stringifyFunction } from 'helpers/stringify-function';
+
 export const OrgWebsiteSelectors = ({ c }) => {
   const { companies, company, website } = c.var;
   const { websites } = company;
@@ -6,8 +8,10 @@ export const OrgWebsiteSelectors = ({ c }) => {
     const value = this.value.split(' - ').at(1);
     if (!value) {
       this.value = '';
+      this.blur();
       return;
     }
+
     const url = new window.URL(window.location.href);
     url.searchParams.set('org', value);
     url.searchParams.delete('ws');
@@ -43,15 +47,6 @@ export const OrgWebsiteSelectors = ({ c }) => {
       />
     </div>
   );
-};
-
-const stringifyFunction = (fn) => {
-  if (!fn) return '';
-  const functionAsString = fn.toString();
-  const bodyStart = functionAsString.indexOf('{') + 1;
-  const bodyEnd = functionAsString.lastIndexOf('}');
-  const functionBody = functionAsString.substring(bodyStart, bodyEnd).trim();
-  return functionBody.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ');
 };
 
 const Selector = ({ name, options, selected, prop, onChange }) => {

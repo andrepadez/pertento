@@ -1,4 +1,5 @@
 import { ChevronDown, Building, User, LogOut } from 'lucide-react';
+import { Details } from '@/Components/Details';
 import { OrgWebsiteSelectors } from './OrgWebsiteSelectors';
 import { UserDropdown } from './UserDropdown';
 
@@ -11,14 +12,14 @@ export const Header = ({ c, user, url }) => {
           <a class="flex-1" href={`/?org=${company.id}&ws=${website.id}`}>
             <img class="h-20" src="/pertento_dark.png" alt="pertento logo" />
           </a>
-          <details class="flex-2 group ml-4 gap-2 text-sm text-white lg:hidden">
+          <Details class="flex-2 group ml-4 gap-2 text-sm text-white lg:hidden">
             <summary class="flex list-none items-center gap-2 [&::-webkit-details-marker]:hidden">
               <span>{company.friendlyName}</span> <i class="size-4 text-white" data-lucide="chevron-down" />
             </summary>
             <div className="fixed left-0 top-16 flex w-[100vw] justify-center bg-[#101828]">
               <OrgWebsiteSelectors c={c} url={url} />
             </div>
-          </details>
+          </Details>
           <div className="justify-center flex-1 hidden text-center lg:block">
             <OrgWebsiteSelectors c={c} url={url} />
           </div>
