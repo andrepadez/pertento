@@ -1,58 +1,63 @@
+import LINKS from '../links.json';
 export const UserDropdown = ({ user }) => {
   return (
     <details class="group list-none before:hidden">
       <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
         <div class="flex items-center justify-end gap-5 lg:w-96">
-          <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 lg:h-12 lg:w-12">
             {user.avatar ? (
               <img src={user.avatar} alt="avatar" />
             ) : (
-              <i class="h-8 w-8 text-black" data-lucide="user"></i>
+              <i class="h-6 w-6 text-black lg:h-8 lg:w-8" data-lucide="user"></i>
             )}
           </div>
-          <div class="flex flex-col">
+          <div class="hidden flex-col lg:flex">
             <div class="text-sm text-gray-400">{user.company}</div>
             <div class="text-lg">{`${user.firstName} ${user.lastName}`}</div>
           </div>
-          <i data-lucide="chevron-down" class="h-6 w-6 text-white transition-all group-open:rotate-180"></i>
+          <i
+            data-lucide="chevron-down"
+            class="hidden h-6 w-6 text-white transition-all group-open:rotate-180 lg:inline"
+          ></i>
         </div>
       </summary>
       <div class="fixed left-[5vw] w-[90vw] lg:left-auto lg:right-6 lg:w-64">
         <div class="mt-6 text-black">
-          <ul class="rounded-lg border-2 border-gray-300 bg-white/95 pb-4 pt-2 lg:bg-white/75">
-            <li class="flex flex-col gap-3 py-3 pl-4 pt-2">
+          <ul class="rounded-lg border-2 border-gray-300 bg-white pb-4 pt-2">
+            <li class="flex flex-col gap-3 py-3 pl-4 pt-2 lg:hidden">
               <div className="flex">
                 <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100">
                   <i class="h-8 w-8" data-lucide="user"></i>
                 </div>
                 <div class="flex flex-col justify-center pl-4">
+                  <div class="text-lg">
+                    {user.firstName} {user.lastName}
+                  </div>
                   <div class="text-lg">{user.company}</div>
                 </div>
               </div>
               <hr />
             </li>
-            <li class="flex flex-col gap-3 py-3 pl-4 pr-2 pt-2">
-              <div className="flex">
-                <div class="flex h-12 w-12 items-center justify-center rounded-lg">
-                  <i class="h-8 w-8" data-lucide="building"></i>
-                </div>
-                <div class="flex flex-col justify-center pl-4">
-                  <a class="text-lg">Organization</a>
-                </div>
-              </div>
-              <hr />
-            </li>
-            <li class="flex flex-col gap-3 py-3 pl-4 pr-2 pt-2">
-              <div className="flex">
-                <div class="flex h-12 w-12 items-center justify-center rounded-lg">
-                  <i class="h-8 w-8" data-lucide="user"></i>
-                </div>
-                <div class="flex flex-col justify-center pl-4">
-                  <a class="text-lg">Account</a>
-                </div>
-              </div>
-              <hr />
-            </li>
+            {LINKS.toSorted((a, b) => a.sm - b.sm).map((link) => {
+              return (
+                link.sm && (
+                  <li class="flex flex-col gap-3 py-3 pl-4 pr-2 pt-2">
+                    <div className="flex">
+                      <div class="flex h-12 w-12 items-center justify-center rounded-lg">
+                        <i class="h-8 w-8" data-lucide={link.icon}></i>
+                      </div>
+                      <div class="flex flex-col justify-center pl-4">
+                        <a href={link.href} class="text-lg">
+                          {link.label}
+                        </a>
+                      </div>
+                    </div>
+                    <hr />
+                  </li>
+                )
+              );
+            })}
+
             <li class="flex flex-col gap-3 py-3 pl-4 pr-2 pt-2">
               <div className="flex">
                 <div class="flex h-12 w-12 items-center justify-center rounded-lg">

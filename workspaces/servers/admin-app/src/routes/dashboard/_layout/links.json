@@ -1,0 +1,9 @@
+[
+  { "label": "Home", "icon": "house", "href": "/" },
+  { "label": "Experiments", "icon": "flask-conical", "href": "/experiments" },
+  { "label": "Websites", "icon": "link", "href": "/websites" },
+  { "label": "Monitor", "icon": "activity", "href": "/monitor" },
+  { "label": "GA4", "icon": "activity", "href": "/google-analytics", "large": true, "sm": 3 },
+  { "label": "Organization", "icon": "building", "href": "/organization", "sm": 2 },
+  { "label": "Account", "icon": "user", "href": "/account", "large": true, "sm": 1 }
+]

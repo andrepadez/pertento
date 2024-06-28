@@ -15,7 +15,7 @@ export const DashboardLayout = ({ children, user, url }) => {
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
       <body hx-boost="true" class="bg-[#101828]">
-        <Header user={user} />
+        <Header user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 pt-20">{children}</main>
         <Footer user={user} url={url} />
         <script>lucide.createIcons();</script>

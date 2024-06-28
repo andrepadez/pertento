@@ -1,9 +1,10 @@
 import { cn } from 'helpers/cn';
+import LINKS from '../links.json';
 
 export const Footer = ({ user, url }) => {
   return (
     <nav class="fixed bottom-0 w-full text-center">
-      <div class="flex h-16 w-full items-center justify-between gap-2 bg-[#101828] px-2">
+      <div class="flex h-16 w-full items-center justify-between gap-2 bg-[#101828] px-2 lg:h-20 lg:py-2">
         {LINKS.map((link) => {
           const isActive = link.href === '/' ? url.pathname === '/' : url.pathname.startsWith(link.href);
           return (
@@ -31,13 +32,3 @@ export const Footer = ({ user, url }) => {
     </nav>
   );
 };
-
-const LINKS = [
-  { label: 'Home', icon: 'house', href: '/' },
-  { label: 'Experiments', icon: 'flask-conical', href: '/experiments' },
-  { label: 'Websites', icon: 'link', href: '/websites' },
-  { label: 'Monitor', icon: 'activity', href: '/monitor' },
-  { label: 'GA4', icon: 'activity', href: '/google-analytics', large: true },
-  { label: 'Organization', icon: 'building', href: '/organization' },
-  { label: 'Account', icon: 'link', href: '/account', large: true },
-];
