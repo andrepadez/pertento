@@ -19,9 +19,9 @@ export const AuthLayout = ({ children }) => {
       </head>
       <body class="dark:bg-slate-900 dark:text-white">
         <main class="mx-auto min-h-dvh w-full lg:w-[50%] lg:max-w-[1024px]">
-          <div class="toggle-theme fixed right-2 top-2">
+          {/* <div class="toggle-theme fixed right-2 top-2">
             <ThemeToggle />
-          </div>
+          </div> */}
           <div class="absolute right-5 top-5"></div>
           <div class="flex items-center justify-center gap-10">
             <img class="hidden h-36 dark:block" src="/pertento_dark.png" alt="pertento" />

@@ -3,7 +3,7 @@ import { cn } from 'helpers/cn';
 export const Footer = ({ user, url }) => {
   return (
     <nav class="fixed bottom-0 w-full text-center">
-      <div class="flex h-16 w-full items-center justify-between gap-2 bg-blue-500 px-2">
+      <div class="flex h-16 w-full items-center justify-between gap-2 bg-[#101828] px-2">
         {LINKS.map((link) => {
           const isActive = link.href === '/' ? url.pathname === '/' : url.pathname.startsWith(link.href);
           return (

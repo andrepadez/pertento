@@ -20,7 +20,7 @@ const SigninForm = ({ email = '', errors }) => {
         <label class="grid w-full gap-3">
           <span>Email address</span>
           <input
-            class="w-full rounded-lg border-4 border-blue-500 bg-slate-300 px-3 py-1 outline-offset-4 outline-blue-500"
+            class="w-full rounded-lg border-4 border-blue-500 px-3 py-1 outline-offset-4 outline-blue-500"
             value={email}
             type="email"
             name="email"
