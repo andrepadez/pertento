@@ -2,7 +2,7 @@ import { jsxRenderer } from 'hono-server';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
-export const DashboardLayout = ({ children, user, url }) => {
+export const DashboardLayout = ({ children, c, user, url }) => {
   return (
     <html lang="en">
       <head>
@@ -15,9 +15,9 @@ export const DashboardLayout = ({ children, user, url }) => {
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
       <body hx-boost="true" class="bg-[#101828]">
-        <Header user={user} url={url} />
+        <Header c={c} user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 pt-20">{children}</main>
-        <Footer user={user} url={url} />
+        <Footer c={c} user={user} url={url} />
         <script>lucide.createIcons();</script>
       </body>
     </html>
@@ -28,7 +28,7 @@ export const dashboardRenderer = jsxRenderer(
   (props, c) => {
     const user = c.get('user');
     return (
-      <DashboardLayout user={c.get('user')} url={new URL(c.req.url)}>
+      <DashboardLayout c={c} user={c.get('user')} url={new URL(c.req.url)}>
         {props.children}
       </DashboardLayout>
     );

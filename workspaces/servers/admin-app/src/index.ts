@@ -7,11 +7,15 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import reload from 'reload';
 import path from 'node:path';
 
+await $`bunx tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify`.text();
+
 const { ADMIN_PORT: PORT } = process.env;
 
 const app = HonoServer(PORT, 'Admin fullstack HTMX App');
 
 app.use('/*', serveStatic({ root: 'public/' }));
 app.route('/', appRouter);
-
-await $`bunx tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify`.text();
+app.onError((err, c) => {
+  console.log(err.message);
+  console.log(err.stack);
+});
