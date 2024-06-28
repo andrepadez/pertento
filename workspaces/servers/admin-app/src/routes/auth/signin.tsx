@@ -57,7 +57,8 @@ authSigninRouter.get('/', async (c) => {
 });
 
 authSigninRouter.post('/', async (c) => {
-  const { email, password } = c.req.body;
+  const { email, password } = await c.req.parseBody();
+  let session = c.get('session');
 
   const dbUser = await db.query.Users.findFirst({
     where: eq(Users.email, email),
@@ -98,14 +99,18 @@ authSigninRouter.post('/', async (c) => {
     avatar,
     // passkeys: passkeys.length,
   };
+  const csrf = crypto.randomUUID();
 
-  // if (passkeys.length > 0) {
-  //   return c.json({ user: tokenUser });
-  // }
+  session.set('user', tokenUser);
+  session.set('csrf', csrf);
 
-  const token = await sign(tokenUser);
+  // // if (passkeys.length > 0) {
+  // //   return c.json({ user: tokenUser });
+  // // }
 
-  setCookie(c, 'bearer_token', token);
+  // const token = await sign(tokenUser);
+
+  // setCookie(c, 'bearer_token', token);
 
   return c.redirect('/');
 });

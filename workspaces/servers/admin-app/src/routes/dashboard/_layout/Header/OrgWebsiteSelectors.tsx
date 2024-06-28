@@ -64,7 +64,7 @@ const Selector = ({ name, options, selected, prop, onChange }) => {
                 list={`datalist-${name}`}
               />
             </div>
-            <datalist id={`datalist-${name}`}>
+            <datalist open id={`datalist-${name}`}>
               {options.map((option) => (
                 <option value={option[prop] + ' - ' + option.id}></option>
               ))}
