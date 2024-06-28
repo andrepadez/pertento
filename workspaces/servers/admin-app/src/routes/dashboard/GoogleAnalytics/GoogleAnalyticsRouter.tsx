@@ -19,7 +19,11 @@ googleAnalyticsRouter.get('/', async (c) => {
           {
             field: 'image',
             label: '',
-            format: ({ value }) => <img className="w-12 h-12 rounded-full" src={value} />,
+            format: ({ value }) => (
+              <div class="h-12 w-12">
+                <img className="w-12 h-12 rounded-full" src={value} />
+              </div>
+            ),
           },
           {
             field: 'name',

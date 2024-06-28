@@ -6,10 +6,7 @@ export const DataTable = ({ data, columns }) => {
   return (
     <Table>
       <Thead columns={columns} />
-      <tbody
-        onload="console.log('here')"
-        class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900"
-      >
+      <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
         {data.map((row) => (
           <tr>
             {columns.map((col) => (
