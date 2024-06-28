@@ -1,27 +1,18 @@
 import { Hono } from 'hono-server';
 import { userMiddleware } from './user-middleware';
-import { dashboardRenderer, DashboardLayout } from '@/Layouts/Dashboard';
-import { Counter } from './Counter';
+import { dashboardRenderer } from './_layout';
+import { homeRouter } from './Home';
+import { experimentsRouter } from './Experiments';
+import { monitorRouter } from './Monitor';
+import { websitesRouter } from './Websites';
+import { organizationRouter } from './Organization';
 
 export const dashboardRouter = new Hono();
 dashboardRouter.use(userMiddleware);
 dashboardRouter.use(dashboardRenderer);
 
-dashboardRouter.get('/', async (c) => {
-  return c.render(
-    <div class="mt-12 flex flex-col gap-10 text-center">
-      <h1 class="text-xl lg:text-4xl">Admin fullstack HTMX App</h1>
-      <Counter count={5} />
-    </div>,
-  );
-});
-
-dashboardRouter.post('/increment/:count', async (c) => {
-  const { count } = c.req.param();
-  return c.html(<Counter count={+count + 1} />);
-});
-
-dashboardRouter.post('/decrement/:count', async (c) => {
-  const { count } = c.req.param();
-  return c.html(<Counter count={+count - 1} />);
-});
+dashboardRouter.route('/', homeRouter);
+dashboardRouter.route('/experiments', experimentsRouter);
+dashboardRouter.route('/monitor', monitorRouter);
+dashboardRouter.route('/websites', websitesRouter);
+dashboardRouter.route('/organization', organizationRouter);

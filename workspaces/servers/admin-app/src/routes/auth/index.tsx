@@ -1,5 +1,5 @@
 import { Hono, jsxRenderer, useRequestContext, userMiddleware, originMiddleware } from 'hono-server';
-import { authRenderer } from '@/Layouts/Auth';
+import { authRenderer } from './_layout';
 import { authSigninRouter } from './signin';
 import { authSignoutHandler } from './signout';
 // import { signupHandler } from './signup';
