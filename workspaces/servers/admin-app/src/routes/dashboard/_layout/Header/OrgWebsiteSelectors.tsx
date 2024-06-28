@@ -1,45 +1,84 @@
 export const OrgWebsiteSelectors = ({ c }) => {
-  const companies = c.get('companies');
-  const org = +c.get('org');
+  const { companies, company, website } = c.var;
+  const { websites } = company;
+
+  const onChangeOrg = function () {
+    const value = this.value.split(' - ').at(1);
+    if (!value) {
+      this.value = '';
+      return;
+    }
+    const url = new window.URL(window.location.href);
+    url.searchParams.set('org', value);
+    url.searchParams.delete('ws');
+    window.location.href = url.toString();
+  };
+
+  const onChangeWebsite = function () {
+    const value = this.value.split(' - ').at(1);
+    if (!value) {
+      this.value = '';
+      return;
+    }
+    const url = new window.URL(window.location.href);
+    url.searchParams.set('ws', value);
+    window.location.href = url.toString();
+  };
+
   return (
     <div class="flex gap-5">
-      <Selector name="companies" options={companies} selected={companies.find((c) => c.id === org)} />
-      {/* <div>Website</div> */}
+      <Selector
+        name="companies"
+        prop="friendlyName"
+        onChange={onChangeOrg}
+        options={companies}
+        selected={companies.find((c) => c.id === company.id)}
+      />
+      <Selector
+        name="websites"
+        options={websites}
+        prop="url"
+        onChange={onChangeWebsite}
+        selected={websites.find((ws) => ws.id === website.id)}
+      />
     </div>
   );
 };
 
-const Selector = ({ name, options, selected, prop = 'friendlyName' }) => {
+const stringifyFunction = (fn) => {
+  if (!fn) return '';
+  const functionAsString = fn.toString();
+  // Match the first opening brace and the last closing brace to extract the body
+  const bodyStart = functionAsString.indexOf('{') + 1;
+  const bodyEnd = functionAsString.lastIndexOf('}');
+  const functionBody = functionAsString.substring(bodyStart, bodyEnd).trim();
+  // Remove all types of newline characters and excessive whitespace
+  return functionBody.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ');
+};
+
+const Selector = ({ name, options, selected, prop, onChange }) => {
   return (
     <div class="relative flex h-20 flex-col justify-center">
-      <details class="text-left">
-        <summary className="list-none [&::-webkit-details-marker]:hidden">
-          <div className="w-64 px-4 py-2 text-black bg-white rounded-lg">
-            <div class="flex items-center justify-between">
-              <span>{selected[prop]}</span>
-              <i class="h-4 w-4" data-lucide="chevrons-up-down"></i>
+      <div class="text-left">
+        <div className="list-none [&::-webkit-details-marker]:hidden">
+          <div className="w-48 py-2 pl-2 pr-0 overflow-hidden text-black bg-white rounded-lg lg:w-64">
+            <div class="relative flex items-center">
+              <i class="absolute right-0 h-4 w-4 lg:right-2" data-lucide="chevrons-up-down"></i>
+              <span class="w-[10rem] overflow-hidden text-sm lg:w-auto lg:text-base">{selected[prop]}</span>
+              <input
+                onchange={stringifyFunction(onChange)}
+                class="absolute z-10 w-full opacity-0 focus:opacity-100 focus:outline-none"
+                list={`datalist-${name}`}
+              />
             </div>
+            <datalist id={`datalist-${name}`}>
+              {options.map((option) => (
+                <option value={option[prop] + ' - ' + option.id}></option>
+              ))}
+            </datalist>
           </div>
-        </summary>
-        <div class="absolute rounded-lg border-2 border-gray-300 bg-white pb-4 pt-2 text-black">
-          <input type="text" list={`datalist-${name}`} />
-          <datalist class="max-h-96" id={`datalist-${name}`}>
-            {options.map((option) => (
-              <option value={option[prop]}>
-                <a href="/"></a>
-              </option>
-            ))}
-          </datalist>
-
-          {/* <ul class="flex max-h-64 flex-col gap-2 overflow-auto">
-            {options.map((option) => (
-              <li>
-                <a href={`/${option.id}`}>{option[prop]}</a>
-              </li>
-            ))}
-          </ul> */}
         </div>
-      </details>
+      </div>
     </div>
   );
 };

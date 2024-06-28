@@ -1,7 +1,10 @@
 import { cn } from 'helpers/cn';
 import LINKS from '../links.json';
 
-export const Footer = ({ user, url }) => {
+export const Footer = ({ c, user, url }) => {
+  const { company, website } = c.var;
+  const qs = `?org=${company.id}&ws=${website.id}`;
+
   return (
     <nav class="fixed bottom-0 w-full text-center">
       <div class="flex h-16 w-full items-center justify-between gap-2 bg-[#101828] px-2 lg:h-20 lg:py-2">
@@ -9,7 +12,7 @@ export const Footer = ({ user, url }) => {
           const isActive = link.href === '/' ? url.pathname === '/' : url.pathname.startsWith(link.href);
           return (
             <a
-              href={link.href}
+              href={link.href + qs}
               class={cn(
                 'flex w-full flex-col items-center justify-center gap-1 py-1 text-center text-white',
                 link.large && 'hidden lg:flex',

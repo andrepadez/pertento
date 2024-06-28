@@ -1,5 +1,7 @@
 import LINKS from '../links.json';
-export const UserDropdown = ({ user }) => {
+export const UserDropdown = ({ c, user }) => {
+  const { company, website } = c.var;
+  const qs = `?org=${company.id}&ws=${website.id}`;
   return (
     <details class="group list-none before:hidden">
       <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
@@ -47,7 +49,7 @@ export const UserDropdown = ({ user }) => {
                         <i class="h-8 w-8" data-lucide={link.icon}></i>
                       </div>
                       <div class="flex flex-col justify-center pl-4">
-                        <a href={link.href} class="text-lg">
+                        <a href={link.href + qs} class="text-lg">
                           {link.label}
                         </a>
                       </div>
