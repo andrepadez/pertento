@@ -3,12 +3,12 @@ import { OrgWebsiteSelectors } from './OrgWebsiteSelectors';
 import { UserDropdown } from './UserDropdown';
 
 export const Header = ({ c, user, url }) => {
-  const { company } = c.var;
+  const { company, website } = c.var;
   return (
     <header class="fixed z-50 w-full">
       <div>
         <div class="flex h-16 items-center justify-between bg-[#101828] px-2 text-white lg:h-20 lg:px-8">
-          <a class="flex-1" href="/">
+          <a class="flex-1" href={`/?org=${company.id}&ws=${website.id}`}>
             <img class="h-20" src="/pertento_dark.png" alt="pertento logo" />
           </a>
           <details class="flex-2 group ml-4 gap-2 text-sm text-white lg:hidden">

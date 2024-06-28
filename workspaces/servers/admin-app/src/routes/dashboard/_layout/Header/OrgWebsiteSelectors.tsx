@@ -11,7 +11,7 @@ export const OrgWebsiteSelectors = ({ c }) => {
     const url = new window.URL(window.location.href);
     url.searchParams.set('org', value);
     url.searchParams.delete('ws');
-    window.location.href = url.toString();
+    window.location.replace(url.toString());
   };
 
   const onChangeWebsite = function () {
@@ -22,7 +22,7 @@ export const OrgWebsiteSelectors = ({ c }) => {
     }
     const url = new window.URL(window.location.href);
     url.searchParams.set('ws', value);
-    window.location.href = url.toString();
+    window.location.replace(url.toString());
   };
 
   return (
@@ -48,11 +48,9 @@ export const OrgWebsiteSelectors = ({ c }) => {
 const stringifyFunction = (fn) => {
   if (!fn) return '';
   const functionAsString = fn.toString();
-  // Match the first opening brace and the last closing brace to extract the body
   const bodyStart = functionAsString.indexOf('{') + 1;
   const bodyEnd = functionAsString.lastIndexOf('}');
   const functionBody = functionAsString.substring(bodyStart, bodyEnd).trim();
-  // Remove all types of newline characters and excessive whitespace
   return functionBody.replace(/(\r\n|\n|\r)/gm, ' ').replace(/\s+/g, ' ');
 };
 
