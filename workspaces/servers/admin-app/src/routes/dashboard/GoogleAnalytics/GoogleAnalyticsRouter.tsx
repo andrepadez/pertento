@@ -11,7 +11,7 @@ googleAnalyticsRouter.get('/', async (c) => {
   });
 
   return c.render(
-    <section class="container mx-auto px-4">
+    <section class="mx-auto px-4">
       <DataTable
         uniqueKey="email"
         data={oAuthAccounts}
