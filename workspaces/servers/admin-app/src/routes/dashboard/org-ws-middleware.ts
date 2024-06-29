@@ -6,6 +6,8 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
   const { org, ws, lazy } = c.req.query();
   console.log(lazy);
 
+  console.log(c.req.header());
+
   const isAgency = !user.parentCompanyId;
 
   let key = TOKENS.get(token);
