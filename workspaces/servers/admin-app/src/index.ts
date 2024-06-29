@@ -5,7 +5,7 @@ import { serveStatic } from '@hono/node-server/serve-static';
 import { CookieStore, sessionMiddleware } from 'hono-sessions';
 await $`bunx tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify`.text();
 
-const { ADMIN_PORT: PORT } = process.env;
+const { ADMIN_PORT: PORT, BUILD_ENV } = process.env;
 
 const app = HonoServer(PORT, 'Admin fullstack HTMX App');
 
@@ -17,6 +17,7 @@ app.use(
     cookieOptions: {
       path: '/',
       httpOnly: true,
+      secure: BUILD_ENV === 'production',
     },
     sessionCookieName: 'pertento-admin-session',
   }),
