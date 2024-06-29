@@ -14,7 +14,8 @@ export const Header = ({ c, user, url }) => {
           </a>
           <Details class="flex-2 group ml-4 gap-2 text-sm text-white lg:hidden">
             <summary class="flex list-none items-center gap-2 [&::-webkit-details-marker]:hidden">
-              <span>{company.friendlyName}</span> <i class="size-4 text-white" data-lucide="chevron-down" />
+              <span>{company.friendlyName}</span>{' '}
+              <i class="size-4 text-white transition-all group-open:rotate-180" data-lucide="chevron-down" />
             </summary>
             <div className="fixed left-0 top-16 flex w-[100vw] justify-center bg-[#101828]">
               <OrgWebsiteSelectors c={c} url={url} />
