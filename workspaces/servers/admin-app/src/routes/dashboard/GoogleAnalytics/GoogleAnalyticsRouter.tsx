@@ -11,7 +11,7 @@ googleAnalyticsRouter.get('/', async (c) => {
   const url = new URL(c.req.url);
   return c.render(
     <section class="mx-auto px-4">
-      <LazyLoader url={url.pathname + '/list'} />
+      <LazyLoader url={'/google-analytics/list'} />
     </section>,
   );
 });
