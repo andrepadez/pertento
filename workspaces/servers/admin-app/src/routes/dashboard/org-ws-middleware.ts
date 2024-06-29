@@ -5,7 +5,10 @@ const isProduction = BUILD_ENV === 'production';
 
 export const orgAndWebsiteMiddleware = async (c, next) => {
   const { user, token } = c.var;
-  const { org, ws } = c.req.query();
+  const referrer = c.req.header('referer');
+  const referrerUrl = referrer && new URL(c.req.header('referer'));
+  const org = c.req.query('org') || referrerUrl?.searchParams.get('org');
+  const ws = c.req.query('ws') || referrerUrl?.searchParams.get('ws');
 
   const isAgency = !user.parentCompanyId;
 
@@ -53,21 +56,21 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
 
   c.set(isAgency ? 'companies' : 'company', companies);
 
-  if (!c.req.query('org')) {
+  if (!org) {
     const url = new URL(c.req.url);
     url.searchParams.set('org', companies[0].id);
     url.searchParams.set('ws', companies[0].websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
     return c.redirect(url.toString());
-  } else if (!c.req.query('ws')) {
+  } else if (!ws) {
     const url = new URL(c.req.url);
-    const company = companies.find((company) => company.id === +c.req.query('org'));
+    const company = companies.find((company) => company.id === +org);
     url.searchParams.set('ws', company?.websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
     return c.redirect(url.toString());
   } else {
-    const company = companies.find((company) => company.id === +c.req.query('org'));
-    const website = company.websites.find((website) => website.id === +c.req.query('ws'));
+    const company = companies.find((company) => company.id === +org);
+    const website = company.websites.find((website) => website.id === +ws);
     c.set('company', company);
     c.set('website', website);
   }
