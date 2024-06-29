@@ -5,10 +5,10 @@ const isProduction = BUILD_ENV === 'production';
 
 export const orgAndWebsiteMiddleware = async (c, next) => {
   const { user, token } = c.var;
-  const referrer = c.req.header('referer');
-  const referrerUrl = referrer && new URL(c.req.header('referer'));
-  const org = c.req.query('org') || referrerUrl?.searchParams.get('org');
-  const ws = c.req.query('ws') || referrerUrl?.searchParams.get('ws');
+  const referer = c.req.header('referer');
+  const refererUrl = referer && new URL(c.req.header('referer'));
+  const org = c.req.query('org') || refererUrl?.searchParams.get('org');
+  const ws = c.req.query('ws') || refererUrl?.searchParams.get('ws');
 
   const isAgency = !user.parentCompanyId;
 
