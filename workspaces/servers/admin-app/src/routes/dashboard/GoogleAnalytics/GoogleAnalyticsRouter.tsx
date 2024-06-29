@@ -81,18 +81,9 @@ const Header = () => {
     <div class="flex items-center justify-end">
       <div class="mt-2 flex items-center gap-x-3 lg:mt-4">
         <button class="flex shrink-0 items-center justify-center gap-x-2 rounded-lg bg-blue-500 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-500">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-5 w-5"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-          </svg>
+          <i data-lucide="plus"></i>
 
-          <span>Add vendor</span>
+          <span>Connect a Google account</span>
         </button>
       </div>
     </div>
