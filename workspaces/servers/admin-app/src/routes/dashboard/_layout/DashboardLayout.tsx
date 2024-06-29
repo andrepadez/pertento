@@ -14,7 +14,7 @@ export const DashboardLayout = ({ children, c, user, url }) => {
         <script src="https://unpkg.com/htmx.org@2.0.0"></script>
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
-      <body hx-boost="true" class="bg-[#101828]">
+      <body class="bg-[#101828]">
         <Header c={c} user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 pt-20">{children}</main>
         <Footer c={c} user={user} url={url} />

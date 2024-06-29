@@ -5,7 +5,6 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
   const { user, token } = c.var;
   const { org, ws, lazy } = c.req.query();
   console.log(lazy);
-  if (lazy) return next();
 
   const isAgency = !user.parentCompanyId;
 
@@ -57,11 +56,13 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
     const url = new URL(c.req.url);
     url.searchParams.set('org', companies[0].id);
     url.searchParams.set('ws', companies[0].websites[0]?.id);
+    console.log(url.toString());
     return c.redirect(url.toString());
   } else if (!c.req.query('ws')) {
     const url = new URL(c.req.url);
     const company = companies.find((company) => company.id === +c.req.query('org'));
     url.searchParams.set('ws', company?.websites[0]?.id);
+    console.log(url.toString());
     return c.redirect(url.toString());
   } else {
     const company = companies.find((company) => company.id === +c.req.query('org'));
