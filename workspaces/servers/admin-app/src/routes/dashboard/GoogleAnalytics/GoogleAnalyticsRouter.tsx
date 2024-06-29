@@ -12,6 +12,7 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 googleAnalyticsRouter.get('/', async (c) => {
   return c.render(
     <section class="mx-auto px-4">
+      <Header />
       <LazyLoader url="/google-analytics/list" />
     </section>,
   );
