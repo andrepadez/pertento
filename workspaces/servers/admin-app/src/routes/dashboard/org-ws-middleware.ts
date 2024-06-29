@@ -5,10 +5,7 @@ const isProduction = BUILD_ENV === 'production';
 
 export const orgAndWebsiteMiddleware = async (c, next) => {
   const { user, token } = c.var;
-  const { org, ws, lazy } = c.req.query();
-  console.log(lazy);
-
-  console.log(c.req.header());
+  const { org, ws } = c.req.query();
 
   const isAgency = !user.parentCompanyId;
 
@@ -61,14 +58,12 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
     url.searchParams.set('org', companies[0].id);
     url.searchParams.set('ws', companies[0].websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
-    console.log(url.toString());
     return c.redirect(url.toString());
   } else if (!c.req.query('ws')) {
     const url = new URL(c.req.url);
     const company = companies.find((company) => company.id === +c.req.query('org'));
     url.searchParams.set('ws', company?.websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
-    console.log(url.toString());
     return c.redirect(url.toString());
   } else {
     const company = companies.find((company) => company.id === +c.req.query('org'));

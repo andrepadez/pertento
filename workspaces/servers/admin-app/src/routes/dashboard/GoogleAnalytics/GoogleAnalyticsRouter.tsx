@@ -14,7 +14,7 @@ googleAnalyticsRouter.get('/', async (c) => {
   console.log(url);
   return c.render(
     <section class="mx-auto px-4">
-      <LazyLoader url={`${VITE_ADMIN_URL}/google-analytics/list?lazy=1`} />
+      <LazyLoader url={`list`} />
     </section>,
   );
 });
