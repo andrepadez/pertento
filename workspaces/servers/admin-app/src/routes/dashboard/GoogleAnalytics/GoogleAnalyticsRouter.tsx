@@ -1,64 +1,76 @@
 import { Hono } from 'hono-server';
 import { db, eq, asc, GanOauth } from 'pertentodb';
 import { DataTable } from '@/Components/DataTable';
+import { LazyLoader } from '@/Components/LazyLoader';
 
 export const googleAnalyticsRouter = new Hono();
 
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
 googleAnalyticsRouter.get('/', async (c) => {
+  const url = new URL(c.req.url);
+  return c.render(
+    <section class="mx-auto px-4">
+      <LazyLoader url={url.pathname + '/list'} />
+    </section>,
+  );
+});
+
+googleAnalyticsRouter.get('/list', async (c) => {
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, c.get('user').companyId),
     orderBy: asc(GanOauth.name),
   });
 
-  return c.render(
-    <section class="mx-auto px-4">
-      <DataTable
-        uniqueKey="email"
-        data={oAuthAccounts}
-        columns={[
-          {
-            field: 'image',
-            label: '',
-            format: ({ value }) => (
-              <div class="h-12 w-12">
-                <img className="w-12 h-12 rounded-full" src={value} />
-              </div>
-            ),
+  await wait(250);
+
+  return c.html(
+    <DataTable
+      uniqueKey="email"
+      data={oAuthAccounts}
+      columns={[
+        {
+          field: 'image',
+          label: '',
+          format: ({ value }) => (
+            <div class="h-12 w-12">
+              <img className="w-12 h-12 rounded-full" src={value} />
+            </div>
+          ),
+        },
+        {
+          field: 'name',
+          label: 'Name',
+          sortKey: 'name',
+        },
+        {
+          field: 'email',
+          label: 'Email',
+          sortKey: 'email',
+        },
+        {
+          field: 'accountsCount',
+          label: '# Accounts',
+        },
+        {
+          field: 'lastRefreshed',
+          label: 'last updated',
+          format: ({ value }) => {
+            const date = new Date(value);
+            return <div>{date.getFullYear() > 1970 ? date.toLocaleString() : 'never'}</div>;
           },
-          {
-            field: 'name',
-            label: 'Name',
-            sortKey: 'name',
-          },
-          {
-            field: 'email',
-            label: 'Email',
-            sortKey: 'email',
-          },
-          {
-            field: 'accountsCount',
-            label: '# Accounts',
-          },
-          {
-            field: 'lastRefreshed',
-            label: 'last updated',
-            format: ({ value }) => {
-              const date = new Date(value);
-              return <div>{date.getFullYear() > 1970 ? date.toLocaleString() : 'never'}</div>;
-            },
-          },
-          {
-            field: 'email',
-            label: '',
-            format: ({ value }) => (
-              <button size="sm" onClick={() => refresh(value)}>
-                Refresh
-              </button>
-            ),
-          },
-        ]}
-      />
-    </section>,
+        },
+        {
+          field: 'email',
+          label: '',
+          format: ({ value }) => (
+            <button size="sm" onClick={() => refresh(value)}>
+              Refresh
+            </button>
+          ),
+        },
+      ]}
+    />,
   );
 });
 
