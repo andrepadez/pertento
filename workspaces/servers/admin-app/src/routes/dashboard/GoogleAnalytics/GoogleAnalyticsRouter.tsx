@@ -10,11 +10,9 @@ export const googleAnalyticsRouter = new Hono();
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 googleAnalyticsRouter.get('/', async (c) => {
-  const url = new URL(c.req.url);
-  console.log(url);
   return c.render(
     <section class="mx-auto px-4">
-      <LazyLoader url={`list`} />
+      <LazyLoader url="/google-analytics/list" />
     </section>,
   );
 });
