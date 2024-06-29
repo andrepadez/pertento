@@ -70,7 +70,7 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
     return c.redirect(url.toString());
   } else {
     const company = companies.find((company) => company.id === +org);
-    const website = company.websites.find((website) => website.id === +ws);
+    const website = company.websites.find((website) => website.id === +ws) || company.websites[0];
     c.set('company', company);
     c.set('website', website);
   }
