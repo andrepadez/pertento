@@ -3,7 +3,9 @@ import { TOKENS, COMPANIES } from '@/sessions';
 
 export const orgAndWebsiteMiddleware = async (c, next) => {
   const { user, token } = c.var;
-  const { org, ws } = c.req.query();
+  const { org, ws, lazy } = c.req.query();
+  if (lazy) return next();
+
   const isAgency = !user.parentCompanyId;
 
   let key = TOKENS.get(token);
