@@ -2,6 +2,8 @@ import { Hono } from 'hono-server';
 import { db, eq, asc, GanOauth } from 'pertentodb';
 import { DataTable } from '@/Components/DataTable';
 import { LazyLoader } from '@/Components/LazyLoader';
+const { VITE_ADMIN_URL } = process.env;
+console.log(VITE_ADMIN_URL);
 
 export const googleAnalyticsRouter = new Hono();
 
@@ -9,9 +11,10 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 googleAnalyticsRouter.get('/', async (c) => {
   const url = new URL(c.req.url);
+  console.log(url);
   return c.render(
     <section class="mx-auto px-4">
-      <LazyLoader url={'/google-analytics/list'} />
+      <LazyLoader url={`${VITE_ADMIN_URL}/google-analytics/list`} />
     </section>,
   );
 });
