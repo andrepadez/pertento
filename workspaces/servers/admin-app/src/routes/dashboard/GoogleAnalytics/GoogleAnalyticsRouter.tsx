@@ -14,9 +14,11 @@ googleAnalyticsRouter.get('/', async (c) => {
   url.pathname += '/list';
 
   return c.render(
-    <section class="mx-auto px-4">
+    <section class="mx-auto">
       <Header />
-      <LazyLoader url={url.toString()} />
+      <div class="mx-4">
+        <LazyLoader url={url.toString()} />
+      </div>
     </section>,
   );
 });
@@ -68,9 +70,8 @@ googleAnalyticsRouter.get('/list', async (c) => {
         },
         {
           field: 'accountsCount',
-          label: '# Accounts',
+          label: 'Accounts',
           sortKey: 'accountsCount',
-          format: ({ value }) => <div class="min-w-[10rem]">{value}</div>,
         },
         {
           field: 'lastRefreshed',
@@ -98,10 +99,9 @@ googleAnalyticsRouter.get('/list', async (c) => {
 const Header = () => {
   return (
     <div class="flex items-center justify-end">
-      <div class="mt-2 flex items-center gap-x-3 lg:mt-4">
-        <button class="flex shrink-0 items-center justify-center gap-x-2 rounded-lg bg-blue-500 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-500">
+      <div class="mt-2 flex items-center lg:mt-4">
+        <button class="flex items-center justify-between gap-x-2 rounded-lg bg-blue-500 px-5 py-2 text-sm tracking-wide text-white transition-colors duration-200 hover:bg-blue-600 sm:w-auto dark:bg-blue-600 dark:hover:bg-blue-500">
           <i data-lucide="plus"></i>
-
           <span>Connect a Google account</span>
         </button>
       </div>
