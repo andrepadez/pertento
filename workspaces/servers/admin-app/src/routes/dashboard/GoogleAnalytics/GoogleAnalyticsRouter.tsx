@@ -22,7 +22,7 @@ googleAnalyticsRouter.get('/', async (c) => {
 });
 
 googleAnalyticsRouter.get('/list', async (c) => {
-  const { pageSize = 2, page = 1, orderBy, order = 'asc' } = c.req.query();
+  const { pageSize = 4, page = 1, orderBy, order = 'asc' } = c.req.query();
   const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, c.get('user').companyId),
