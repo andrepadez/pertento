@@ -1,5 +1,5 @@
 import { Hono } from 'hono-server';
-import { db, eq, asc, GanOauth } from 'pertentodb';
+import { db, eq, asc, desc, GanOauth } from 'pertentodb';
 import { DataTable } from '@/Components/DataTable';
 import { LazyLoader } from '@/Components/LazyLoader';
 const { VITE_ADMIN_URL } = process.env;
@@ -10,26 +10,36 @@ export const googleAnalyticsRouter = new Hono();
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 googleAnalyticsRouter.get('/', async (c) => {
+  const url = new URL(c.req.url);
+  url.pathname += '/list';
+
   return c.render(
     <section class="mx-auto px-4">
       <Header />
-      <LazyLoader url="/google-analytics/list" />
+      <LazyLoader url={url.toString()} />
     </section>,
   );
 });
 
 googleAnalyticsRouter.get('/list', async (c) => {
+  const { pagesize = 3, page = 1, orderBy, order = 'asc' } = c.req.query();
+  const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, c.get('user').companyId),
-    orderBy: asc(GanOauth.name),
+    orderBy: orderBy ? sorter(GanOauth[orderBy]) : sorter(GanOauth.name),
+    limit: pagesize,
+    skip: (page - 1) * pagesize,
   });
-
-  await wait(250);
 
   return c.html(
     <DataTable
       uniqueKey="email"
       data={oAuthAccounts}
+      url={new URL(c.req.url)}
+      pageSize={pagesize}
+      page={page}
+      orderBy={orderBy}
+      order={order}
       columns={[
         {
           field: 'image',
@@ -53,10 +63,12 @@ googleAnalyticsRouter.get('/list', async (c) => {
         {
           field: 'accountsCount',
           label: '# Accounts',
+          sortKey: 'accountsCount',
         },
         {
           field: 'lastRefreshed',
           label: 'last updated',
+          sortKey: 'lastRefreshed',
           format: ({ value }) => {
             const date = new Date(value);
             return <div>{date.getFullYear() > 1970 ? date.toLocaleString() : 'never'}</div>;
