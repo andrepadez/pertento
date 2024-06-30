@@ -1,5 +1,5 @@
 import { Hono } from 'hono-server';
-import { db, eq, asc, desc, GanOauth } from 'pertentodb';
+import { db, count, eq, asc, desc, GanOauth } from 'pertentodb';
 import { DataTable } from '@/Components/DataTable';
 import { LazyLoader } from '@/Components/LazyLoader';
 const { VITE_ADMIN_URL } = process.env;
@@ -22,24 +22,30 @@ googleAnalyticsRouter.get('/', async (c) => {
 });
 
 googleAnalyticsRouter.get('/list', async (c) => {
-  const { pagesize = 3, page = 1, orderBy, order = 'asc' } = c.req.query();
+  const { pagesize, page = 1, orderBy, order = 'asc' } = c.req.query();
   const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, c.get('user').companyId),
     orderBy: orderBy ? sorter(GanOauth[orderBy]) : sorter(GanOauth.name),
     limit: pagesize,
-    skip: (page - 1) * pagesize,
+    offset: (page - 1) * pagesize,
   });
+
+  const [{ count: total }] = await db
+    .select({ count: count() })
+    .from(GanOauth)
+    .where(eq(GanOauth.companyId, c.get('user').companyId));
 
   return c.html(
     <DataTable
       uniqueKey="email"
       data={oAuthAccounts}
       url={new URL(c.req.url)}
-      pageSize={pagesize}
-      page={page}
+      // pageSize={+pagesize}
+      // page={+page}
       orderBy={orderBy}
       order={order}
+      total={total}
       columns={[
         {
           field: 'image',
@@ -142,54 +148,6 @@ const Tabs = () => {
           placeholder="Search"
           class="block w-full rounded-lg border border-gray-200 bg-white py-1.5 pl-11 pr-5 text-gray-700 placeholder-gray-400/70 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 md:w-80 rtl:pl-5 rtl:pr-11 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
         />
-      </div>
-    </div>
-  );
-};
-
-const Pagination = () => {
-  return (
-    <div class="mt-6 sm:flex sm:items-center sm:justify-between">
-      <div class="text-sm text-gray-500 dark:text-gray-400">
-        Page <span class="font-medium text-gray-700 dark:text-gray-100">1 of 10</span>
-      </div>
-
-      <div class="mt-4 flex items-center gap-x-4 sm:mt-0">
-        <a
-          href="#"
-          class="flex w-1/2 items-center justify-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 sm:w-auto dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-5 w-5 rtl:-scale-x-100"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-          </svg>
-
-          <span>previous</span>
-        </a>
-
-        <a
-          href="#"
-          class="flex w-1/2 items-center justify-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 sm:w-auto dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
-        >
-          <span>Next</span>
-
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="h-5 w-5 rtl:-scale-x-100"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-          </svg>
-        </a>
       </div>
     </div>
   );

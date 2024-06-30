@@ -1,6 +1,7 @@
 import { Table } from './Table';
 import { Thead } from './Thead';
 import { Tcell } from './Tcell';
+import { Pagination } from './Pagination';
 
 export const DataTable = (props) => {
   const { data, columns, url, pageSize, page, orderBy, order } = props;
@@ -18,6 +19,7 @@ export const DataTable = (props) => {
           ))}
         </tbody>
       </Table>
+      {pageSize && <Pagination {...props} />}
       <script>lucide.createIcons();</script>
     </div>
   );
