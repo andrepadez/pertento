@@ -33,7 +33,7 @@ export const Thead = (props) => {
                 <button
                   class="mx-auto flex items-center gap-x-3 focus:outline-none"
                   hx-get={url.toString()}
-                  hx-replace-url={url.toString().replace('/list?', '?')}
+                  hx-push-url={url.toString().replace('/list?', '?')}
                 >
                   <span class="mx-auto block">{column.label}</span>
                   <i class={cn('size-3 text-black', isOrdered && 'text-blue-500')} data-lucide={icon}></i>
