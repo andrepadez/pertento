@@ -19,7 +19,7 @@ export const Thead = (props) => {
           return (
             <th
               scope="col"
-              class="border-r-2 px-4 py-3.5 text-center text-sm font-bold text-gray-500 last:border-r-0 rtl:text-right dark:text-gray-400"
+              class="border-r-2 px-2 py-1 text-center text-sm font-bold text-gray-500 last:border-r-0 lg:px-4 lg:py-3.5 rtl:text-right dark:text-gray-400"
             >
               {column.sortKey ? (
                 <button

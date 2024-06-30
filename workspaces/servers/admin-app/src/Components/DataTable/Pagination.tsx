@@ -15,7 +15,7 @@ export const Pagination = (props) => {
   return (
     <div class="mt-6 flex w-full items-center justify-between text-center lg:mx-auto lg:w-[50%]">
       <button
-        disabled={page === 1}
+        disabled={page <= 1}
         class="flex items-center justify-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm text-gray-700 transition-colors duration-200 hover:bg-gray-100 disabled:opacity-50 sm:w-auto dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
         hx-get={prevPageUrl.toString()}
         hx-replace-url={prevPageUrl.toString().replace('/list', '')}
@@ -32,7 +32,7 @@ export const Pagination = (props) => {
 
       <button
         class="flex items-center justify-center gap-x-2 rounded-md border bg-white px-5 py-2 text-sm capitalize text-gray-700 transition-colors duration-200 hover:bg-gray-100 disabled:opacity-50 sm:w-auto dark:border-gray-700 dark:bg-gray-900 dark:text-gray-200 dark:hover:bg-gray-800"
-        disabled={page === totalPages}
+        disabled={page >= totalPages}
         hx-get={nextPageUrl.toString()}
         hx-replace-url={nextPageUrl.toString().replace('/list', '')}
       >
