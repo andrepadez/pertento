@@ -19,15 +19,15 @@ export const Thead = (props) => {
           return (
             <th
               scope="col"
-              class="px-4 py-3.5 text-left text-sm font-normal text-gray-500 rtl:text-right dark:text-gray-400"
+              class="border-r-2 px-4 py-3.5 text-center text-sm font-bold text-gray-500 last:border-r-0 rtl:text-right dark:text-gray-400"
             >
               {column.sortKey ? (
                 <button
-                  class="flex items-center gap-x-3 focus:outline-none"
+                  class="mx-auto flex items-center gap-x-3 focus:outline-none"
                   hx-get={url.toString()}
                   hx-replace-url={url.toString().replace('/list?', '?')}
                 >
-                  <span>{column.label}</span>
+                  <span class="mx-auto block">{column.label}</span>
                   <i class="size-3 text-black" data-lucide="arrow-up-0-1"></i>
                 </button>
               ) : (

@@ -2,13 +2,12 @@ const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 
 export const Pagination = (props) => {
+  const { page, pageSize, count, total } = props;
   const url = new URL(props.url);
   const nextPageUrl = new URL(url);
   const prevPageUrl = new URL(url);
   nextPageUrl.protocol = isProduction ? 'https' : 'http';
   prevPageUrl.protocol = isProduction ? 'https' : 'http';
-  const { page, pageSize, count, total } = props;
-  console.log(page, pageSize, count);
   nextPageUrl.searchParams.set('page', page + 1);
   prevPageUrl.searchParams.set('page', page - 1);
   const totalPages = Math.ceil(total / pageSize);

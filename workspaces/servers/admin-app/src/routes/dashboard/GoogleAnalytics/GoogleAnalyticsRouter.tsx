@@ -22,13 +22,13 @@ googleAnalyticsRouter.get('/', async (c) => {
 });
 
 googleAnalyticsRouter.get('/list', async (c) => {
-  const { pagesize, page = 1, orderBy, order = 'asc' } = c.req.query();
+  const { pageSize, page = 1, orderBy, order = 'asc' } = c.req.query();
   const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, c.get('user').companyId),
     orderBy: orderBy ? sorter(GanOauth[orderBy]) : sorter(GanOauth.name),
-    limit: pagesize,
-    offset: (page - 1) * pagesize,
+    limit: pageSize,
+    offset: (page - 1) * pageSize,
   });
 
   const [{ count: total }] = await db
@@ -41,8 +41,8 @@ googleAnalyticsRouter.get('/list', async (c) => {
       uniqueKey="email"
       data={oAuthAccounts}
       url={new URL(c.req.url)}
-      // pageSize={+pagesize}
-      // page={+page}
+      pageSize={+pageSize || null}
+      page={+page || null}
       orderBy={orderBy}
       order={order}
       total={total}
