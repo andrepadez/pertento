@@ -70,6 +70,7 @@ googleAnalyticsRouter.get('/list', async (c) => {
           field: 'accountsCount',
           label: '# Accounts',
           sortKey: 'accountsCount',
+          format: ({ value }) => <div class="min-w-[10rem]">{value}</div>,
         },
         {
           field: 'lastRefreshed',
