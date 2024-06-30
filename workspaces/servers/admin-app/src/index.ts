@@ -29,3 +29,11 @@ app.onError((err, c) => {
   console.log(err.message);
   console.log(err.stack);
 });
+
+process.on('beforeExit', (code) => {
+  console.log(`Event loop is empty!`);
+});
+
+process.on('exit', (code) => {
+  console.log(`Process is exiting with code ${code}`);
+});

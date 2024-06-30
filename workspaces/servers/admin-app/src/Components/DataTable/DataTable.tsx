@@ -11,7 +11,7 @@ export const DataTable = (props) => {
         <Thead {...props} />
         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
           {data.map((row) => (
-            <tr>
+            <tr class="hover:bg-slate-100">
               {columns.map((col) => (
                 <Tcell value={row[col.field]} row={row} data={data} column={col} field={col.field} />
               ))}

@@ -64,9 +64,9 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
     return c.redirect(url.toString());
   } else if (!ws) {
     const url = new URL(c.req.url);
+    url.protocol = isProduction ? 'https' : 'http';
     const company = companies.find((company) => company.id === +org);
     url.searchParams.set('ws', company?.websites[0]?.id);
-    url.protocol = isProduction ? 'https' : 'http';
     return c.redirect(url.toString());
   } else {
     const company = companies.find((company) => company.id === +org);

@@ -56,7 +56,7 @@ const Selector = ({ name, options, selected, prop, onChange }) => {
         <div className="list-none [&::-webkit-details-marker]:hidden">
           <div className="w-48 py-2 pl-2 pr-0 overflow-hidden text-black bg-white rounded-lg lg:w-64">
             <div class="relative flex items-center">
-              <i class="absolute right-0 h-4 w-4 lg:right-2" data-lucide="chevrons-up-down"></i>
+              <i class="absolute right-1 size-5 lg:right-2" data-lucide="chevrons-up-down"></i>
               <span class="w-[10rem] overflow-hidden text-sm lg:w-auto lg:text-base">{selected[prop]}</span>
               <input
                 onchange={stringifyFunction(onChange)}
