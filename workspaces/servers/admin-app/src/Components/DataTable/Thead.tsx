@@ -1,4 +1,6 @@
+import { cn } from 'helpers/cn';
 const { BUILD_ENV } = process.env;
+
 const isProduction = BUILD_ENV === 'production';
 
 export const Thead = (props) => {
@@ -9,13 +11,19 @@ export const Thead = (props) => {
       <tr>
         {columns.map((column) => {
           const url = new URL(props.url);
+          const isOrdered = orderBy === column.sortKey;
           url.protocol = isProduction ? 'https' : 'http';
-          if (orderBy === column.sortKey) {
+          if (isOrdered) {
             url.searchParams.set('order', order === 'asc' ? 'desc' : 'asc');
           } else {
             url.searchParams.set('orderBy', column.sortKey);
             url.searchParams.set('order', 'asc');
           }
+          const icon = isOrdered
+            ? order === 'asc'
+              ? 'arrow-down-narrow-wide'
+              : 'arrow-up-narrow-wide'
+            : 'arrow-down-up';
           return (
             <th
               scope="col"
@@ -28,7 +36,7 @@ export const Thead = (props) => {
                   hx-replace-url={url.toString().replace('/list?', '?')}
                 >
                   <span class="mx-auto block">{column.label}</span>
-                  <i class="size-3 text-black" data-lucide="arrow-up-0-1"></i>
+                  <i class={cn('size-3 text-black', isOrdered && 'text-blue-500')} data-lucide={icon}></i>
                 </button>
               ) : (
                 <span>{column.label}</span>
