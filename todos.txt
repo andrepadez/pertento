@@ -1,3 +1,16 @@
+
+https://app.pertento.ai/experiments/3338?org=545&ws=2429&screen=statistics (data stopped 18/06)
+
+https://app.pertento.ai/experiments/3395?org=667&ws=2772&screen=settings (mad weights) (ended)
+https://app.pertento.ai/experiments/3401?org=667&ws=2772&screen=statistics (mad weights) (ended)
+
+https://app.pertento.ai/experiments/1260?org=647&ws=2689&screen=statistics (running) (data stopped 18/06)
+https://app.pertento.ai/experiments/1747?org=647&ws=2689&screen=statistics (running) (data stopped 18/06)
+https://app.pertento.ai/experiments/1748?org=647&ws=2689&screen=statistics (running) (data stopped 18/06)
+
+2429, 2772, 2689
+
+
 X useForm -> disconnect mutationObserver on useEffect return
 X useGlobal -> refresh (check implemented in ['CURRENT_USER'] useAuth)
 X changing name in client list does not reflect in other places than client list
