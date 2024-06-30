@@ -1,3 +1,6 @@
+const { BUILD_ENV } = process.env;
+const isProduction = BUILD_ENV === 'production';
+
 export const Thead = (props) => {
   const { columns, orderBy, order } = props;
 
@@ -6,6 +9,7 @@ export const Thead = (props) => {
       <tr>
         {columns.map((column) => {
           const url = new URL(props.url);
+          url.protocol = isProduction ? 'https' : 'http';
           if (orderBy === column.sortKey) {
             url.searchParams.set('order', order === 'asc' ? 'desc' : 'asc');
           } else {
