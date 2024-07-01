@@ -76,11 +76,7 @@ experimentsRouter.get('/list', async (c) => {
             label: 'Name',
             field: 'name',
             sortKey: 'name',
-            format: ({ row }) => (
-              <a className="underline" href={`/experiments/${row.id}`}>
-                {row.name}
-              </a>
-            ),
+            // format: ({ row }) => <a href={`/experiments/${row.id}`}>{row.name}</a>,
           },
           {
             label: 'Sessions',

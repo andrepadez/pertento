@@ -1,7 +1,7 @@
 import { log } from 'helpers/injector/console';
 import { createClient } from 'hooks/useClient';
 const { VITE_EXPERIMENTS_URL } = import.meta.env;
-const WEBSITES_TO_LISTEN = [2772, 2429, 2689];
+const WEBSITES_TO_LISTEN = [];
 
 export const setupSendToExperimentsServer = (experimentData, expVariantMap) => {
   const experimentsClient = createClient(VITE_EXPERIMENTS_URL);
