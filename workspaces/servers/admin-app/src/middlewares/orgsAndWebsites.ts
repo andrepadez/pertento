@@ -1,5 +1,5 @@
 import { db, eq, Websites, Companies } from 'pertentodb';
-import { TOKENS, COMPANIES } from '@/sessions';
+import { TOKENS, COMPANIES } from '@/cache';
 const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 

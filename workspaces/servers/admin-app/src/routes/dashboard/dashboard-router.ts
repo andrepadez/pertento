@@ -1,6 +1,7 @@
 import { Hono } from 'hono-server';
-import { userMiddleware } from './user-middleware';
-import { orgAndWebsiteMiddleware } from './org-ws-middleware';
+import { userAuthenticatedMiddleware } from '@/middlewares/user-authenticated';
+import { orgAndWebsiteMiddleware } from '@/middlewares/orgsAndWebsites';
+import { nextUrlMiddleware } from '@/middlewares/next-url';
 import { dashboardRenderer } from './_layout';
 import { homeRouter } from './Home';
 import { experimentsRouter } from './Experiments';
@@ -11,7 +12,8 @@ import { googleAnalyticsRouter } from './GoogleAnalytics';
 import { accountRouter } from './Account';
 
 export const dashboardRouter = new Hono();
-dashboardRouter.use(userMiddleware);
+dashboardRouter.use(nextUrlMiddleware);
+dashboardRouter.use(userAuthenticatedMiddleware);
 dashboardRouter.use(dashboardRenderer);
 
 dashboardRouter.use('*', orgAndWebsiteMiddleware);

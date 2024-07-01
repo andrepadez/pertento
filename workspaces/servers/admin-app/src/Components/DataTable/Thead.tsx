@@ -4,7 +4,7 @@ const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 
 export const Thead = (props) => {
-  const { columns, orderBy, order } = props;
+  const { orderBy, order, columns } = props;
 
   return (
     <thead class="bg-gray-50 dark:bg-gray-800">

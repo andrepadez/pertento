@@ -4,11 +4,12 @@ import { Tcell } from './Tcell';
 import { Pagination } from './Pagination';
 
 export const DataTable = (props) => {
-  const { data, columns, url, pageSize, page, orderBy, order } = props;
+  const { data, url, pageSize, page, orderBy, order } = props;
+  const columns = props.columns.filter(Boolean);
   return (
     <div hx-target="this" hx-swap="outerHTML">
       <Table>
-        <Thead {...props} />
+        <Thead columns={columns} orderBy={orderBy} order={order} url={url} />
         <tbody class="divide-y divide-gray-200 bg-white dark:divide-gray-700 dark:bg-gray-900">
           {data.map((row) => (
             <tr class="hover:bg-slate-100">

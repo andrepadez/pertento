@@ -1,5 +1,6 @@
 export const COMPANIES = new WeakMap();
 export const TOKENS = new Map();
+export const EXPERIMENTS = new Map();
 
 /*
 Q:is there a Map, WeakMap, Set, WeakSet method to clear its contents?
