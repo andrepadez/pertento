@@ -1,6 +1,8 @@
 import { db, eq, and, gte, lt, desc, asc } from 'pertentodb';
 import { statisticsdb, Statistics, ExperimentData } from 'statisticsdb';
 
+let website2689Count = 0;
+
 const aggregateData = async () => {
   const now = new Date().valueOf();
   const max = new Date();
@@ -64,6 +66,7 @@ const aggregateData = async () => {
 
             await statisticsdb.insert(Statistics).values(dbItem);
             if (+websiteId === 2689) {
+              website2689Count++;
               console.log('inserted', { websiteId, timestamp, experimentId, variantId, event });
             }
             insertCount++;
@@ -72,6 +75,8 @@ const aggregateData = async () => {
       }
     }
   }
+
+  console.log('Inserted Statistics', { insertCount, website2689Count });
 };
 
 const multiplyByHundred = (number) => (isNaN(number) ? 0 : +(+(number || 0).toFixed(2).replace('.', '')));
