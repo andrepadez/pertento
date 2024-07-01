@@ -25,7 +25,7 @@ experimentsRouter.get('/', async (c) => {
   url.pathname += '/list';
 
   return c.render(
-    <section class="mx-4">
+    <section class="mx-4 flex flex-col gap-1 lg:gap-4">
       <Header />
       <ExperimentTabs c={c} />
       <div class="">
