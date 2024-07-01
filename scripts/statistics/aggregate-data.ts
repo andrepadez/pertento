@@ -1,8 +1,6 @@
 import { db, eq, and, gte, lt, desc, asc } from 'pertentodb';
 import { statisticsdb, Statistics, ExperimentData } from 'statisticsdb';
 
-let website2689Count = 0;
-
 const aggregateData = async () => {
   const now = new Date().valueOf();
   const max = new Date();
@@ -65,10 +63,6 @@ const aggregateData = async () => {
             };
 
             await statisticsdb.insert(Statistics).values(dbItem);
-            if (+websiteId === 2689) {
-              website2689Count++;
-              console.log('inserted', { websiteId, timestamp, experimentId, variantId, event });
-            }
             insertCount++;
           }
         }
