@@ -34,8 +34,11 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
 
     log('experimentData', experimentData);
     const { expVariantMap, experimentsToCount, allExpVariantMap } = runExperiments(experimentData, websiteId);
+
+    log({ allExpVariantMap, expVariantMap });
+
     setupGtag(expVariantMap, experimentData);
-    setupDataLayer(experimentData, expVariantMap);
+    setupDataLayer(experimentData, allExpVariantMap);
 
     const opacityDelay = localStorage.getItem('PERTENTO_OPACITY_DELAY');
     log('removing opacity with delay', +opacityDelay);
