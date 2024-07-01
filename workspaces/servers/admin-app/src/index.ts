@@ -3,9 +3,12 @@ import { HonoServer } from 'hono-server';
 import { appRouter } from './routes';
 import { serveStatic } from '@hono/node-server/serve-static';
 import { CookieStore, sessionMiddleware } from 'hono-sessions';
-await $`bunx tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify`.text();
 
 const { ADMIN_PORT: PORT, BUILD_ENV } = process.env;
+
+if (BUILD_ENV === 'development') {
+  await $`bunx tailwindcss -i ./src/tailwind.css -o ./public/tailwind.css --minify`.text();
+}
 
 const app = HonoServer(PORT, 'Admin fullstack HTMX App');
 
