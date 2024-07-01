@@ -63,6 +63,7 @@ const aggregateData = async () => {
             };
 
             await statisticsdb.insert(Statistics).values(dbItem);
+            console.log('inserted', { websiteId, timestamp, experimentId, variantId, event });
             insertCount++;
           }
         }

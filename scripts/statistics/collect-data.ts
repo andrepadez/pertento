@@ -19,6 +19,7 @@ const collectData = async () => {
     const byVariant = await redisClient.HGETALL(key);
     for (let [timestamp, item] of Object.entries(byVariant)) {
       const data = JSON.parse(item);
+      console.log('inserted', { websiteId, timestamp, experimentId, variantId, event });
       await statisticsdb.insert(ExperimentData).values({ timestamp, websiteId, experimentId, variantId, event, data });
       await redisClient.HDEL(key, timestamp);
       itemCount++;

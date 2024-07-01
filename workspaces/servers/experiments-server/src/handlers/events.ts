@@ -17,14 +17,14 @@ export const eventsMiddleware = async (c, next) => {
 
   for (let event of c.req.body) {
     if (Array.isArray(event)) {
-      // if (event[0] === 'purchase') {
       for (let { experimentId, variantId } of experimentVariantMap) {
         const data = JSON.stringify(event[1]);
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
         await client.HSET(key, nowValue, data);
-        console.log(timestamp, 'saved', key);
+        if ([2429, 2689].includes(+websiteId)) {
+          console.log(timestamp, 'saved', key);
+        }
       }
-      // }
     }
   }
 };
