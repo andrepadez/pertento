@@ -7,7 +7,7 @@ export const visitorsMiddleware = async (c, next) => {
     if (key.startsWith('exp-')) {
       const experimentId = key.substring(4);
       const variantId = query[key];
-      console.log('adding visitor', experimentId, variantId);
+      // console.log('adding visitor', experimentId, variantId);
       addVisitor({ experimentId, variantId });
     }
   }
