@@ -3,13 +3,13 @@ import { createClient } from 'hooks/useClient';
 const { VITE_EXPERIMENTS_URL } = import.meta.env;
 const WEBSITES_TO_LISTEN = [];
 
-export const setupSendToExperimentsServer = (experimentData, expVariantMap) => {
+export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) => {
   const experimentsClient = createClient(VITE_EXPERIMENTS_URL);
   const script = document.getElementById('pertentoScript');
   const websiteId = new URL(script.src).searchParams.get('website-id');
   const uuid = experimentData.uuid;
-  const expSearch = Object.keys(expVariantMap)
-    .map((key) => `&exp-${key}=${expVariantMap[key]}`)
+  const expSearch = Object.keys(allExpVariantMap)
+    .map((key) => `&exp-${key}=${allExpVariantMap[key]}`)
     .join('');
   const experimentIds = Array.from(new URLSearchParams(expSearch).keys()).map((key) => +key.split('-').at(1));
 
@@ -52,7 +52,7 @@ export const setupSendToExperimentsServer = (experimentData, expVariantMap) => {
       .filter(Boolean)
       .map((item) => item.match(/exp\-(\d+)/)[1])
       .filter((item) => !!localStorage.getItem(`PERTENTO-VISITED-${item}`))
-      .map((item) => `&exp-${item}=${expVariantMap[item]}`)
+      .map((item) => `&exp-${item}=${allExpVariantMap[item]}`)
       .join('&');
 
     url += theExpSearch;
