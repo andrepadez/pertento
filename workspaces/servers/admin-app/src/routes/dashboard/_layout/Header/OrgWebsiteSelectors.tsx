@@ -1,7 +1,7 @@
 import { stringifyFunction } from 'helpers/stringify-function';
 
-export const OrgWebsiteSelectors = ({ c }) => {
-  const { companies, company, website } = c.var;
+export const OrgWebsiteSelectors = ({ ctx }) => {
+  const { companies, company, website } = ctx.var;
   const { websites } = company;
 
   const onChangeOrg = function () {
@@ -36,7 +36,7 @@ export const OrgWebsiteSelectors = ({ c }) => {
         prop="friendlyName"
         onChange={onChangeOrg}
         options={companies}
-        selected={companies.find((c) => c.id === company.id)}
+        selected={companies.find((comp) => comp.id === company.id)}
       />
       <Selector
         name="websites"

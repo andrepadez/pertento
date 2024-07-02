@@ -1,9 +1,9 @@
 const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 
-export const nextUrlMiddleware = async (c, next) => {
-  const url = new URL(c.req.url);
+export const nextUrlMiddleware = async (ctx, next) => {
+  const url = new URL(ctx.req.url);
   url.protocol = isProduction ? 'https' : 'http';
-  c.set('nextUrl', url);
+  ctx.set('nextUrl', url);
   return next();
 };

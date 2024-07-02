@@ -52,13 +52,13 @@ const SigninForm = ({ email = '', errors }) => {
   );
 };
 
-authSigninRouter.get('/', async (c) => {
-  return c.render(<SigninForm />);
+authSigninRouter.get('/', async (ctx) => {
+  return ctx.render(<SigninForm />);
 });
 
-authSigninRouter.post('/', async (c) => {
-  const { email, password } = await c.req.parseBody();
-  let session = c.get('session');
+authSigninRouter.post('/', async (ctx) => {
+  const { email, password } = await ctx.req.parseBody();
+  let session = ctx.get('session');
 
   const dbUser = await db.query.Users.findFirst({
     where: eq(Users.email, email),
@@ -66,22 +66,22 @@ authSigninRouter.post('/', async (c) => {
   });
 
   // const passkeys = await db.query.Passkeys.findMany({
-  //   where: and(eq(Passkeys.email, email), eq(Passkeys.origin, c.origin)),
+  //   where: and(eq(Passkeys.email, email), eq(Passkeys.origin, ctx.origin)),
   // });
 
   if (!dbUser) {
-    c.status(401);
-    return c.render(<SigninForm email={email} />);
+    ctx.status(401);
+    return ctx.render(<SigninForm email={email} />);
   }
   const { status } = dbUser;
   if (status !== 'Active') {
-    c.status(401);
-    return c.render(<SigninForm email={email} />);
+    ctx.status(401);
+    return ctx.render(<SigninForm email={email} />);
   }
   const isValidPassword = await argon2.verify(dbUser.password, password);
   if (!isValidPassword) {
-    c.status(401);
-    return c.render(<SigninForm email={email} />);
+    ctx.status(401);
+    return ctx.render(<SigninForm email={email} />);
   }
 
   const { id, companyId, parentCompanyId, avatar, firstName, lastName, role } = dbUser;
@@ -105,12 +105,8 @@ authSigninRouter.post('/', async (c) => {
   session.set('csrf', csrf);
 
   // // if (passkeys.length > 0) {
-  // //   return c.json({ user: tokenUser });
+  // //   return ctx.json({ user: tokenUser });
   // // }
 
-  // const token = await sign(tokenUser);
-
-  // setCookie(c, 'bearer_token', token);
-
-  return c.redirect('/');
+  return ctx.redirect('/');
 });

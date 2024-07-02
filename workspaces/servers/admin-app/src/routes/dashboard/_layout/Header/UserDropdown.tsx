@@ -1,8 +1,8 @@
 import { Details } from '@/Components/Details';
 import LINKS from '../links.json';
 
-export const UserDropdown = ({ c, user }) => {
-  const { company, website } = c.var;
+export const UserDropdown = ({ ctx, user }) => {
+  const { company, website } = ctx.var;
   const qs = `?org=${company.id}&ws=${website.id}`;
 
   return (

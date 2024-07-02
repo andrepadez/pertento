@@ -1,33 +1,20 @@
 import { db, eq, Websites, Companies } from 'pertentodb';
-import { TOKENS, COMPANIES } from '@/cache';
+import { companiesCache } from '@/cache';
 const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 
-export const orgAndWebsiteMiddleware = async (c, next) => {
-  const { user, token } = c.var;
-  const referer = c.req.header('referer');
-  const refererUrl = referer && new URL(c.req.header('referer'));
-  const org = c.req.query('org') || refererUrl?.searchParams.get('org');
-  const ws = c.req.query('ws') || refererUrl?.searchParams.get('ws');
+export const orgAndWebsiteMiddleware = async (ctx, next) => {
+  const { user, token } = ctx.var;
+  const referer = ctx.req.header('referer');
+  const refererUrl = referer && new URL(ctx.req.header('referer'));
+  const org = ctx.req.query('org') || refererUrl?.searchParams.get('org');
+  const ws = ctx.req.query('ws') || refererUrl?.searchParams.get('ws');
 
   const isAgency = !user.parentCompanyId;
 
-  let key = TOKENS.get(token);
-  if (!key) {
-    key = Symbol(token);
-    TOKENS.set(token, key);
-    setTimeout(
-      () => {
-        TOKENS.delete(token);
-        COMPANIES.delete(key);
-      },
-      1000 * 60 * 60,
-    );
-  }
+  let companies = companiesCache.get(user.companyId);
 
-  let companies = COMPANIES.get(key);
   if (!companies) {
-    console.log('querying database for companies');
     if (isAgency) {
       companies = await db.query.Companies.findMany({
         where: eq(Companies.parentCompanyId, user.companyId),
@@ -52,18 +39,18 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
     }
   }
 
-  COMPANIES.set(key, companies);
+  companiesCache.set(user.companyId, companies);
 
-  c.set(isAgency ? 'companies' : 'company', companies);
+  ctx.set(isAgency ? 'companies' : 'company', companies);
 
   if (!org) {
-    const url = new URL(c.req.url);
+    const url = new URL(ctx.req.url);
     url.searchParams.set('org', companies[0].id);
     url.searchParams.set('ws', companies[0].websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
-    return c.redirect(url.toString());
+    return ctx.redirect(url.toString());
   } else if (!ws) {
-    const url = new URL(c.req.url);
+    const url = new URL(ctx.req.url);
     url.protocol = isProduction ? 'https' : 'http';
     const company = companies.find((company) => company.id === +org);
     url.searchParams.set('ws', company?.websites[0]?.id);
@@ -71,8 +58,8 @@ export const orgAndWebsiteMiddleware = async (c, next) => {
   } else {
     const company = companies.find((company) => company.id === +org);
     const website = company.websites.find((website) => website.id === +ws) || company.websites[0];
-    c.set('company', company);
-    c.set('website', website);
+    ctx.set('company', company);
+    ctx.set('website', website);
   }
   return next();
 };

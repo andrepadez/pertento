@@ -3,10 +3,10 @@ import { sign, verify } from 'jwt';
 import { sendMail } from 'emailer';
 const { VITE_DASHBOARD_URL } = process.env;
 
-export const forgotPasswordHandler = async (c) => {
-  const { email, testing } = c.req.body;
+export const forgotPasswordHandler = async (ctx) => {
+  const { email, testing } = ctx.req.body;
   const dbUser = await db.query.Users.findFirst({ where: eq(Users.email, email) });
-  if (!dbUser) return c.json({ ok: true });
+  if (!dbUser) return ctx.json({ ok: true });
   const verificationCode = await sign({ id: dbUser.id, email }, '6h');
   const url = `${VITE_DASHBOARD_URL}/auth/reset-password?verificationCode=${verificationCode}`;
 
@@ -19,5 +19,5 @@ export const forgotPasswordHandler = async (c) => {
     });
   }
 
-  return c.json({ verificationCode });
+  return ctx.json({ verificationCode });
 };

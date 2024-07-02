@@ -3,8 +3,8 @@ import { Details } from '@/Components/Details';
 import { OrgWebsiteSelectors } from './OrgWebsiteSelectors';
 import { UserDropdown } from './UserDropdown';
 
-export const Header = ({ c, user, url }) => {
-  const { company, website } = c.var;
+export const Header = ({ ctx, user, url }) => {
+  const { company, website } = ctx.var;
   return (
     <header class="fixed z-50 w-full">
       <div>
@@ -18,14 +18,14 @@ export const Header = ({ c, user, url }) => {
               <i class="size-4 text-white transition-all group-open:rotate-180" data-lucide="chevron-down" />
             </summary>
             <div className="fixed left-0 top-16 flex w-[100vw] justify-center bg-[#101828]">
-              <OrgWebsiteSelectors c={c} url={url} />
+              <OrgWebsiteSelectors ctx={ctx} url={url} />
             </div>
           </Details>
           <div className="justify-center flex-1 hidden text-center lg:block">
-            <OrgWebsiteSelectors c={c} url={url} />
+            <OrgWebsiteSelectors ctx={ctx} url={url} />
           </div>
           <div class="flex flex-1 justify-end">
-            <UserDropdown c={c} user={user} />
+            <UserDropdown ctx={ctx} user={user} />
           </div>
         </div>
       </div>

@@ -5,11 +5,11 @@ import { sendMail } from 'emailer';
 
 const { VITE_DASHBOARD_URL } = process.env;
 
-export const signupHandler = async (c) => {
+export const signupHandler = async (ctx) => {
   const now = Date.now().valueOf();
   const newUser = {
-    ...c.req.body,
-    password: await argon2.hash(c.req.body.password),
+    ...ctx.req.body,
+    password: await argon2.hash(ctx.req.body.password),
     status: 'Unverified',
     role: 'Owner',
     createdAt: now,
@@ -17,7 +17,7 @@ export const signupHandler = async (c) => {
   };
 
   const [{ dbUserId }] = await db.insert(Users).values(newUser).returning({ dbUserId: Users.id });
-  const { companyName: name, companyType: type } = c.req.body;
+  const { companyName: name, companyType: type } = ctx.req.body;
   const newCompany = { name, type, createdAt: now, updatedAt: now };
   newCompany.parentCompanyId = 0;
   newCompany.ganAccountId = 0;
@@ -30,7 +30,7 @@ export const signupHandler = async (c) => {
 
   const url = `${VITE_DASHBOARD_URL}/auth/verify?verificationCode=${verificationCode}`;
 
-  if (!c.req.body.testing) {
+  if (!ctx.req.body.testing) {
     sendMail({
       to: newUser.email,
       subject: 'Email Confirmation - Pertento.ai',
@@ -43,5 +43,5 @@ export const signupHandler = async (c) => {
     where: eq(Users.email, newUser.email),
   });
 
-  return c.json({ ok: true, verificationCode, user });
+  return ctx.json({ ok: true, verificationCode, user });
 };

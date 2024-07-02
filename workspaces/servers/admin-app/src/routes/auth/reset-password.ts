@@ -3,8 +3,8 @@ import { sign, verify } from 'jwt';
 import argon2 from 'argon2';
 import * as errors from 'custom-errors';
 
-export const resetPasswordHandler = async (c) => {
-  const { password, verificationCode, status } = c.req.body;
+export const resetPasswordHandler = async (ctx) => {
+  const { password, verificationCode, status } = ctx.req.body;
 
   const userInfo = await verify(verificationCode);
   if (!userInfo) throw errors.UNAUTHORIZED();
@@ -14,5 +14,5 @@ export const resetPasswordHandler = async (c) => {
     .set({ password: passwordHash, status: status || 'Active' })
     .where(eq(Users.id, userInfo.id));
 
-  return c.json({ ok: true });
+  return ctx.json({ ok: true });
 };

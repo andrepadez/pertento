@@ -5,40 +5,40 @@ import * as errors from 'custom-errors';
 
 const { VITE_DASHBOARD_URL } = process.env;
 
-export const inviteUserHandler = async (c) => {
-  const { id: invitedBy } = c.user;
+export const inviteUserHandler = async (ctx) => {
+  const { id: invitedBy } = ctx.user;
   const now = Date.now().valueOf();
-  const values = { ...c.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
+  const values = { ...ctx.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
 
   return db.transaction(async (tx) => {
     const existingUser = await db.query.Users.findFirst({
-      where: eq(Users.email, c.req.body.email),
+      where: eq(Users.email, ctx.req.body.email),
     });
     let dbUserId = null;
     if (existingUser) {
       throw errors.USER_ALREADY_EXISTS();
     } else {
-      const newUser = { ...c.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
+      const newUser = { ...ctx.req.body, status: 'Invited', invitedBy, createdAt: now, updatedAt: now };
       await db.insert(Users).values(values);
       const dbUser = await db.query.Users.findFirst({
-        where: eq(Users.email, c.req.body.email),
+        where: eq(Users.email, ctx.req.body.email),
         with: { company: true, inviter: true },
       });
-      const verificationCode = await sendInvite(dbUser, c.req.body.testing);
-      return c.json({ ok: true, verificationCode });
+      const verificationCode = await sendInvite(dbUser, ctx.req.body.testing);
+      return ctx.json({ ok: true, verificationCode });
     }
   });
 };
 
-export const resendInvitationHandler = async (c) => {
-  const { email } = c.req.body;
+export const resendInvitationHandler = async (ctx) => {
+  const { email } = ctx.req.body;
   const dbUser = await db.query.Users.findFirst({
-    where: eq(Users.email, c.req.body.email),
+    where: eq(Users.email, ctx.req.body.email),
     with: { company: true, inviter: true },
   });
   if (!dbUser) throw errors.NOT_FOUND();
-  const verificationCode = await sendInvite(dbUser, c.req.body.testing);
-  return c.json({ ok: true, verificationCode });
+  const verificationCode = await sendInvite(dbUser, ctx.req.body.testing);
+  return ctx.json({ ok: true, verificationCode });
 };
 
 const sendInvite = async (dbUser, isTesting) => {

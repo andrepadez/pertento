@@ -1,8 +1,8 @@
 import { cn } from 'helpers/cn';
 import LINKS from '../links.json';
 
-export const Footer = ({ c, user, url }) => {
-  const { company, website } = c.var;
+export const Footer = ({ ctx, user, url }) => {
+  const { company, website } = ctx.var;
   const qs = `?org=${company.id}&ws=${website.id}`;
 
   return (

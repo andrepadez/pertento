@@ -2,32 +2,30 @@ import { Hono } from 'hono-server';
 import { experimentsMiddleware } from '@/middlewares/experiments';
 import { db, eq, asc, count, isNull, isNotNull, and, desc, Experiments } from 'pertentodb';
 import { cn } from 'helpers/cn';
-
 import { LazyLoader } from '@/Components/LazyLoader';
 import { DataTable } from '@/Components/DataTable';
 import { formatDateTime } from 'helpers/formatters';
-import { EXPERIMENTS } from '@/cache';
 
 const formatDateField = ({ value }) => formatDateTime(value) || 'Not Avaliable';
 
 export const experimentsRouter = new Hono();
 experimentsRouter.use(experimentsMiddleware);
 
-experimentsRouter.get('/', async (c) => {
-  const { view } = c.req.query();
+experimentsRouter.get('/', async (ctx) => {
+  const { view } = ctx.req.query();
   if (!view) {
-    const { nextUrl } = c.var;
+    const { nextUrl } = ctx.var;
     nextUrl.searchParams.set('view', 'All');
-    return c.redirect(nextUrl.toString());
+    return ctx.redirect(nextUrl.toString());
   }
 
-  const url = new URL(c.req.url);
+  const url = new URL(ctx.req.url);
   url.pathname += '/list';
 
-  return c.render(
+  return ctx.render(
     <section class="mx-4 flex flex-col gap-1 lg:gap-5">
       <Header />
-      <ExperimentTabs c={c} />
+      <ExperimentTabs ctx={ctx} />
       <div class="">
         <LazyLoader url={url.toString()} />
       </div>
@@ -35,9 +33,9 @@ experimentsRouter.get('/', async (c) => {
   );
 });
 
-experimentsRouter.get('/list', async (c) => {
-  const { experiments, nextUrl } = c.var;
-  const { view, pageSize = 7, page = 1, orderBy = 'status', order = 'asc' } = c.req.query();
+experimentsRouter.get('/list', async (ctx) => {
+  const { experiments, nextUrl } = ctx.var;
+  const { view, pageSize = 7, page = 1, orderBy = 'status', order = 'asc' } = ctx.req.query();
 
   const experimentContainer = experiments[view.replace(/s$/, '')];
 
@@ -59,7 +57,7 @@ experimentsRouter.get('/list', async (c) => {
     })
     .slice((page - 1) * pageSize, page * pageSize);
 
-  return c.html(
+  return ctx.html(
     <div class="flex flex-col gap-10">
       <DataTable
         data={data}
@@ -76,7 +74,11 @@ experimentsRouter.get('/list', async (c) => {
             label: 'Name',
             field: 'name',
             sortKey: 'name',
-            // format: ({ row }) => <a href={`/experiments/${row.id}`}>{row.name}</a>,
+            format: ({ row }) => (
+              <a class="no-underline focus:no-underline" href={`/experiments/${row.id}`}>
+                {row.name}
+              </a>
+            ),
           },
           {
             label: 'Sessions',
@@ -99,9 +101,9 @@ experimentsRouter.get('/list', async (c) => {
   );
 });
 
-const ExperimentTabs = ({ c }) => {
-  const { nextUrl, experiments } = c.var;
-  const { view } = c.req.query();
+const ExperimentTabs = ({ ctx }) => {
+  const { nextUrl, experiments } = ctx.var;
+  const { view } = ctx.req.query();
   const urlStr = nextUrl.toString();
 
   return (

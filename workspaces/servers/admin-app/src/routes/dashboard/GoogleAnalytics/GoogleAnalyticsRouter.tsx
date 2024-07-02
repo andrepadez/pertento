@@ -9,11 +9,11 @@ export const googleAnalyticsRouter = new Hono();
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-googleAnalyticsRouter.get('/', async (c) => {
-  const url = new URL(c.req.url);
+googleAnalyticsRouter.get('/', async (ctx) => {
+  const url = new URL(ctx.req.url);
   url.pathname += '/list';
 
-  return c.render(
+  return ctx.render(
     <section class="mx-auto">
       <Header />
       <div class="mx-4">
@@ -23,11 +23,12 @@ googleAnalyticsRouter.get('/', async (c) => {
   );
 });
 
-googleAnalyticsRouter.get('/list', async (c) => {
-  const { pageSize = 4, page = 1, orderBy, order = 'asc' } = c.req.query();
+googleAnalyticsRouter.get('/list', async (ctx) => {
+  const { nextUrl } = ctx.var;
+  const { pageSize = 4, page = 1, orderBy, order = 'asc' } = ctx.req.query();
   const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
-    where: eq(GanOauth.companyId, c.get('user').companyId),
+    where: eq(GanOauth.companyId, ctx.get('user').companyId),
     orderBy: orderBy ? sorter(GanOauth[orderBy]) : sorter(GanOauth.name),
     limit: pageSize,
     offset: (page - 1) * pageSize,
@@ -36,13 +37,13 @@ googleAnalyticsRouter.get('/list', async (c) => {
   const [{ count: total }] = await db
     .select({ count: count() })
     .from(GanOauth)
-    .where(eq(GanOauth.companyId, c.get('user').companyId));
+    .where(eq(GanOauth.companyId, ctx.get('user').companyId));
 
-  return c.html(
+  return ctx.html(
     <DataTable
       uniqueKey="email"
       data={oAuthAccounts}
-      url={new URL(c.req.url)}
+      url={nextUrl}
       pageSize={+pageSize || null}
       page={+page || null}
       orderBy={orderBy}
@@ -104,51 +105,6 @@ const Header = () => {
           <i data-lucide="plus"></i>
           <span>Connect a Google account</span>
         </button>
-      </div>
-    </div>
-  );
-};
-
-const Tabs = () => {
-  return (
-    <div class="mt-6 md:flex md:items-center md:justify-between">
-      <div class="inline-flex divide-x overflow-hidden rounded-lg border bg-white rtl:flex-row-reverse dark:divide-gray-700 dark:border-gray-700 dark:bg-gray-900">
-        <button class="bg-gray-100 px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 sm:text-sm dark:bg-gray-800 dark:text-gray-300">
-          View all
-        </button>
-
-        <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 sm:text-sm dark:text-gray-300 dark:hover:bg-gray-800">
-          Monitored
-        </button>
-
-        <button class="px-5 py-2 text-xs font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-100 sm:text-sm dark:text-gray-300 dark:hover:bg-gray-800">
-          Unmonitored
-        </button>
-      </div>
-
-      <div class="relative mt-4 flex items-center md:mt-0">
-        <span class="absolute">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke-width="1.5"
-            stroke="currentColor"
-            class="mx-3 h-5 w-5 text-gray-400 dark:text-gray-600"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-            />
-          </svg>
-        </span>
-
-        <input
-          type="text"
-          placeholder="Search"
-          class="block w-full rounded-lg border border-gray-200 bg-white py-1.5 pl-11 pr-5 text-gray-700 placeholder-gray-400/70 focus:border-blue-400 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-40 md:w-80 rtl:pl-5 rtl:pr-11 dark:border-gray-600 dark:bg-gray-900 dark:text-gray-300 dark:focus:border-blue-300"
-        />
       </div>
     </div>
   );

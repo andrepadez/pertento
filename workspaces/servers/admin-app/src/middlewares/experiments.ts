@@ -1,12 +1,12 @@
 import { db, eq, asc, count, isNull, isNotNull, and, desc, Experiments } from 'pertentodb';
-import { EXPERIMENTS } from '@/cache';
+import { experimentsCache } from '@/cache';
 
-export const experimentsMiddleware = async (c, next) => {
-  const { website } = c.var;
+export const experimentsMiddleware = async (ctx, next) => {
+  const { website } = ctx.var;
 
-  if (EXPERIMENTS.has(website.id)) {
-    const experiments = EXPERIMENTS.get(website.id);
-    c.set('experiments', experiments);
+  if (experimentsCache.has(website.id)) {
+    const experiments = experimentsCache.get(website.id);
+    ctx.set('experiments', experiments);
     return next();
   }
 
@@ -30,8 +30,8 @@ export const experimentsMiddleware = async (c, next) => {
     { All: [], Archived: [], Running: [], Draft: [], Ended: [], total: dbExperiments.length },
   );
 
-  EXPERIMENTS.set(website.id, experiments);
-  c.set('experiments', experiments);
+  experimentsCache.set(website.id, experiments);
+  ctx.set('experiments', experiments);
 
   return next();
 };

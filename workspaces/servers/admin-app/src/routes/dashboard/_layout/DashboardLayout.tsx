@@ -2,7 +2,7 @@ import { jsxRenderer } from 'hono-server';
 import { Header } from './Header';
 import { Footer } from './Footer';
 
-export const DashboardLayout = ({ children, c, user, url }) => {
+export const DashboardLayout = ({ children, ctx, user, url }) => {
   return (
     <html lang="en">
       <head>
@@ -15,9 +15,9 @@ export const DashboardLayout = ({ children, c, user, url }) => {
         <script src="https://unpkg.com/lucide@latest"></script>
       </head>
       <body class="bg-[#101828]">
-        <Header c={c} user={user} url={url} />
+        <Header ctx={ctx} user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 py-20">{children}</main>
-        <Footer c={c} user={user} url={url} />
+        <Footer ctx={ctx} user={user} url={url} />
         <script>lucide.createIcons();</script>
       </body>
     </html>
@@ -25,10 +25,10 @@ export const DashboardLayout = ({ children, c, user, url }) => {
 };
 
 export const dashboardRenderer = jsxRenderer(
-  (props, c) => {
-    const user = c.get('user');
+  (props, ctx) => {
+    const user = ctx.get('user');
     return (
-      <DashboardLayout c={c} user={c.get('user')} url={new URL(c.req.url)}>
+      <DashboardLayout ctx={ctx} user={ctx.get('user')} url={new URL(ctx.req.url)}>
         {props.children}
       </DashboardLayout>
     );
