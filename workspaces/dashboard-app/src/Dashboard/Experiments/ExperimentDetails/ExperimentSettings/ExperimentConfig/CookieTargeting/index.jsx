@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from 'shadcn/card';
 import { Button } from 'shadcn/button';
+import { Label } from 'shadcn/label';
 import { Badge } from 'shadcn/badge';
 import { Separator } from 'shadcn/separator';
 import { Pencil, Trash2 } from 'lucide-react';
@@ -13,6 +14,8 @@ export const CookieTargeting = ({ experimentId }) => {
   const manager = useCookieTargeting(experimentId);
   const { cookieTargeting, deleteCookieTargeting } = manager;
   const [addOrEditTarget, setAddOrEditTarget] = useState(null);
+
+  console.log('cookieTargeting', cookieTargeting);
 
   if (!experiment || !cookieTargeting) return null;
 
@@ -27,22 +30,23 @@ export const CookieTargeting = ({ experimentId }) => {
           <Separator className="mt-4" />
         </div>
         <div className="flex flex-col justify-center flex-1 gap-8">
-          {[]?.map((item, idx) => (
-            <div key={item.id} className="flex items-center gap-10">
-              <div className="w-48 text-center">
-                <Badge variant="outline" className="px-10 py-2 bg-gray-200 rounded-sm dark:bg-gray-500">
-                  {item.device}
-                </Badge>
+          {cookieTargeting?.map((item, idx) => (
+            <div key={item.id} className="flex items-center justify-between w-full">
+              <Label>{item.cookieName}</Label>
+              <div>
+                {item.cookieValues.map((value, idx) => (
+                  <Badge key={value} variant="outline" className="px-10 py-2 bg-gray-200 rounded-sm dark:bg-gray-500">
+                    {value}
+                  </Badge>
+                ))}
               </div>
-              <div className="flex gap-4">
-                <Trash2 className="cursor-pointer" onClick={() => deleteDeviceTargeting(item.id)} />
-              </div>
+              <Trash2 className="cursor-pointer" onClick={() => deleteCookieTargeting(item.id)} />
             </div>
           ))}
         </div>
       </CardContent>
       <CardFooter className="end">
-        <Button className="font-bold" variant="ghost" onClick={() => setAddOrEditTarget({})}>
+        <Button className="font-bold" variant="ghost" onClick={() => setAddOrEditTarget(cookieTargeting.at(0) || {})}>
           Set Cookie targeting
         </Button>
       </CardFooter>

@@ -12,9 +12,8 @@ export const useCookieTargeting = (experimentId) => {
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', experimentId] });
   };
 
-  const addCookieTargeting = async (device) => {
-    const payload = { device, experimentId };
-    await apiClient.post(`/cookie-targeting`, payload);
+  const addCookieTargeting = async (payload) => {
+    await apiClient.post(`/cookie-targeting`, { ...payload, experimentId });
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', experimentId] });
   };
 

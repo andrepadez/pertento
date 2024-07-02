@@ -6,9 +6,12 @@ import { useForm } from 'hooks/useForm';
 
 export const CookieTargetingDialog = ({ item, manager, experiment, onClose }) => {
   const { cookieTargeting, addCookieTargeting } = manager;
-  const { formRef, state, update } = useForm(item);
+  const { formRef, state, update } = useForm({
+    ...item,
+    cookieValues: item?.cookieValues?.join('\n'),
+  });
 
-  console.log(cookieTargeting);
+  console.log('state', state);
 
   const onConfirm = async (ev) => {
     ev.preventDefault();
@@ -16,8 +19,12 @@ export const CookieTargetingDialog = ({ item, manager, experiment, onClose }) =>
     onClose();
   };
 
+  const { cookieName, cookieValues } = state;
+
+  const isDisabled = !cookieName || !cookieValues;
+
   return (
-    <ConfirmDialog title="Add Device Targeting" onConfirm={onConfirm} onClose={onClose} disabled={!state.device}>
+    <ConfirmDialog title="Add Device Targeting" onConfirm={onConfirm} onClose={onClose} disabled={isDisabled}>
       <form className="flex flex-col gap-5" ref={formRef} onSubmit={onConfirm}>
         <div className="grid grid-cols-2 gap-8">
           <Label className="flex flex-col gap-3">
@@ -30,7 +37,7 @@ export const CookieTargetingDialog = ({ item, manager, experiment, onClose }) =>
           </Label>
           <Label className="flex flex-col gap-3">
             <span>Possible values:</span>
-            <Textarea name="cookieValues" className="min-h-96" />
+            <Textarea name="cookieValues" defaultValue={state.cookieValues} className="min-h-96" />
           </Label>
         </div>
       </form>
