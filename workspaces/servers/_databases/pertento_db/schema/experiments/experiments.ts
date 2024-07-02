@@ -3,7 +3,8 @@ import { bigint, bigserial } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { EXPERIMENT_STATUSES } from 'misc';
 import { Websites } from '../websites';
-import { Variants, DeviceTargeting, UrlTargeting, ActivityLog, VisitorCount } from './';
+import { Variants, ActivityLog, VisitorCount } from './';
+import { CookieTargeting, DeviceTargeting, UrlTargeting } from './';
 
 export const experimentStatusEnum = pgEnum('status', EXPERIMENT_STATUSES);
 
@@ -33,6 +34,7 @@ export const ExperimentsRelations = relations(Experiments, ({ many, one }) => ({
   }),
   deviceTargeting: many(DeviceTargeting),
   urlTargeting: many(UrlTargeting),
+  cookieTargeting: many(CookieTargeting),
   variants: many(Variants),
   activityLog: many(ActivityLog),
   visitorCounts: many(VisitorCount),

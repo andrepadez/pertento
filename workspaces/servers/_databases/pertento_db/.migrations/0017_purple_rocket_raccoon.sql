@@ -1,0 +1,1 @@
+ALTER TABLE "cookie_targeting" DROP COLUMN IF EXISTS "cookie_values";

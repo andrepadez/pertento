@@ -1,0 +1,1 @@
+ALTER TABLE "cookie_targeting" ADD COLUMN "cookie_values" json;

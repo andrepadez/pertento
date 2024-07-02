@@ -2,6 +2,7 @@ import { VariantsConfig } from './VariantsConfig';
 import { GoalsConfig } from './GoalsConfig';
 import { UrlTargeting } from './UrlTargeting';
 import { DeviceTargeting } from './DeviceTargeting';
+import { CookieTargeting } from './CookieTargeting';
 import { ActivityLog } from './ActivityLog';
 
 export const ExperimentConfig = ({ experiment }) => {
@@ -10,7 +11,10 @@ export const ExperimentConfig = ({ experiment }) => {
       <VariantsConfig experimentId={experiment.id} />
       <GoalsConfig experimentId={experiment.id} />
       <UrlTargeting experimentId={experiment.id} />
-      <DeviceTargeting experimentId={experiment.id} />
+      <div className="flex gap-5">
+        <DeviceTargeting experimentId={experiment.id} />
+        <CookieTargeting experimentId={experiment.id} />
+      </div>
       <ActivityLog experimentId={experiment.id} />
     </div>
   );
