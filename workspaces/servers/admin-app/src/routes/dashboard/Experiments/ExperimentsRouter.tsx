@@ -104,6 +104,7 @@ experimentsRouter.get('/list', async (ctx) => {
 const ExperimentTabs = ({ ctx }) => {
   const { nextUrl, experiments } = ctx.var;
   const { view } = ctx.req.query();
+  nextUrl.searchParams.set('page', '1');
   const urlStr = nextUrl.toString();
 
   return (
@@ -111,7 +112,7 @@ const ExperimentTabs = ({ ctx }) => {
       <ul class="-mb-px flex items-center gap-4 font-medium">
         <li class="flex-1">
           <a
-            href={nextUrl.toString().replace(/view\=\w+/, 'view=All')}
+            href={urlStr.replace(/view\=\w+/, 'view=All')}
             class={cn(
               'relative flex items-center justify-center gap-2 px-1 py-3 text-sm text-gray-500 after:absolute after:bottom-0 after:left-0 after:h-0.5 hover:text-blue-700 lg:text-base',
               view === 'All' && 'text-blue-700 after:w-full after:bg-blue-700',
@@ -125,7 +126,7 @@ const ExperimentTabs = ({ ctx }) => {
         </li>
         <li class="flex-1">
           <a
-            href={nextUrl.toString().replace(/view\=\w+/, 'view=Running')}
+            href={urlStr.replace(/view\=\w+/, 'view=Running')}
             class={cn(
               'relative flex items-center justify-center gap-2 px-1 py-3 text-sm text-gray-500 after:absolute after:bottom-0 after:left-0 after:h-0.5 hover:text-blue-700 lg:text-base',
               view === 'Running' && 'text-blue-700 after:w-full after:bg-blue-700',
@@ -139,7 +140,7 @@ const ExperimentTabs = ({ ctx }) => {
         </li>
         <li class="flex-1">
           <a
-            href={nextUrl.toString().replace(/view\=\w+/, 'view=Drafts')}
+            href={urlStr.replace(/view\=\w+/, 'view=Drafts')}
             class={cn(
               'relative flex items-center justify-center gap-2 px-1 py-3 text-sm text-gray-500 after:absolute after:bottom-0 after:left-0 after:h-0.5 hover:text-blue-700 lg:text-base',
               view === 'Drafts' && 'text-blue-700 after:w-full after:bg-blue-700',
@@ -153,7 +154,7 @@ const ExperimentTabs = ({ ctx }) => {
         </li>
         <li class="flex-1">
           <a
-            href={nextUrl.toString().replace(/view\=\w+/, 'view=Ended')}
+            href={urlStr.replace(/view\=\w+/, 'view=Ended')}
             class={cn(
               'relative flex items-center justify-center gap-2 px-1 py-3 text-sm text-gray-500 after:absolute after:bottom-0 after:left-0 after:h-0.5 hover:text-blue-700 lg:text-base',
               view === 'Ended' && 'text-blue-700 after:w-full after:bg-blue-700',
@@ -167,7 +168,7 @@ const ExperimentTabs = ({ ctx }) => {
         </li>
         <li class="flex-1">
           <a
-            href={nextUrl.toString().replace(/view\=\w+/, 'view=Archived')}
+            href={urlStr.replace(/view\=\w+/, 'view=Archived')}
             class={cn(
               'relative flex items-center justify-center gap-2 px-1 py-3 text-sm text-gray-500 after:absolute after:bottom-0 after:left-0 after:h-0.5 hover:text-blue-700 lg:text-base',
               view === 'Archived' && 'text-blue-700 after:w-full after:bg-blue-700',

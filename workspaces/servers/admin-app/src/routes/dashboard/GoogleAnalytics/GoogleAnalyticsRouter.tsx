@@ -3,7 +3,6 @@ import { db, count, eq, asc, desc, GanOauth } from 'pertentodb';
 import { DataTable } from '@/Components/DataTable';
 import { LazyLoader } from '@/Components/LazyLoader';
 const { VITE_ADMIN_URL } = process.env;
-console.log(VITE_ADMIN_URL);
 
 export const googleAnalyticsRouter = new Hono();
 

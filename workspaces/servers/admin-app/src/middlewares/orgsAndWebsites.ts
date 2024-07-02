@@ -4,7 +4,7 @@ const { BUILD_ENV } = process.env;
 const isProduction = BUILD_ENV === 'production';
 
 export const orgAndWebsiteMiddleware = async (ctx, next) => {
-  const { user, token } = ctx.var;
+  const { user, token, nextUrl } = ctx.var;
   const referer = ctx.req.header('referer');
   const refererUrl = referer && new URL(ctx.req.header('referer'));
   const org = ctx.req.query('org') || refererUrl?.searchParams.get('org');
@@ -44,22 +44,39 @@ export const orgAndWebsiteMiddleware = async (ctx, next) => {
   ctx.set(isAgency ? 'companies' : 'company', companies);
 
   if (!org) {
-    const url = new URL(ctx.req.url);
+    const url = new URL(nextUrl);
     url.searchParams.set('org', companies[0].id);
     url.searchParams.set('ws', companies[0].websites[0]?.id);
     url.protocol = isProduction ? 'https' : 'http';
     return ctx.redirect(url.toString());
-  } else if (!ws) {
-    const url = new URL(ctx.req.url);
-    url.protocol = isProduction ? 'https' : 'http';
-    const company = companies.find((company) => company.id === +org);
-    url.searchParams.set('ws', company?.websites[0]?.id);
-    return c.redirect(url.toString());
   } else {
+    const url = new URL(nextUrl);
     const company = companies.find((company) => company.id === +org);
-    const website = company.websites.find((website) => website.id === +ws) || company.websites[0];
-    ctx.set('company', company);
-    ctx.set('website', website);
+    const websiteIsWs = company.websites.find((website) => website.id === +ws);
+    if (!websiteIsWs) {
+      const website = company.websites[0];
+      url.searchParams.set('org', org);
+      url.searchParams.set('ws', website.id);
+      return ctx.redirect(url.toString());
+    } else {
+      const website = company.websites.find((site) => site.id === +ws);
+      ctx.set('company', company);
+      ctx.set('website', website);
+      return next();
+    }
   }
   return next();
 };
+
+// if (ws) {
+//   const url = new URL(ctx.req.url);
+//   url.protocol = isProduction ? 'https' : 'http';
+//   const company = companies.find((company) => company.id === +org);
+//   url.searchParams.set('ws', company?.websites[0]?.id);
+//   // return ctx.redirect(url.toString());
+// } else {
+//   const company = companies.find((company) => company.id === +org);
+//   const website = company.websites.find((website) => website.id === +ws) || company.websites[0];
+//   ctx.set('company', company);
+//   ctx.set('website', website);
+// }

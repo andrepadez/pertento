@@ -1,7 +1,7 @@
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const OrgWebsiteSelectors = ({ ctx }) => {
-  const { companies, company, website } = ctx.var;
+  const { companies, company, website, nextUrl } = ctx.var;
   const { websites } = company;
 
   const onChangeOrg = function () {
@@ -15,7 +15,7 @@ export const OrgWebsiteSelectors = ({ ctx }) => {
     const url = new window.URL(window.location.href);
     url.searchParams.set('org', value);
     url.searchParams.delete('ws');
-    window.location.replace(url.toString());
+    window.location.href = url.toString();
   };
 
   const onChangeWebsite = function () {
