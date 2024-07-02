@@ -11,8 +11,6 @@ export const CookieTargetingDialog = ({ item, manager, experiment, onClose }) =>
     cookieValues: item?.cookieValues?.join('\n'),
   });
 
-  console.log('state', state);
-
   const onConfirm = async (ev) => {
     ev.preventDefault();
     await addCookieTargeting(state);

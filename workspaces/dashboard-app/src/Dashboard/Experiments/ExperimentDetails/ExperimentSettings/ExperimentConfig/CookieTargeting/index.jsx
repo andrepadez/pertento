@@ -15,8 +15,6 @@ export const CookieTargeting = ({ experimentId }) => {
   const { cookieTargeting, deleteCookieTargeting } = manager;
   const [addOrEditTarget, setAddOrEditTarget] = useState(null);
 
-  console.log('cookieTargeting', cookieTargeting);
-
   if (!experiment || !cookieTargeting) return null;
 
   return (
@@ -33,7 +31,7 @@ export const CookieTargeting = ({ experimentId }) => {
           {cookieTargeting?.map((item, idx) => (
             <div key={item.id} className="flex items-center justify-between w-full">
               <Label>{item.cookieName}</Label>
-              <div>
+              <div className="flex gap-2">
                 {item.cookieValues.map((value, idx) => (
                   <Badge key={value} variant="outline" className="px-10 py-2 bg-gray-200 rounded-sm dark:bg-gray-500">
                     {value}
