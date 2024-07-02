@@ -6,17 +6,15 @@ import { Separator } from 'shadcn/separator';
 import { Pencil, Trash2 } from 'lucide-react';
 import { CookieTargetingDialog } from './CookieTargetingDialog';
 import { useExperiment } from '@/state/experiments/useExperiment';
-import { useDeviceTargeting } from '@/state/experiments/useDeviceTargeting';
+import { useCookieTargeting } from '@/state/experiments/useCookieTargeting';
 
 export const CookieTargeting = ({ experimentId }) => {
   const { experiment } = useExperiment(experimentId);
-  const manager = useDeviceTargeting(experimentId);
-  const { deviceTargeting, deleteDeviceTargeting } = manager;
+  const manager = useCookieTargeting(experimentId);
+  const { cookieTargeting, deleteCookieTargeting } = manager;
   const [addOrEditTarget, setAddOrEditTarget] = useState(null);
 
-  if (!experiment || !deviceTargeting) return null;
-
-  const isAddDisabled = deviceTargeting.length >= 3 || deviceTargeting.find((item) => item.device === 'All');
+  if (!experiment || !cookieTargeting) return null;
 
   return (
     <Card className="flex flex-col">
@@ -44,8 +42,8 @@ export const CookieTargeting = ({ experimentId }) => {
         </div>
       </CardContent>
       <CardFooter className="end">
-        <Button disabled={isAddDisabled} className="font-bold" variant="ghost" onClick={() => setAddOrEditTarget({})}>
-          + Add more Cookie targeting
+        <Button className="font-bold" variant="ghost" onClick={() => setAddOrEditTarget({})}>
+          Set Cookie targeting
         </Button>
       </CardFooter>
       {!!addOrEditTarget && (

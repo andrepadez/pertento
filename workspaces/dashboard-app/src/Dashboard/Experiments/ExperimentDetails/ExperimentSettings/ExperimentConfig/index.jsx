@@ -11,7 +11,7 @@ export const ExperimentConfig = ({ experiment }) => {
       <VariantsConfig experimentId={experiment.id} />
       <GoalsConfig experimentId={experiment.id} />
       <UrlTargeting experimentId={experiment.id} />
-      <div className="flex gap-5">
+      <div className="grid grid-cols-2 gap-4">
         <DeviceTargeting experimentId={experiment.id} />
         <CookieTargeting experimentId={experiment.id} />
       </div>

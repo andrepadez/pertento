@@ -16,6 +16,7 @@ export const canExperiment = async (c, next) => {
       variants: { with: { changes: true, visitorCount: { columns: { count: true } }, experiment: {} } },
       activityLog: { with: { user: true }, orderBy: desc(ActivityLog.createdAt) },
       deviceTargeting: true,
+      cookieTargeting: true,
       urlTargeting: true,
     },
   });
