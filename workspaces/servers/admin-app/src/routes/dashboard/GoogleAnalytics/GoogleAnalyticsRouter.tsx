@@ -24,7 +24,7 @@ googleAnalyticsRouter.get('/', async (ctx) => {
 
 googleAnalyticsRouter.get('/list', async (ctx) => {
   const { nextUrl } = ctx.var;
-  const { pageSize = 4, page = 1, orderBy, order = 'asc' } = ctx.req.query();
+  const { pageSize = 5, page = 1, orderBy, order = 'asc' } = ctx.req.query();
   const sorter = order === 'asc' ? asc : desc;
   const oAuthAccounts = await db.query.GanOauth.findMany({
     where: eq(GanOauth.companyId, ctx.get('user').companyId),
@@ -43,8 +43,8 @@ googleAnalyticsRouter.get('/list', async (ctx) => {
       uniqueKey="email"
       data={oAuthAccounts}
       url={nextUrl}
-      pageSize={+pageSize || null}
-      page={+page || null}
+      pageSize={pageSize}
+      page={page}
       orderBy={orderBy}
       order={order}
       total={total}

@@ -5,7 +5,7 @@ import { Pagination } from './Pagination';
 import { cn } from 'helpers/cn';
 
 export const DataTable = (props) => {
-  const { data, url, pageSize, page, orderBy, order } = props;
+  const { data, url, pageSize, page, orderBy, order, total } = props;
   const columns = props.columns.filter(Boolean);
   return (
     <div hx-target="this" hx-swap="outerHTML">
@@ -24,7 +24,7 @@ export const DataTable = (props) => {
           })}
         </tbody>
       </Table>
-      {pageSize && <Pagination {...props} />}
+      {!(pageSize & (total > pageSize)) && <Pagination {...props} />}
       <script>lucide.createIcons();</script>
     </div>
   );
