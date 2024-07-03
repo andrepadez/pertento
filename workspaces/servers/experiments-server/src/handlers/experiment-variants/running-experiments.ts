@@ -11,7 +11,7 @@ const refreshRunningExperiments = async () => {
       variants: { with: { changes: true } },
       urlTargeting: { columns: { url: true, condition: true } },
       deviceTargeting: { columns: { device: true } },
-      cookieTargeting: { columns: { cookieName: true, cookieValues: true }
+      cookieTargeting: { columns: { cookieName: true, cookieValues: true } },
     },
   });
 
