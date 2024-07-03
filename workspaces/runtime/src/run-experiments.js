@@ -1,6 +1,7 @@
 import { log } from 'helpers/injector/console';
 import { applyChanges, applyGlobals } from 'helpers/injector/apply-changes';
 import { checkUrlTargeting } from 'helpers/url-match';
+import { matchCookieTargeting } from 'helpers/cookie-target-match';
 import { listenForUrlChange } from 'helpers/listen-for-url-changes';
 import { registerVisitor } from './register-visitor';
 let mutationObserver = null;
@@ -50,6 +51,7 @@ const getExperimentsByUrlTarget = (experimentData) => {
     log('variantId', expId, variantId);
     allExpVariantMap[expId] = variantId;
     if (!hasHitUrlTargeting) continue;
+    if (!matchCookieTargeting(document.cookie, experiment.cookieTargeting)) continue;
     experimentsToCount.push(experiment);
     expVariantMap[expId] = variantId;
 
