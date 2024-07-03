@@ -16,7 +16,7 @@ export const DashboardLayout = ({ children, ctx, user, url }) => {
       </head>
       <body class="bg-[#101828]">
         <Header ctx={ctx} user={user} url={url} />
-        <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 py-20">{children}</main>
+        <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 py-24">{children}</main>
         <Footer ctx={ctx} user={user} url={url} />
         <script>lucide.createIcons();</script>
       </body>
