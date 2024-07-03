@@ -1,7 +1,7 @@
 import { log } from 'helpers/injector/console';
 import { applyChanges, applyGlobals } from 'helpers/injector/apply-changes';
 import { checkUrlTargeting } from 'helpers/url-match';
-import { matchCookieTargeting } from 'helpers/cookie-target-match';
+import { matchCookieTargeting } from 'helpers/injector/cookie-target-match';
 import { listenForUrlChange } from 'helpers/listen-for-url-changes';
 import { registerVisitor } from './register-visitor';
 let mutationObserver = null;
