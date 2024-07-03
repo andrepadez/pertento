@@ -1,13 +1,13 @@
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const ButtonWithDialog = ({ children, action }) => {
-  const onClick = stringifyFunction(() => {
-    event.currentTarget.nextSibling.showModal();
+  const onClick = stringifyFunction((ev) => {
+    ev.currentTarget.nextSibling.showModal();
   });
 
-  const onCloseHandler = stringifyFunction(() => {
-    const modal = event.currentTarget;
-    const { clientX, clientY } = event;
+  const onCloseHandler = stringifyFunction((ev) => {
+    const modal = ev.currentTarget;
+    const { clientX, clientY } = ev;
     const { left, right, top, bottom } = modal.getBoundingClientRect();
     const isOnBackdrop = clientX < left || clientX > right || clientY < top || clientY > bottom;
     if (isOnBackdrop) {

@@ -1,9 +1,12 @@
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const Details = ({ children, ...props }) => {
-  const closeDetails = stringifyFunction(() => {
-    const details = document.querySelector('details[open]');
-    details?.removeAttribute('open');
+  const closeDetails = stringifyFunction((ev) => {
+    const details = ev.currentTarget;
+    const timeout = setTimeout(() => {
+      details?.removeAttribute('open');
+    }, 300);
+    details.addEventListener('mouseenter', () => clearTimeout(timeout), { once: true });
   });
 
   return (
