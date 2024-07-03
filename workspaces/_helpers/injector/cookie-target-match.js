@@ -6,8 +6,10 @@ export const matchCookieTargeting = (cookie, cookieTargeting) => {
   if (!cookie) return false;
 
   for (let targeting of cookieTargeting) {
-    if (cookie.includes(cookieTargeting.cookieValues)) {
-      return true;
+    for (let cookieValue of cookieTargeting.cookieValues) {
+      if (cookie.includes(cookieValue)) {
+        return true;
+      }
     }
   }
 
