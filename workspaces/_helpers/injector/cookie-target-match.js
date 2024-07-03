@@ -1,5 +1,7 @@
+import { log } from 'helpers/injector/console';
+
 export const matchCookieTargeting = (cookie, cookieTargeting) => {
-  console.log(checkingCookieTargeting, cookie, cookieTargeting);
+  log(checkingCookieTargeting, cookie, cookieTargeting);
   if (!cookieTargeting || cookieTargeting.length === 0) return true;
   if (!cookie) return false;
 
