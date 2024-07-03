@@ -18,8 +18,7 @@ const refreshRunningExperiments = async () => {
   const experimentMap = {};
 
   let i = 0;
-  for (let dbExperiment of dbExperiments) {
-    console.log('dbExperiment', i++, dbExperiment.cookieTargeting);
+  for (let dbExperiment of dbExperiments) {)
     const { id: websiteId, ganMeasurementId, serverContainerUrl } = dbExperiment.website;
     const { variants, deviceTargeting, cookieTargeting } = dbExperiment;
     const experiment = { ...dbExperiment };

@@ -50,6 +50,7 @@ export const experimentVariantsHandler = async (c) => {
       response.experiments[experiment.id] = {};
       const resExp = response.experiments[experiment.id];
       resExp.urlTargeting = experiment.urlTargeting;
+      resExp.cookieTargeting = experiment.cookieTargeting;
       resExp.changes = [...experiment.variants[variantId].changes];
       resExp.globalCSS = globalCSS;
       resExp.globalJavascript = globalJavascript;
