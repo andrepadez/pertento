@@ -54,5 +54,8 @@ const getExperimentsByUrlTarget = (experimentData) => {
     expVariantMap[expId] = variantId;
   }
 
+  log('Cookie Targeting:', experiment.cookieTargeting);
+  log('document.cookie:', document.cookie);
+
   return { expVariantMap, experimentsToCount, allExpVariantMap };
 };
