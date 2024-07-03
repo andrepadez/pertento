@@ -19,10 +19,11 @@ const refreshRunningExperiments = async () => {
 
   for (let dbExperiment of dbExperiments) {
     const { id: websiteId, ganMeasurementId, serverContainerUrl } = dbExperiment.website;
-    const { variants, deviceTargeting } = dbExperiment;
+    const { variants, deviceTargeting, cookieTargeting } = dbExperiment;
     const experiment = { ...dbExperiment };
     experiment.ganMeasurementId = ganMeasurementId;
     experiment.serverContainerUrl = serverContainerUrl;
+    experiment.cookieTargeting = cookieTargeting;
     experiment.variants = variants.reduce((acc, variant) => {
       acc[variant.id] = variant;
       return acc;
