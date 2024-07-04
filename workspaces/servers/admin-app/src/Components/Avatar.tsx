@@ -2,6 +2,7 @@ import { cn } from 'helpers/cn';
 
 export const Avatar = ({ person, alt, ...props }) => {
   const { avatar, firstName, lastName } = person;
+
   return avatar ? (
     <img class={cn('h-16 w-16 rounded-full', props.class)} src={avatar} />
   ) : (

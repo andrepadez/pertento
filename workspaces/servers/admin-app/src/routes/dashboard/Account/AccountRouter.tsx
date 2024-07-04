@@ -1,34 +1,17 @@
+import { unlink, exists } from 'node:fs/promises';
+import path from 'node:path';
 import { Hono } from 'hono-server';
+import { db, Users, eq } from 'pertentodb';
 import { Card } from '@/Components/Card';
-import { Button } from '@/Components/Button';
-import { Input } from '@/Components/Input';
-import { Label } from '@/Components/Label';
-import { Avatar } from '@/Components/Avatar';
-import { stringifyFunction } from 'helpers/stringify-function';
+import { AccountForm } from './AccountForm';
+import { UserDropdown } from '../_layout/Header/UserDropdown';
+import { User } from 'lucide-react';
 
 export const accountRouter = new Hono();
+const avatarsPath = path.resolve(__dirname, '../../../..', 'public');
 
 accountRouter.get('/', async (ctx) => {
   const { user } = ctx.var;
-  const { firstName, lastName, avatar } = user;
-
-  const handleChangeImage = stringifyFunction((ev) => {
-    const avatar = ev.currentTarget.parentNode.previousSibling;
-    const [newImage] = ev.target.files;
-    if (newImage) {
-      const imageUrl = window.URL.createObjectURL(newImage);
-      var reader = new window.FileReader();
-      reader.onloadend = function () {
-        const image = document.createElement('img');
-        image.src = reader.result;
-        image.className = 'w-16 h-16 rounded-full';
-        avatar.innerHTML = '';
-        avatar.appendChild(image);
-      };
-      reader.readAsDataURL(newImage);
-    }
-  });
-
   return ctx.render(
     <div class="grid gap-3">
       <h1 class="">Account</h1>
@@ -36,42 +19,44 @@ accountRouter.get('/', async (ctx) => {
         <div class="flex-1">
           <h3>Settings</h3>
         </div>
-        <div class="">
-          <div class="flex flex-1 flex-col gap-5">
-            <div class="flex items-center gap-5">
-              <div class="relative size-16">
-                <Avatar class="absolute" person={user}></Avatar>
-              </div>
-              <Button class="relative">
-                <Input
-                  class="absolute h-full w-full cursor-pointer opacity-0"
-                  onChange={handleChangeImage}
-                  type="file"
-                />
-                <span>Change</span>
-              </Button>
-              <Button onClick={() => setUserAvatar(null)} variant="destructive">
-                Delete
-              </Button>
-            </div>
-            <form class="flex flex-col gap-6">
-              <Label class="flex flex-col gap-2">
-                <span>Email address</span>
-                <Input disabled type="text" value={user.email} />
-              </Label>
-              <Label class="flex flex-col gap-2">
-                <span>First Name</span>
-                <Input type="text" name="firstName" value={user.firstName} />
-              </Label>
-              <Label class="flex flex-col gap-2">
-                <span>Last Name</span>
-                <Input type="text" name="lastName" value={user.lastName} />
-              </Label>
-              <Button>Save Changes</Button>
-            </form>
-          </div>
-        </div>
+        <AccountForm user={user} />
       </Card>
     </div>,
+  );
+});
+
+accountRouter.put('/', async (ctx) => {
+  const { avatar, firstName, lastName } = await ctx.req.parseBody();
+  const session = ctx.get('session');
+  const sessionUser = session.get('user');
+  const dbValues = { firstName, lastName };
+
+  if (avatar) {
+    const fileName = `/user-avatars/${crypto.randomUUID()}.${avatar.type.split('/')[1]}`;
+    await Bun.write(`public/${fileName}`, avatar);
+
+    const oldAvatar = sessionUser.avatar;
+    if (oldAvatar) {
+      const oldFilename = oldAvatar.slice(1);
+      const oldAvatarPath = path.resolve(avatarsPath, oldFilename);
+      const avatarExists = await exists(oldAvatarPath);
+      if (avatarExists) await unlink(oldAvatarPath);
+      dbValues.avatar = fileName;
+    }
+    sessionUser.avatar = fileName;
+  }
+
+  await db.update(Users).set(dbValues).where(eq(Users.id, sessionUser.id));
+
+  sessionUser.firstName = firstName;
+  sessionUser.lastName = lastName;
+  session.set('user', { ...sessionUser });
+  ctx.set('user', { ...sessionUser });
+
+  return ctx.html(
+    <>
+      <UserDropdown ctx={ctx} user={sessionUser} hx-swap-oob="outerHTML:#user-dropdown" />
+      <AccountForm user={ctx.get('user')} />
+    </>,
   );
 });

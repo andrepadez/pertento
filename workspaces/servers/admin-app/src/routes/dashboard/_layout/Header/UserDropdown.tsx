@@ -1,21 +1,16 @@
 import { Details } from '@/Components/Details';
+import { Avatar } from '@/Components/Avatar';
 import LINKS from '../links.json';
 
-export const UserDropdown = ({ ctx, user }) => {
+export const UserDropdown = ({ ctx, user, ...props }) => {
   const { company, website } = ctx.var;
   const qs = `?org=${company.id}&ws=${website.id}`;
 
   return (
-    <Details class="group list-none before:hidden">
+    <Details {...props} id="user-dropdown" class="group list-none before:hidden">
       <summary class="cursor-pointer list-none text-xl [&::-webkit-details-marker]:hidden">
         <div class="flex items-center justify-end gap-5 lg:w-96">
-          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-gray-100 lg:h-12 lg:w-12">
-            {user.avatar ? (
-              <img src={user.avatar} alt="avatar" />
-            ) : (
-              <i class="h-6 w-6 text-black lg:h-8 lg:w-8" data-lucide="user"></i>
-            )}
-          </div>
+          <Avatar person={user} />
           <div class="hidden flex-col lg:flex">
             <div class="text-sm text-gray-400">{user.company}</div>
             <div class="text-lg">{`${user.firstName} ${user.lastName}`}</div>

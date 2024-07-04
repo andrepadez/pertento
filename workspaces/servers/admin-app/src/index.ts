@@ -29,8 +29,7 @@ app.use(
 app.use('/*', serveStatic({ root: 'public/' }));
 app.route('/', appRouter);
 app.onError((err, c) => {
-  console.log(err.message);
-  console.log(err.stack);
+  console.log(err);
 });
 
 process.on('beforeExit', (code) => {

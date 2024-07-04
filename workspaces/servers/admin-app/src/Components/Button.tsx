@@ -1,7 +1,6 @@
 import { cn } from 'helpers/cn';
 
 export const Button = ({ children, variant = 'default', ...props }) => {
-  console.log('Button', variant, props);
   if (variant === 'destructive') return <ButtonDestructive {...props}>{children}</ButtonDestructive>;
 
   return (
