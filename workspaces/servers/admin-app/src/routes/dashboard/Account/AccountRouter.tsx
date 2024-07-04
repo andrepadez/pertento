@@ -55,8 +55,6 @@ accountRouter.put('/', async (ctx) => {
     session.set('user', { ...sessionUser });
     ctx.set('user', { ...sessionUser });
 
-    await wait(3000);
-
     return ctx.html(
       <>
         <UserDropdown ctx={ctx} user={sessionUser} hx-swap-oob="outerHTML:#user-dropdown" />
