@@ -1,11 +1,12 @@
-import { unlink, exists } from 'node:fs/promises';
-import path from 'node:path';
-import { Hono } from 'hono-server';
-import { db, Users, eq } from 'pertentodb';
 import { Card } from '@/Components/Card';
-import { AccountForm } from './AccountForm';
+import { Hono } from 'hono-server';
+import { exists, unlink } from 'node:fs/promises';
+import path from 'node:path';
+import { Users, db, eq } from 'pertentodb';
 import { UserDropdown } from '../_layout/Header/UserDropdown';
-import { User } from 'lucide-react';
+import { AccountForm } from './AccountForm';
+
+const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 export const accountRouter = new Hono();
 const avatarsPath = path.resolve(__dirname, '../../../..', 'public');
@@ -53,6 +54,8 @@ accountRouter.put('/', async (ctx) => {
     sessionUser.lastName = lastName;
     session.set('user', { ...sessionUser });
     ctx.set('user', { ...sessionUser });
+
+    await wait(3000);
 
     return ctx.html(
       <>

@@ -2,6 +2,7 @@ import { Button } from '@/Components/Button';
 import { Input } from '@/Components/Input';
 import { Label } from '@/Components/Label';
 import { Avatar } from '@/Components/Avatar';
+import { Form } from '@/Components/Form';
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const AccountForm = ({ user }) => {
@@ -26,7 +27,7 @@ export const AccountForm = ({ user }) => {
   });
 
   return (
-    <form class="flex flex-col gap-6" hx-swap="outerHTML" hx-encoding="multipart/form-data" hx-put="/account">
+    <Form class="flex flex-col gap-6" hx-swap="outerHTML" hx-encoding="multipart/form-data" hx-put="/account">
       <div class="flex flex-1 flex-col gap-5">
         <div class="flex items-center gap-5">
           <div class="relative size-16">
@@ -60,6 +61,6 @@ export const AccountForm = ({ user }) => {
         </Label>
         <Button>Save Changes</Button>
       </div>
-    </form>
+    </Form>
   );
 };
