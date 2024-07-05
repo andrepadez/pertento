@@ -39,7 +39,9 @@ export const accountInfoHandler = async (ctx) => {
       <>
         <UserDropdown ctx={ctx} user={sessionUser} hx-swap-oob="outerHTML:#user-dropdown" />
         <AccountInfoForm user={ctx.get('user')} />
-        <Toast message="Account info updated" />
+        <Toast title="Account info updated">
+          <p>Your account info has been updated successfully</p>
+        </Toast>
       </>,
     );
   });

@@ -73,6 +73,7 @@ export const UserDropdown = ({ ctx, user, ...props }) => {
           </ul>
         </div>
       </div>
+      <script>lucide.createIcons();</script>
     </Details>
   );
 };
