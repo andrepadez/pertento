@@ -23,6 +23,7 @@ export const DashboardLayout = ({ children, ctx, user, url }) => {
         <ToasterProvider />
         <script>lucide.createIcons();</script>
         <script>htmx.config.globalViewTransitions = true;</script>
+        <script src="/js/htmx-config.js"></script>
       </body>
     </html>
   );

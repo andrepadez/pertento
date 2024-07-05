@@ -13,6 +13,13 @@ export const accountInfoHandler = async (ctx) => {
     const sessionUser = session.get('user');
     const dbValues = { firstName, lastName };
 
+    return ctx.html(
+      <Toast variant="destructive" title="Error">
+        <p>There was a problem updating your account</p>
+      </Toast>,
+      400,
+    );
+
     if (avatar) {
       const fileName = `/user-avatars/${crypto.randomUUID()}.${avatar.type.split('/')[1]}`;
       await Bun.write(`public/${fileName}`, avatar);
@@ -39,7 +46,7 @@ export const accountInfoHandler = async (ctx) => {
       <>
         <UserDropdown ctx={ctx} user={sessionUser} hx-swap-oob="outerHTML:#user-dropdown" />
         <AccountInfoForm user={ctx.get('user')} />
-        <Toast noClose variant="warning" title="Account info updated">
+        <Toast timeout={3000} variant="success" title="Account info updated">
           <p>Your account info has been updated successfully</p>
         </Toast>
       </>,

@@ -2,12 +2,11 @@ import { Button } from '@/Components/Button';
 import { Input } from '@/Components/Input';
 import { Label } from '@/Components/Label';
 import { Avatar } from '@/Components/Avatar';
-import { Form } from '@/Components/Form';
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const AccountPasswordForm = ({ user }) => {
   return (
-    <Form class="flex flex-col gap-6" hx-swap="outerHTML" hx-put="/account/password">
+    <form class="flex flex-col gap-6" hx-swap="outerHTML" hx-put="/account/password">
       <div class="flex flex-1 flex-col gap-5">
         <Label class="flex flex-col gap-2">
           <span>Current Password</span>
@@ -23,6 +22,6 @@ export const AccountPasswordForm = ({ user }) => {
         </Label>
         <Button>Change Password</Button>
       </div>
-    </Form>
+    </form>
   );
 };
