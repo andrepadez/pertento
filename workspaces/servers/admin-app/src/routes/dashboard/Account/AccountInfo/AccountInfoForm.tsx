@@ -5,7 +5,7 @@ import { Avatar } from '@/Components/Avatar';
 import { Form } from '@/Components/Form';
 import { stringifyFunction } from 'helpers/stringify-function';
 
-export const AccountForm = ({ user }) => {
+export const AccountInfoForm = ({ user }) => {
   const { firstName, lastName, avatar } = user;
 
   const handleChangeImage = stringifyFunction((ev) => {

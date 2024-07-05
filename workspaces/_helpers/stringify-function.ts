@@ -6,6 +6,7 @@ export const stringifyFunction = (fn) => {
   const functionBody = functionAsString.substring(bodyStart, bodyEnd).trim();
   return functionBody
     .replace(/\bev\./g, 'event.')
+    .replace(/\}\s\= ev/g, '} = event')
     .replace(/(\r\n|\n|\r)/gm, ' ')
     .replace(/\s+/g, ' ');
 };

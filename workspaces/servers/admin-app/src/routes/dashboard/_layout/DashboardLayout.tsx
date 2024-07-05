@@ -1,6 +1,7 @@
 import { jsxRenderer } from 'hono-server';
 import { Header } from './Header';
 import { Footer } from './Footer';
+import { ToasterProvider } from '@/Components/Toaster';
 
 export const DashboardLayout = ({ children, ctx, user, url }) => {
   return (
@@ -9,6 +10,7 @@ export const DashboardLayout = ({ children, ctx, user, url }) => {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="htmx-config" content='{"selfRequestsOnly": false}' />
+        <meta name="htmx-config" content='{"globalViewTransitions": true}' />
         <title>Document</title>
         <link rel="stylesheet" href="/tailwind.css" />
         <script src="https://unpkg.com/htmx.org@2.0.0"></script>
@@ -18,7 +20,9 @@ export const DashboardLayout = ({ children, ctx, user, url }) => {
         <Header ctx={ctx} user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 py-24">{children}</main>
         <Footer ctx={ctx} user={user} url={url} />
+        <ToasterProvider />
         <script>lucide.createIcons();</script>
+        <script>htmx.config.globalViewTransitions = true;</script>
       </body>
     </html>
   );
