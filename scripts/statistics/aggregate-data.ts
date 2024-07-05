@@ -69,8 +69,6 @@ const aggregateData = async () => {
       }
     }
   }
-
-  console.log('Inserted Statistics', { insertCount, websiteCount });
 };
 
 const multiplyByHundred = (number) => (isNaN(number) ? 0 : +(+(number || 0).toFixed(2).replace('.', '')));
