@@ -1,7 +1,6 @@
 import { jsxRenderer } from 'hono-server';
 import { Header } from './Header';
 import { Footer } from './Footer';
-import { ToasterProvider } from '@/Components/Toaster';
 
 export const DashboardLayout = ({ children, ctx, user, url }) => {
   return (
@@ -20,7 +19,6 @@ export const DashboardLayout = ({ children, ctx, user, url }) => {
         <Header ctx={ctx} user={user} url={url} />
         <main class="mx-auto min-h-[calc(100dvh-4rem)] w-full bg-white px-2 py-24">{children}</main>
         <Footer ctx={ctx} user={user} url={url} />
-        <ToasterProvider />
         <script>lucide.createIcons();</script>
         <script>htmx.config.globalViewTransitions = true;</script>
       </body>

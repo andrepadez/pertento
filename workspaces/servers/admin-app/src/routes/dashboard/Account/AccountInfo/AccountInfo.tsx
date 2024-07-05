@@ -3,6 +3,7 @@ import { exists, unlink } from 'node:fs/promises';
 import { Users, db, eq } from 'pertentodb';
 import { AccountInfoForm } from './AccountInfoForm';
 import { UserDropdown } from '../../_layout/Header/UserDropdown';
+import { Toast } from '@/Components/Toaster';
 const avatarsPath = path.resolve(__dirname, '../../../..', 'public');
 
 export const accountInfoHandler = async (ctx) => {
@@ -38,6 +39,7 @@ export const accountInfoHandler = async (ctx) => {
       <>
         <UserDropdown ctx={ctx} user={sessionUser} hx-swap-oob="outerHTML:#user-dropdown" />
         <AccountInfoForm user={ctx.get('user')} />
+        <Toast message="Account info updated" />
       </>,
     );
   });

@@ -72,12 +72,17 @@ export default {
           '0%': { transform: 'scale(0)' },
           '100%': { transform: 'scale(1)' },
         },
+        toaster: {
+          '0%': { transform: 'translateY(-200%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
         'caret-blink': 'caret-blink 1.25s ease-out infinite',
         modalf: 'modalf 0.15s ease-in-out',
+        toaster: 'toaster 0.3s ease-out',
       },
     },
   },
