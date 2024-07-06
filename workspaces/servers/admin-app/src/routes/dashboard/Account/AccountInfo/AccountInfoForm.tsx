@@ -13,7 +13,7 @@ export const AccountInfoForm = ({ user }) => {
     const [newImage] = ev.target.files;
     if (newImage) {
       const imageUrl = window.URL.createObjectURL(newImage);
-      var reader = new window.FileReader();
+      const reader = new window.FileReader();
       reader.onloadend = function () {
         const image = document.createElement('img');
         image.src = reader.result;
