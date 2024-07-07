@@ -14,7 +14,7 @@ const updateVisitorCount = async () => {
       variantCount++;
       await db
         .update(VisitorCount)
-        .set({ count: increment(table.count, +count) })
+        .set({ count: increment(VisitorCount.count, +count) })
         .where(eq(VisitorCount.variantId, +variantId));
     }
     await redisClient.DEL(key);
