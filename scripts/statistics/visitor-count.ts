@@ -8,10 +8,10 @@ const updateVisitorCount = async () => {
     const byExperiment = await redisClient.HGETALL(key);
     for (let [variantId, count] of Object.entries(byExperiment)) {
       variantCount++;
-      // await db.update(VisitorCount).set({ count }).where(eq(VisitorCount.variantId, +variantId));
+      await db.update(VisitorCount).set({ count }).where(eq(VisitorCount.variantId, +variantId));
       await redisClient.HSET(key.replace('VISITORS', 'VISITORS_BACKUP'), variantId, count);
     }
-    // await redisClient.DEL(key);
+    await redisClient.DEL(key);
   }
 
   return { experiments: keys.length, variants: variantCount };
