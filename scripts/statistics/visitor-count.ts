@@ -1,5 +1,5 @@
 import redisClient from 'redis-client';
-import { db, eq, VisitorCount } from 'pertentodb';
+import { db, sql, eq, VisitorCount } from 'pertentodb';
 
 const increment = (column, value = 1) => {
   return sql`${column} + ${value}`;
