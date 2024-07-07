@@ -42,7 +42,6 @@ export const orgAndWebsiteMiddleware = async (ctx, next) => {
   companiesCache.set(user.companyId, companies);
 
   ctx.set(isAgency ? 'companies' : 'company', companies);
-
   if (!org) {
     const url = new URL(nextUrl);
     url.searchParams.set('org', companies[0].id);

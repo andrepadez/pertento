@@ -4,27 +4,31 @@ export const OrgWebsiteSelectors = ({ ctx }) => {
   const { companies, company, website, nextUrl } = ctx.var;
   const { websites } = company;
 
-  const onChangeOrg = function () {
-    const value = this.value.split(' - ').at(1);
+  const onChangeOrg = function (ev) {
+    const el = ev.currentTarget;
+    const value = el.value.split(' - ').at(1);
     if (!value) {
-      this.value = '';
-      this.blur();
+      el.value = '';
+      el.blur();
       return;
     }
 
     const url = new window.URL(window.location.href);
+    url.pathname = url.pathname.startsWith('/experiments') ? '/experiments' : url.pathname;
     url.searchParams.set('org', value);
     url.searchParams.delete('ws');
     window.location.href = url.toString();
   };
 
-  const onChangeWebsite = function () {
-    const value = this.value.split(' - ').at(1);
+  const onChangeWebsite = function (ev) {
+    const el = ev.currentTarget;
+    const value = el.value.split(' - ').at(1);
     if (!value) {
-      this.value = '';
+      el.value = '';
       return;
     }
     const url = new window.URL(window.location.href);
+    url.pathname = url.pathname.startsWith('/experiments') ? '/experiments' : url.pathname;
     url.searchParams.set('ws', value);
     window.location.replace(url.toString());
   };
@@ -54,7 +58,7 @@ const Selector = ({ name, options, selected, prop, onChange }) => {
     <div class="relative flex h-20 flex-col justify-center">
       <div class="text-left">
         <div className="list-none [&::-webkit-details-marker]:hidden">
-          <div className="w-48 py-2 pl-2 pr-0 overflow-hidden text-black bg-white rounded-lg lg:w-64">
+          <div className="w-48 overflow-hidden rounded-lg bg-white py-2 pl-2 pr-0 text-black lg:w-64">
             <div class="relative flex items-center">
               <i class="absolute right-1 size-5 lg:right-2" data-lucide="chevrons-up-down"></i>
               <span class="w-[10rem] overflow-hidden text-sm lg:w-auto lg:text-base">{selected[prop]}</span>

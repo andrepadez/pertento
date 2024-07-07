@@ -1,11 +1,11 @@
 export class ExperimentsCache {
   private experiments = new Map();
 
-  public has(websiteId: string) {
+  public has(websiteId) {
     return this.experiments.has(websiteId);
   }
 
-  public get(websiteId: string) {
+  public get(websiteId) {
     return this.experiments.get(websiteId);
   }
 
@@ -13,8 +13,32 @@ export class ExperimentsCache {
     this.experiments.set(websiteId, experiments);
   }
 
-  public bust(userId: string) {
+  public bust(websiteId) {
     this.experiments.delete(websiteId);
+  }
+
+  public clear() {
+    this.experiments.clear();
+  }
+}
+
+export class ExperimentsByIdCache {
+  private experiments = new Map();
+
+  public has(experimentId) {
+    return this.experiments.has(experimentId);
+  }
+
+  public get(experimentId) {
+    return this.experiments.get(experimentId);
+  }
+
+  public set(experimentId, experiment) {
+    this.experiments.set(experimentId, experiment);
+  }
+
+  public bust(experimentId: string) {
+    this.experiments.delete(experimentId);
   }
 
   public clear() {
