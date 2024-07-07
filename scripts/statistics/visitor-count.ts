@@ -1,6 +1,10 @@
 import redisClient from 'redis-client';
 import { db, eq, VisitorCount } from 'pertentodb';
 
+const increment = (column, value = 1) => {
+  return sql`${column} + ${value}`;
+};
+
 const updateVisitorCount = async () => {
   const keys = await redisClient.keys('PERTENTO:VISITORS:*');
   let variantCount = 0;
