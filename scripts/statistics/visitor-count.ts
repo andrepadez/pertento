@@ -28,7 +28,7 @@ const updateVisitorCount = async () => {
 const start = performance.now();
 console.log('----------------- Updating Visitor Counts -----------------');
 try {
-  const { experiments, variants } = await updateVisitorCount();
+  const { experiments, variants, totalCount } = await updateVisitorCount();
   console.log('Experiments:', experiments, 'Variants:', variants, 'Total Count:', totalCount);
   console.log('Time taken:', performance.now() - start);
   console.log(new Date().toLocaleString());
