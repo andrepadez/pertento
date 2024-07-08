@@ -24,26 +24,7 @@ export const DataTable = (props) => {
           })}
         </tbody>
       </Table>
-      {!(pageSize & (total > pageSize)) && <Pagination {...props} />}
-      <script>lucide.createIcons();</script>
+      {<Pagination {...props} />}
     </div>
   );
 };
-
-/*
-Q: Is there a way to update the browser url, 
-  just to change query string, without the page being reloaded?
-
-A: Yes, you can update the browser's URL query string without reloading the page 
-    by using the history.pushState() method. This method allows you to modify the 
-    history entry for the current page, which in turn updates the URL in the browser's 
-    address bar. Here's how you can do it:
-
-    ```javascript
-    // Define the new query string
-    const newQueryString = '?param=value';
-
-    // Update the URL without reloading the page
-    history.pushState(null, '', newQueryString);
-    ```
-*/

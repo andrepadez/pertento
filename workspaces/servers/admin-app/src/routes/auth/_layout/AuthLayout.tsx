@@ -29,7 +29,6 @@ export const AuthLayout = ({ children }) => {
           </div>
           <div class="flex justify-center">{children}</div>
         </main>
-        <script>lucide.createIcons();</script>
       </body>
     </html>
   );

@@ -12,7 +12,7 @@ export const ExperimentsListHeader = () => {
             type="text"
             name="name"
           />
-          <div className="flex justify-end gap-5 mt-3">
+          <div className="mt-3 flex justify-end gap-5">
             <button
               class="flex items-center justify-between gap-x-2 rounded-lg bg-gray-300 px-5 py-2 text-sm tracking-wide transition-colors duration-200 hover:bg-gray-600 sm:w-auto dark:bg-gray-600 dark:hover:bg-gray-500"
               formmethod="dialog"

@@ -21,7 +21,7 @@ export const VariantsConfig = ({ experimentId }) => {
   return (
     <Card>
       <CardHeader>
-        <CardTitle> Variants</CardTitle>
+        <CardTitle>Variants</CardTitle>
       </CardHeader>
       <CardContent>
         <VariantsConfigUI

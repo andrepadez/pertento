@@ -1,6 +1,7 @@
 (function () {
   const swapModes = new WeakMap();
   const enabledButtons = new WeakMap();
+  lucide.createIcons();
 
   document.body.addEventListener('htmx:beforeRequest', function (ev) {
     const target = ev.detail.target;
@@ -33,5 +34,6 @@
     if (ev.detail.xhr.status >= 400) {
       ev.detail.target.setAttribute('hx-swap', swapModes.get(ev.detail.target));
     }
+    lucide.createIcons();
   });
 })();

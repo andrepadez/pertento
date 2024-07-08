@@ -1,19 +1,13 @@
+import { Dialog } from '@/Components/Dialog';
 import { stringifyFunction } from 'helpers/stringify-function';
 
 export const ButtonWithDialog = ({ children, action }) => {
+  const randomId = Math.random().toString(36).substring(7);
+
   const onClick = stringifyFunction((ev) => {
     ev.currentTarget.nextSibling.showModal();
   });
 
-  const onCloseHandler = stringifyFunction((ev) => {
-    const modal = ev.currentTarget;
-    const { clientX, clientY } = ev;
-    const { left, right, top, bottom } = modal.getBoundingClientRect();
-    const isOnBackdrop = clientX < left || clientX > right || clientY < top || clientY > bottom;
-    if (isOnBackdrop) {
-      modal.close();
-    }
-  });
   return (
     <div>
       <button
@@ -24,13 +18,7 @@ export const ButtonWithDialog = ({ children, action }) => {
         <i data-lucide="plus"></i>
         <span>{action}</span>
       </button>
-      <dialog
-        onClick={onCloseHandler}
-        id="create-experiment-popover"
-        class="open:animate-modalf rounded-2xl p-8 [&::backdrop]:bg-black/75"
-      >
-        {children}
-      </dialog>
+      <Dialog>{children}</Dialog>
     </div>
   );
 };
