@@ -4,7 +4,6 @@ import { UrlTargeting } from './UrlTargeting';
 import { DeviceTargeting } from './DeviceTargeting';
 import { CookieTargeting } from './CookieTargeting';
 import { ActivityLog } from './ActivityLog';
-import { cn } from 'helpers/cn';
 
 export const ExperimentConfig = ({ experiment }) => {
   return (
@@ -12,7 +11,7 @@ export const ExperimentConfig = ({ experiment }) => {
       <VariantsConfig experimentId={experiment.id} />
       <GoalsConfig experimentId={experiment.id} />
       <UrlTargeting experimentId={experiment.id} />
-      <div className={cn('grid grid-cols-2 gap-4'})>
+      <div className="grid grid-cols-2 gap-4">
         <DeviceTargeting experimentId={experiment.id} />
         <CookieTargeting experimentId={experiment.id} />
       </div>
