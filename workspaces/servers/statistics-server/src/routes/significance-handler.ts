@@ -22,7 +22,7 @@ export const significanceHandler = async (c) => {
 
 export const significanceMiddleware = async (c, next) => {
   const { experimentId } = c.req.param();
-  if (+expermentId === 3449) {
+  if (+experimentId === 3449) {
     return next();
   }
   const { goal, currency } = c.req.query();
