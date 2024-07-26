@@ -39,7 +39,10 @@ export const significanceMiddleware = async (c, next) => {
 export const crunchStats = ({ experiment, stats, goal }) => {
   const { variants: dbVariants } = experiment;
   const originalVariant = dbVariants.find((variant) => variant.name === 'Original');
-  const significance = {};
+  const significance = experiment.variants.reduce((acc, variant) => {
+    acc[variant.id] = { sessions: variant.visitorCount.count };
+    return acc;
+  }, {});
 
   for (let stat of stats) {
     significance[stat.variant_id] = significance[stat.variant_id] || {};
@@ -61,7 +64,6 @@ export const crunchStats = ({ experiment, stats, goal }) => {
   for (let [variantId, statObj] of Object.entries(significance)) {
     const variant = dbVariants.find((variant) => variant.id === +variantId);
     statObj.variantId = variant.id;
-    statObj.sessions = variant.visitorCount.count;
     if (goal === 'Conversions') {
       statObj.average = getAverage(statObj.conversions, statObj.sessions, true);
       if (!statObj.isOriginal) {
