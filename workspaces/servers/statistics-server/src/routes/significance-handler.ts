@@ -73,6 +73,10 @@ export const crunchStats = ({ experiment, stats, goal }) => {
     }
   }
 
+  if (+experiment.id === 3449) {
+    console.log('significance', significance);
+  }
+
   const originalStat = significance[originalVariant.id];
   for (let [variantId, statObj] of Object.entries(significance)) {
     const variant = dbVariants.find((variant) => variant.id === +variantId);
