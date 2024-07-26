@@ -7,9 +7,7 @@ let runningExperiments = [];
 
 export const experimentsMonitorHandler = async (c) => {
   const experiments = runningExperiments.filter(
-    (exp) =>
-      exp.stats.length > 0 &&
-      (c.user.companyId === exp.website.companyId || c.user.companyId === exp.website.parentCompanyId),
+    (exp) => c.user.companyId === exp.website.companyId || c.user.companyId === exp.website.parentCompanyId,
   );
   c.experiments = experiments;
   return c.json(experiments);
