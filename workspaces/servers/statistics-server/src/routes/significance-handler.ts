@@ -10,6 +10,7 @@ export const significanceHandler = async (c) => {
 
   if (+experimentId === 3449) {
     console.log(experimentId, goal, currency);
+    console.log(experiment);
   }
 
   const experiment = c.experiment;
