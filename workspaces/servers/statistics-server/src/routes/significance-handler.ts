@@ -10,10 +10,13 @@ export const significanceHandler = async (c) => {
 
   if (+experimentId === 3449) {
     console.log(experimentId, goal, currency);
-    console.log(experiment);
   }
 
   const experiment = c.experiment;
+
+  if (+experimentId === 3449) {
+    console.log(experiment);
+  }
 
   const stats = await getRawData(experimentId, goal, currency);
   const significance = crunchStats({ experiment, stats, currency, goal });
