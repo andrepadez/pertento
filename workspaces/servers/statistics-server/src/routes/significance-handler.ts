@@ -4,14 +4,19 @@ import { getRawData } from './_sql-queries';
 import redisClient from 'redis-client';
 
 export const significanceHandler = async (c) => {
+  console.log('significanceHandler');
   const { experimentId } = c.req.param();
   const { goal, currency } = c.req.query();
+
+  if (+experimentId === 3449) {
+    console.log(experimentId, goal, currency);
+  }
 
   const experiment = c.experiment;
 
   const stats = await getRawData(experimentId, goal, currency);
   const significance = crunchStats({ experiment, stats, currency, goal });
-  if (experimentId === 3449) {
+  if (+experimentId === 3449) {
     console.log('experimentId', experimentId);
     console.log('significance', significance);
     console.log('stats', stats);
