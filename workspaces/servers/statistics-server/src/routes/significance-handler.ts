@@ -15,7 +15,7 @@ export const significanceHandler = async (c) => {
   const experiment = c.experiment;
 
   if (+experimentId === 3449) {
-    console.log(experiment);
+    console.log(experiment.variants.map((v) => ({ id: v.id, visitorCount: v.visitorCount })));
   }
 
   const stats = await getRawData(experimentId, goal, currency);
