@@ -11,12 +11,20 @@ export const significanceHandler = async (c) => {
 
   const stats = await getRawData(experimentId, goal, currency);
   const significance = crunchStats({ experiment, stats, currency, goal });
+  if (experimentId === 3449) {
+    console.log('experimentId', experimentId);
+    console.log('significance', significance);
+    console.log('stats', stats);
+  }
   c.significance = significance;
   return c.json(significance);
 };
 
 export const significanceMiddleware = async (c, next) => {
   const { experimentId } = c.req.param();
+  if (+expermentId === 3449) {
+    return next();
+  }
   const { goal, currency } = c.req.query();
   const redisKey = `PERTENTO:STATISTICS:SIGNIFICANCE:${experimentId}:${goal}:${currency}`;
 
