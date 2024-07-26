@@ -4,36 +4,20 @@ import { getRawData } from './_sql-queries';
 import redisClient from 'redis-client';
 
 export const significanceHandler = async (c) => {
-  console.log('significanceHandler');
   const { experimentId } = c.req.param();
   const { goal, currency } = c.req.query();
 
-  if (+experimentId === 3449) {
-    console.log(experimentId, goal, currency);
-  }
-
   const experiment = c.experiment;
-
-  if (+experimentId === 3449) {
-    console.log(experiment.variants.map((v) => ({ id: v.id, visitorCount: v.visitorCount })));
-  }
 
   const stats = await getRawData(experimentId, goal, currency);
   const significance = crunchStats({ experiment, stats, currency, goal });
-  if (+experimentId === 3449) {
-    console.log('experimentId', experimentId);
-    console.log('significance', significance);
-    console.log('stats', stats);
-  }
+
   c.significance = significance;
   return c.json(significance);
 };
 
 export const significanceMiddleware = async (c, next) => {
   const { experimentId } = c.req.param();
-  if (+experimentId === 3449) {
-    return next();
-  }
   const { goal, currency } = c.req.query();
   const redisKey = `PERTENTO:STATISTICS:SIGNIFICANCE:${experimentId}:${goal}:${currency}`;
 
@@ -71,10 +55,6 @@ export const crunchStats = ({ experiment, stats, goal }) => {
       statObj.revenue = statObj.revenue || 0;
       statObj.revenue += +stat.revenue / 100;
     }
-  }
-
-  if (+experiment.id === 3449) {
-    console.log('significance', significance);
   }
 
   const originalStat = significance[originalVariant.id];
