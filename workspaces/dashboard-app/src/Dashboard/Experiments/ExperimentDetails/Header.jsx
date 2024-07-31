@@ -17,6 +17,7 @@ export const Header = ({ experimentId, screen }) => {
   const { status } = experiment;
   const isDraft = status === 'Draft';
   const isEnded = status === 'Ended';
+  const isDeployed = status === 'Deployed';
   const isRunning = status === 'Running';
   const noEditPermissions = isDraft && ganProperty && !ganProperty.hasEditPermission.length;
 
@@ -30,10 +31,12 @@ export const Header = ({ experimentId, screen }) => {
           {experiment.editorUrl && (
             <Button
               variant={isRunning ? 'destructive' : 'default'}
-              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded}
+              className={cn(isDeployed && 'bg-green-700/100 opacity-100')}
+              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isDeployed}
               onClick={() => (isRunning ? setWantsToEnd(true) : startExperiment(experimentId))}
             >
               {isEnded && <span>Ended</span>}
+              {isDeployed && <span>Deployed</span>}
               {isStarting && <span>Starting...</span>}
               {noEditPermissions && <span>No Edit Permissions (Google Analytics)</span>}
               {!noEditPermissions && isDraft && !isStarting && <span>Start Experiment</span>}

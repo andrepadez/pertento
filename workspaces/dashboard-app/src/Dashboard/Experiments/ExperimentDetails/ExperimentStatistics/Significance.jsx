@@ -1,13 +1,17 @@
 import { Card } from 'shadcn/card';
+import { Button } from 'shadcn/button';
 import { DataTable } from 'components/DataTable';
+import { useExperiment } from '@/state/experiments/useExperiment';
 import { cn } from 'helpers/cn';
 
 export const Significance = ({ experiment, manager }) => {
   const { variants, statistics, original, totalSessions, goal, currency } = manager;
+  const { deployExperiment } = useExperiment(experiment.id);
 
   if (!statistics) return null;
 
   const data = variants
+    // .filter((variant) => !variant.deployed)
     .map((variant) => ({ ...variant, ...statistics[variant.id] }))
     .sort((a, b) => a.createdAt - b.createdAt);
 
@@ -44,8 +48,7 @@ export const Significance = ({ experiment, manager }) => {
           {
             field: 'average',
             label: 'Average',
-            format: ({ value }) =>
-              goal === 'Revenue' ? formatNumber(value, currency) : formatPercentage(value),
+            format: ({ value }) => (goal === 'Revenue' ? formatNumber(value, currency) : formatPercentage(value)),
           },
           {
             field: 'difference',
@@ -64,6 +67,14 @@ export const Significance = ({ experiment, manager }) => {
                 {item.id !== original.id && formatPercentage(value)}
               </span>
             ),
+          },
+          {
+            field: 'id',
+            label: 'Deploy',
+            format: ({ value, item }) =>
+              item.name !== 'Original' && (
+                <Button onClick={() => deployExperiment(experiment.id, value)}>Deploy</Button>
+              ),
           },
         ]}
       />

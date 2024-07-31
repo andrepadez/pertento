@@ -8,6 +8,7 @@ import { duplicateExperimentHandler } from './duplicate-experiment';
 import { finishSetupHandler } from './finish-setup';
 import { startExperimentHandler } from './start-experiment';
 import { endExperimentHandler } from './end-experiment';
+import { deployExperimentHandler } from './deploy-experiment';
 import { getVariantsHandler } from './get-variants';
 
 export const experimentsRouter = new Hono();
@@ -17,6 +18,7 @@ experimentsRouter.post('/', canWebsite, createExperimentHandler);
 experimentsRouter.put('/:experimentId/finish-setup', finishSetupHandler);
 experimentsRouter.post('/:experimentId/start', startExperimentHandler);
 experimentsRouter.post('/:experimentId/end', endExperimentHandler);
+experimentsRouter.post('/:experimentId/deploy/:variantId', deployExperimentHandler);
 experimentsRouter.post('/:experimentId/duplicate', duplicateExperimentHandler);
 experimentsRouter.post('/:experimentId/archive', archiveExperimentHandler);
 
