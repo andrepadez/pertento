@@ -4,7 +4,7 @@ export const USER_STATUSES = ['Unverified', 'Active', 'Prospect', 'Invited', 'Bl
 export const COMPANY_SIZES = ['1-10', '11-30', '31-50', '50+'];
 export const COMPANY_TYPES = ['Client Account', 'Agency'];
 
-export const EXPERIMENT_STATUSES = ['Draft', 'Scheduled', 'Running', 'Stopped', 'Ended'];
+export const EXPERIMENT_STATUSES = ['Draft', 'Scheduled', 'Running', 'Stopped', 'Ended', 'Deployed'];
 
 export const DEVICE_TYPES = ['All', 'Desktop', 'Mobile', 'Tablet'];
 
