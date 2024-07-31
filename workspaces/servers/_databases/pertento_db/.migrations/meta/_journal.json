@@ -141,6 +141,13 @@
       "when": 1722403082210,
       "tag": "0019_tranquil_the_hunter",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1722407124131,
+      "tag": "0020_last_riptide",
+      "breakpoints": true
     }
   ]
 }

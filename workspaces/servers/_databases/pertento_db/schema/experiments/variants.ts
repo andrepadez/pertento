@@ -1,4 +1,4 @@
-import { pgTable, varchar, text } from 'drizzle-orm/pg-core';
+import { pgTable, varchar, text, boolean } from 'drizzle-orm/pg-core';
 import { smallint, bigint, bigserial } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { Experiments, Changes, VisitorCount } from './';
@@ -15,6 +15,7 @@ export const Variants = pgTable('variants', {
   weight: smallint('weight', { mode: 'number' }),
   globalJavascript: text('global_javascript'),
   globalCSS: text('global_css'),
+  deployed: boolean('deployed').default(false),
   createdAt: bigint('created_at', { mode: 'number' }),
   updatedAt: bigint('updated_at', { mode: 'number' }),
 });
