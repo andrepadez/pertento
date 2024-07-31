@@ -40,7 +40,7 @@ export const crunchStats = ({ experiment, stats, goal }) => {
   const { variants: dbVariants } = experiment;
   const originalVariant = dbVariants.find((variant) => variant.name === 'Original');
   const significance = experiment.variants.reduce((acc, variant) => {
-    acc[variant.id] = { sessions: variant.visitorCount.count };
+    acc[variant.id] = { sessions: variant.visitorCount?.count };
     return acc;
   }, {});
 
