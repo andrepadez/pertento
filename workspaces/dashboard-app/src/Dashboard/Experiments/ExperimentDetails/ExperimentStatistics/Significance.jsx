@@ -31,7 +31,7 @@ export const Significance = ({ experiment, manager }) => {
         <Card className="grid gap-2 bg-green-100 p-5">
           <h4>Deployed Variant</h4>
           <DataTable
-            data={[deployed]}
+            data={[stats[deployed.id]]}
             columns={[
               { field: 'id' },
               { field: 'name', label: 'Name' },
@@ -39,7 +39,6 @@ export const Significance = ({ experiment, manager }) => {
                 field: 'sessions',
                 label: 'Sessions',
                 format: ({ value, item }) => {
-                  console.log('sessions, deployed', item, formatNumber(value));
                   return <span>{formatNumber(value)}</span>;
                 },
               },
