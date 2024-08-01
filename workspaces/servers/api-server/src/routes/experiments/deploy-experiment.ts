@@ -1,4 +1,4 @@
-import { db, eq, Experiments, Variants, Changes, ActivityLog } from 'pertentodb';
+import { db, eq, Experiments, Variants, VisitorCount, Changes, ActivityLog } from 'pertentodb';
 
 export const deployExperimentHandler = async (c) => {
   const { experimentId, variantId } = c.req.param();
