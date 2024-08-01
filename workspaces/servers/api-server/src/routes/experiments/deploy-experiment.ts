@@ -1,7 +1,5 @@
 import { db, eq, Experiments, Variants, Changes, ActivityLog } from 'pertentodb';
 
-console.log('registering deployExperimentHandler');
-
 export const deployExperimentHandler = async (c) => {
   const { experimentId, variantId } = c.req.param();
 
@@ -27,7 +25,9 @@ export const deployExperimentHandler = async (c) => {
       .values({ ...variant, deployed: true, weight: 10000, name: `${variant.name} (DEPLOYED)` })
       .returning();
 
-    await tx.insert(Changes).values(variant.changes.map((change) => ({ ...change, variantId: deployedVariant.id })));
+    if (variant.changes.length > 0) {
+      await tx.insert(Changes).values(variant.changes.map((change) => ({ ...change, variantId: deployedVariant.id })));
+    }
 
     const log = {
       experimentId,
