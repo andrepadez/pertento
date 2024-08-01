@@ -36,22 +36,12 @@ export const Significance = ({ experiment, manager }) => {
               { field: 'id' },
               { field: 'name', label: 'Name' },
               {
-                field: 'weight',
-                label: 'Weight',
-                format: ({ value, item }) => {
-                  const realWeight = (item.sessions / totalSessions) * 100;
-                  return (
-                    <div>
-                      <span>{formatPercentage(value / 100, true)}&nbsp;</span>
-                      <span>({formatPercentage(realWeight, true)})</span>
-                    </div>
-                  );
-                },
-              },
-              {
                 field: 'sessions',
                 label: 'Sessions',
-                format: ({ value, item }) => <span>{formatNumber(value)}</span>,
+                format: ({ value, item }) => {
+                  console.log('sessions, deployed', item, formatNumber(value));
+                  return <span>{formatNumber(value)}</span>;
+                },
               },
               {
                 field: goal.toLowerCase(),
