@@ -29,7 +29,10 @@ const refreshRunningExperiments = async () => {
       acc[variant.id] = variant;
       return acc;
     }, {});
-    experiment.deployedVariant = variants.find((variant) => variant.deployed)?.id;
+    if (experiment.status === 'Deployed') {
+      experiment.deployedVariant = variants.find((variant) => variant.deployed);
+      console.log('deployed experiment', experiment.id, experiment.deployedVariant.id);
+    }
     experiment.deviceTargeting = deviceTargeting.map((target) => target.device);
     delete experiment.website;
 
