@@ -29,6 +29,7 @@ const refreshRunningExperiments = async () => {
       acc[variant.id] = variant;
       return acc;
     }, {});
+    experiment.deployedVariant = variants.find((variant) => variant.deployed)?.id;
     experiment.deviceTargeting = deviceTargeting.map((target) => target.device);
     delete experiment.website;
 
