@@ -135,7 +135,7 @@ export const Significance = ({ experiment, manager }) => {
         {!!wantsToDeploy && (
           <ConfirmDialog
             title={`Deploy Variant "${wantsToDeploy.name}"?`}
-            text={`Are you sure you want to end this experiment and deploy this variant?`}
+            text={`Are you sure you want to deploy this variant?`}
             open={true}
             onClose={() => setWantsToDeploy(null)}
             onConfirm={onDeployConfirm}
