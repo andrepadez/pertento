@@ -25,6 +25,8 @@ export const deployExperimentHandler = async (c) => {
       .values({ ...variant, deployed: true, weight: 10000, name: `${variant.name} (DEPLOYED)` })
       .returning();
 
+    await tx.insert(VisitorCount).values({ experimentId, variantId: deployedVariant.id, count: 0 });
+
     if (variant.changes.length > 0) {
       await tx.insert(Changes).values(variant.changes.map((change) => ({ ...change, variantId: deployedVariant.id })));
     }
