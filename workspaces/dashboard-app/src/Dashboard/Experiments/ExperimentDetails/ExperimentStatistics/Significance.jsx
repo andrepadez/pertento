@@ -1,14 +1,22 @@
+import { useState } from 'react';
 import { Card } from 'shadcn/card';
 import { Button } from 'shadcn/button';
 import { DataTable } from 'components/DataTable';
+import { ConfirmDialog } from 'components/Dialogs/ConfirmDialog';
 import { useExperiment } from '@/state/experiments/useExperiment';
 import { cn } from 'helpers/cn';
 
 export const Significance = ({ experiment, manager }) => {
+  const [wantsToDeploy, setWantsToDeploy] = useState(null);
   const { variants, statistics, original, totalSessions, goal, currency } = manager;
   const { deployExperiment } = useExperiment(experiment.id);
 
   if (!statistics) return null;
+
+  const onDeployConfirm = async () => {
+    await deployExperiment(wantsToDeploy.id);
+    setWantsToDeploy(null);
+  };
 
   const data = variants
     // .filter((variant) => !variant.deployed)
@@ -73,11 +81,22 @@ export const Significance = ({ experiment, manager }) => {
             label: 'Deploy',
             format: ({ value, item }) =>
               item.name !== 'Original' && (
-                <Button onClick={() => deployExperiment(experiment.id, value)}>Deploy</Button>
+                <>
+                  <Button onClick={() => setWantsToDeploy(item)}>Deploy</Button>
+                </>
               ),
           },
         ]}
       />
+      {!!wantsToDeploy && (
+        <ConfirmDialog
+          title={`Deploy Variant "${wantsToDeploy.name}"?`}
+          text={`Are you sure you want to end this experiment and deploy this variant?`}
+          open={true}
+          onClose={() => setWantsToDeploy(null)}
+          onConfirm={onDeployConfirm}
+        />
+      )}
     </Card>
   );
 };

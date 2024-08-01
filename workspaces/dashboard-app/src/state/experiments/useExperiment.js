@@ -90,8 +90,8 @@ export const useExperiment = (experimentId) => {
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENTS', website.id] });
   };
 
-  const deployExperiment = async (id, variantId) => {
-    const res = await apiClient.post(`/experiments/${id}/deploy/${variantId}`);
+  const deployExperiment = async (variantId) => {
+    const res = await apiClient.post(`/experiments/${experimentId}/deploy/${variantId}`);
     console.log(res);
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
   };
