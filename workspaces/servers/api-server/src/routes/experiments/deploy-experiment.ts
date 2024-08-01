@@ -6,7 +6,7 @@ export const deployExperimentHandler = async (c) => {
   return db.transaction(async (tx) => {
     const [experiment] = await tx
       .update(Experiments)
-      .set({ endsAt: new Date().valueOf(), status: 'Deployed' })
+      .set({ status: 'Deployed' })
       .where(eq(Experiments.id, experimentId))
       .returning();
 

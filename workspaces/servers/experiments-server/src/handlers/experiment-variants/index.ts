@@ -36,12 +36,18 @@ export const experimentVariantsHandler = async (c) => {
 
       if (!hasHitDeviceTargeting) continue;
 
+      const isDeployed = experiment.status === 'Deployed';
+
       const queryKey = `exp-${experiment.id}`;
-      const variantId = query[queryKey] || pickRandomVariant(experiment.variants)?.id;
+      const variantId = isDeployed
+        ? experiment.deployedVariant
+        : query[queryKey] || pickRandomVariant(experiment.variants)?.id;
       if (!variantId) continue;
 
       response[queryKey] = variantId;
-      response.ganMeasurementId = experiment.ganMeasurementId;
+      if (!isDeployed) {
+        response.ganMeasurementId = experiment.ganMeasurementId;
+      }
       response.serverContainerUrl = experiment.serverContainerUrl;
 
       if (!experiment.variants[variantId]) continue;

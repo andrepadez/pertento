@@ -1,11 +1,11 @@
-import { db, eq, Experiments, Websites, Variants, Changes } from 'pertentodb';
+import { db, eq, or, Experiments, Websites, Variants, Changes } from 'pertentodb';
 import { UrlTargeting, DeviceTargeting } from 'pertentodb';
 
 export const experiments = {};
 
 const refreshRunningExperiments = async () => {
   const dbExperiments = await db.query.Experiments.findMany({
-    where: eq(Experiments.status, 'Running'),
+    where: or(eq(Experiments.status, 'Running'), eq(Experiments.status, 'Deployed')),
     with: {
       website: true,
       variants: { with: { changes: true } },

@@ -27,20 +27,19 @@ export const Header = ({ experimentId, screen }) => {
         <h1>
           <span>{experiment.name}</span> <span className="text-xl"> ({experiment.id})</span>
         </h1>
-        <div className="text-right">
+        <div className="flex items-center gap-3 text-right">
+          {isDeployed && <strong className="text-lg text-green-500">Deployed</strong>}
           {experiment.editorUrl && (
             <Button
-              variant={isRunning ? 'destructive' : 'default'}
-              className={cn(isDeployed && 'bg-green-700/100 opacity-100')}
-              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isDeployed}
+              variant={isRunning || isDeployed ? 'destructive' : 'default'}
+              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded}
               onClick={() => (isRunning ? setWantsToEnd(true) : startExperiment(experimentId))}
             >
               {isEnded && <span>Ended</span>}
-              {isDeployed && <span>Deployed</span>}
               {isStarting && <span>Starting...</span>}
               {noEditPermissions && <span>No Edit Permissions (Google Analytics)</span>}
               {!noEditPermissions && isDraft && !isStarting && <span>Start Experiment</span>}
-              {isRunning && <span>End Experiment</span>}
+              {(isRunning || isDeployed) && <span>End Experiment</span>}
             </Button>
           )}
         </div>
