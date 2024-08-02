@@ -17,23 +17,23 @@ export const significanceHandler = async (c) => {
 };
 
 export const significanceMiddleware = async (c, next) => {
-  // const { experimentId } = c.req.param();
-  // const { goal, currency } = c.req.query();
-  // const redisKey = `PERTENTO:STATISTICS:SIGNIFICANCE:${experimentId}:${goal}:${currency}`;
+  const { experimentId } = c.req.param();
+  const { goal, currency } = c.req.query();
+  const redisKey = `PERTENTO:STATISTICS:SIGNIFICANCE:${experimentId}:${goal}:${currency}`;
 
-  // const significanceMemo = await redisClient.get(redisKey);
-  // if (significanceMemo) {
-  //   const { significance, timestamp } = JSON.parse(significanceMemo);
-  //   if (Date.now() - timestamp < 10 * 60 * 1000) {
-  //     return c.json(significance);
-  //   }
-  // }
+  const significanceMemo = await redisClient.get(redisKey);
+  if (significanceMemo) {
+    const { significance, timestamp } = JSON.parse(significanceMemo);
+    if (Date.now() - timestamp < 10 * 60 * 1000) {
+      return c.json(significance);
+    }
+  }
 
   await next();
 
-  // const { significance } = c;
-  // const redisData = { significance, timestamp: Date.now() };
-  // redisClient.set(redisKey, JSON.stringify(redisData));
+  const { significance } = c;
+  const redisData = { significance, timestamp: Date.now() };
+  redisClient.set(redisKey, JSON.stringify(redisData));
 };
 
 export const crunchStats = ({ experiment, stats, goal }) => {
