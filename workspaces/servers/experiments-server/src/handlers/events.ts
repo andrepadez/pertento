@@ -21,9 +21,7 @@ export const eventsMiddleware = async (c, next) => {
         const data = JSON.stringify(event[1]);
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
         await client.HSET(key, nowValue, data);
-        if ([2429, 2689].includes(+websiteId)) {
-          console.log(timestamp, 'saved', key);
-        }
+        console.log(timestamp, 'saved', key);
       }
     }
   }
