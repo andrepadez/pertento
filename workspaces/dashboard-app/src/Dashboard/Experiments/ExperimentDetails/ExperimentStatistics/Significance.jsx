@@ -5,6 +5,7 @@ import { DataTable } from 'components/DataTable';
 import { ConfirmDialog } from 'components/Dialogs/ConfirmDialog';
 import { useExperiment } from '@/state/experiments/useExperiment';
 import { cn } from 'helpers/cn';
+import { formatDateTime } from 'helpers/formatters';
 
 export const Significance = ({ experiment, manager }) => {
   const [wantsToDeploy, setWantsToDeploy] = useState(null);
@@ -29,7 +30,10 @@ export const Significance = ({ experiment, manager }) => {
     <div className="grid gap-4">
       {deployed && (
         <Card className="grid gap-2 bg-green-100 p-5">
-          <h4>Deployed Variant</h4>
+          <div className="flex items-center justify-between">
+            <h4>Deployed Variant</h4>
+            <h6>since {formatDateTime(deployed.deployed)}</h6>
+          </div>
           <DataTable
             data={[{ ...deployed, ...statistics[deployed.id] }]}
             columns={[
