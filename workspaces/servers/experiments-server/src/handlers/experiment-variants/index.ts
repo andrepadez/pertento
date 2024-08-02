@@ -45,6 +45,7 @@ export const experimentVariantsHandler = async (c) => {
       if (!variantId) continue;
 
       response[queryKey] = variantId;
+
       if (!isDeployed) {
         response.ganMeasurementId = experiment.ganMeasurementId;
       }
@@ -60,6 +61,9 @@ export const experimentVariantsHandler = async (c) => {
       resExp.changes = [...experiment.variants[variantId].changes];
       resExp.globalCSS = globalCSS;
       resExp.globalJavascript = globalJavascript;
+      if (isDeployed) {
+        resExp.deployed = true;
+      }
     }
 
     return c.json(response);
