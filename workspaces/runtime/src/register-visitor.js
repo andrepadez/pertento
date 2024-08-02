@@ -18,8 +18,10 @@ export const registerVisitor = async function ({ websiteId, expVariantMap, rawEx
       localStorage.setItem(lsKey, 'deployed');
       url += `&exp-${expId}=${variantId}`;
       count++;
+    } else {
+      localStorage.setItem(lsKey, true);
     }
-    localStorage.setItem(lsKey, true);
+
     if (!hasVisited) {
       url += `&exp-${expId}=${variantId}`;
       count++;
