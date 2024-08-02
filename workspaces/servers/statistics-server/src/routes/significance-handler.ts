@@ -63,7 +63,7 @@ export const crunchStats = ({ experiment, stats, goal }) => {
   const originalStat = significance[originalVariant.id];
   for (let [variantId, statObj] of Object.entries(significance)) {
     const variant = dbVariants.find((variant) => variant.id === +variantId);
-    statObj.variantId = variant.id;
+    statObj.variantId = variantId;
     if (goal === 'Conversions') {
       statObj.average = getAverage(statObj.conversions, statObj.sessions, true);
       if (!statObj.isOriginal) {
