@@ -2,6 +2,7 @@ import { db, eq, Experiments, Variants, VisitorCount, Changes, ActivityLog } fro
 
 export const deployExperimentHandler = async (c) => {
   const { experimentId, variantId } = c.req.param();
+  const now = new Date().valueOf();
 
   return db.transaction(async (tx) => {
     const [experiment] = await tx
@@ -22,7 +23,7 @@ export const deployExperimentHandler = async (c) => {
 
     const [deployedVariant] = await tx
       .insert(Variants)
-      .values({ ...variant, deployed: true, weight: 10000, name: `${variant.name} (DEPLOYED)` })
+      .values({ ...variant, deployed: now, weight: 10000, name: `${variant.name} (DEPLOYED)` })
       .returning();
 
     await tx.insert(VisitorCount).values({ experimentId, variantId: deployedVariant.id, count: 0 });
@@ -34,7 +35,7 @@ export const deployExperimentHandler = async (c) => {
     const log = {
       experimentId,
       userId: c.user.id,
-      createdAt: new Date().valueOf(),
+      createdAt: now,
       message: `Deployed variant ${variant.name} (${variant.id})`,
     };
 

@@ -15,7 +15,7 @@ export const Variants = pgTable('variants', {
   weight: smallint('weight', { mode: 'number' }),
   globalJavascript: text('global_javascript'),
   globalCSS: text('global_css'),
-  deployed: boolean('deployed').default(false),
+  deployed: bigint('deployed', { mode: 'number' }),
   createdAt: bigint('created_at', { mode: 'number' }),
   updatedAt: bigint('updated_at', { mode: 'number' }),
 });
