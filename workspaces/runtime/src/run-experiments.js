@@ -26,7 +26,7 @@ export const runExperiments = (experimentData = {}, websiteId) => {
     mutationObserver.observe(document.body, { childList: true, subtree: true });
   }
 
-  registerVisitor({ websiteId, expVariantMap });
+  registerVisitor({ websiteId, expVariantMap, rawExperimentData: experimentData.experiments });
 
   listenForUrlChange((url) => {
     log('url changed', url);
