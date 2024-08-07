@@ -41,6 +41,7 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
   const start = performance.now();
   const { variants: dbVariants } = experiment;
   const originalVariant = dbVariants.find((variant) => variant.name === 'Original');
+  const deployedVariantId = dbVariants.find((v) => !!v.deployed)?.id;
 
   const firstDate = new Date(experiment.startsAt);
   const lastDate = !!experiment.endsAt ? new Date(experiment.endsAt) : new Date();
@@ -58,7 +59,9 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
       date: currentDateVal,
     };
     for (let variant of dbVariants) {
-      dataObject[variant.id] = 0;
+      if (variant.id !== deployedVariantId) {
+        dataObject[variant.id] = 0;
+      }
     }
     chartData[currentDateVal] = dataObject;
     currentDateVal += WHOLE_DAY;
@@ -71,6 +74,7 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
   let currentDataObject = chartData[currentKey];
 
   for (let stat of stats) {
+    if (stat.variant_id === deployedVariantId) continue;
     while (+stat.from > +currentKey) {
       if (goal === 'Revenue') {
         for (let key in currentDataObject) {
