@@ -18,23 +18,23 @@ export const chartDataHandler = async (c) => {
 };
 
 export const chartDataMiddleware = async (c, next) => {
-  // const { experimentId } = c.req.param();
-  // const { goal, currency } = c.req.query();
+  const { experimentId } = c.req.param();
+  const { goal, currency } = c.req.query();
 
-  // const redisKey = `PERTENTO:CHART_DATA:${experimentId}:${goal}:${currency}`;
-  // const chartDataMemo = await redisClient.get(redisKey);
-  // if (chartDataMemo) {
-  //   const { chartData, timestamp } = JSON.parse(chartDataMemo);
-  //   if (Date.now() - timestamp < 10 * 60 * 1000) {
-  //     return c.json(chartData);
-  //   }
-  // }
+  const redisKey = `PERTENTO:CHART_DATA:${experimentId}:${goal}:${currency}`;
+  const chartDataMemo = await redisClient.get(redisKey);
+  if (chartDataMemo) {
+    const { chartData, timestamp } = JSON.parse(chartDataMemo);
+    if (Date.now() - timestamp < 10 * 60 * 1000) {
+      return c.json(chartData);
+    }
+  }
 
   await next();
 
-  // const { chartData } = c;
-  // const redisData = { chartData, timestamp: Date.now() };
-  // redisClient.set(redisKey, JSON.stringify(redisData), 'EX');
+  const { chartData } = c;
+  const redisData = { chartData, timestamp: Date.now() };
+  redisClient.set(redisKey, JSON.stringify(redisData), 'EX');
 };
 
 export const crunchChartData = ({ experiment, stats, goal }) => {
