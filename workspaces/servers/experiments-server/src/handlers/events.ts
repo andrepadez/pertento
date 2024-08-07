@@ -21,7 +21,8 @@ export const eventsMiddleware = async (c, next) => {
         const data = JSON.stringify(event[1]);
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
         await client.HSET(key, nowValue, data);
-        console.log(timestamp, 'saved', key);
+        const { revenue, value } = data.actionField || data;
+        console.log(timestamp, 'saved', key, value || revenue);
       }
     }
   }
