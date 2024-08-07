@@ -44,11 +44,10 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
   const deployedVariant = dbVariants.find((v) => !!v.deployed);
 
   const firstDate = new Date(experiment.startsAt);
-  const lastDate = !!deployedVariant
-    ? new Date(deployedVariant.deployed)
-    : !!experiment.endsAt
-      ? new Date(experiment.endsAt)
-      : new Date();
+  const lastDate =
+    // !!deployedVariant
+    //   ? new Date(deployedVariant.deployed):
+    !!experiment.endsAt ? new Date(experiment.endsAt) : new Date();
 
   let currentDate = new Date(firstDate);
   currentDate.setHours(0, 0, 0, 0);
