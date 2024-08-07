@@ -55,6 +55,8 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
   lastDate.setHours(0, 0, 0, 0);
   const chartData = {};
 
+  console.log(experiment.id, experiment.startsAt, experiment.endsAt, lastDate);
+
   let currentDateVal = currentDate.valueOf();
   let lastDateVal = lastDate.valueOf();
 
@@ -100,7 +102,6 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
       currentDataObject[stat.variant_id] += +stat.revenue;
     }
   }
-  // console.log(3, performance.now() - start);
 
   return Object.values(chartData).sort((a, b) => a.date - b.date);
 };
