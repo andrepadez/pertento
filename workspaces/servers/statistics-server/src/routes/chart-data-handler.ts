@@ -52,7 +52,7 @@ export const crunchChartData = ({ experiment, stats, goal }) => {
 
   let currentDate = new Date(firstDate);
   currentDate.setHours(0, 0, 0, 0);
-  lastDate.setDate(lastDate.getDate() + 1);
+  lastDate.setDate(lastDate.getDate() + 2);
   lastDate.setHours(0, 0, 0, 0);
   const chartData = {};
 
