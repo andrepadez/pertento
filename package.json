@@ -9,6 +9,7 @@
     "start:statistics": "cd workspaces/servers/statistics-server && bun run start",
     "start:notifier": "cd workspaces/notifier-server && bun run start",
     "start:admin": "cd workspaces/servers/admin-app && bun run start",
+    "start:payments": "cd workspaces/servers/payments-server && bun run start",
     "start:aggregator": "cd workspaces/aggregator-server && bun run start",
     "start:dashboard": "cd workspaces/dashboard-app && bun run start",
     "start:editor": "cd workspaces/editor-app && bun run start",
@@ -19,6 +20,7 @@
     "dev:statistics": "cd workspaces/servers/statistics-server && bun run dev",
     "dev:notifier": "cd workspaces/notifier-server && bun run dev",
     "dev:admin": "cd workspaces/servers/admin-app && bun run dev",
+    "dev:payments": "cd workspaces/servers/payments-server && bun run dev",
     "dev:dashboard": "cd workspaces/dashboard-app && bun run dev",
     "dev:editor": "cd workspaces/editor-app && bun run dev",
     "dev:extension": "cd workspaces/editor-extension && bun run dev",
@@ -83,6 +85,7 @@
     "react-simple-code-editor": "^0.13.1",
     "recharts": "^2.12.6",
     "redis": "^4.6.13",
+    "stripe": "^16.7.0",
     "tailwind-merge": "^2.3.0",
     "tailwindcss-animate": "^1.0.7"
   },
