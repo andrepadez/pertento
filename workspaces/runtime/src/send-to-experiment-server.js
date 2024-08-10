@@ -28,13 +28,13 @@ export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) =
     const dataToSend = data
       .filter(
         (item) =>
-          item.event?.toLowerCase() === 'purchase' ||
+          ['purchase', 'ga4_purchase'].includes(item.event?.toLowerCase()) ||
           item.ecommerce?.purchase ||
           (item[0] === 'event' && item[1] === 'purchase'),
       )
 
       .map((item) => {
-        if (item.event === 'purchase') {
+        if (['purchase', 'ga4_purchase'].includes(item.event?.toLowerCase())) {
           return ['purchase', item.ecommerce];
         } else if (item.ecommerce?.purchase) {
           return ['purchase', item.ecommerce.purchase];
