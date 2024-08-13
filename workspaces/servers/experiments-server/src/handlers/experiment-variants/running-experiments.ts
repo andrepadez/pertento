@@ -17,7 +17,9 @@ const refreshRunningExperiments = async () => {
 
   const experimentMap = {};
 
-  let i = 0;
+  let runningCount = 0;
+  let deployedCount = 0;
+
   for (let dbExperiment of dbExperiments) {
     const { id: websiteId, ganMeasurementId, serverContainerUrl } = dbExperiment.website;
     const { variants, deviceTargeting, cookieTargeting } = dbExperiment;
@@ -31,7 +33,9 @@ const refreshRunningExperiments = async () => {
     }, {});
     if (experiment.status === 'Deployed') {
       experiment.deployedVariant = variants.find((variant) => variant.deployed);
-      console.log('deployed experiment', experiment.id, experiment.deployedVariant.id);
+      deployedCount++;
+    } else {
+      runningCount++;
     }
     experiment.deviceTargeting = deviceTargeting.map((target) => target.device);
     delete experiment.website;
@@ -40,17 +44,18 @@ const refreshRunningExperiments = async () => {
     experimentMap[websiteId].push(experiment);
   }
 
-  return experimentMap;
+  experiments.running = experimentMap;
+  return { runningCount, deployedCount };
 };
 
 async function loop() {
   const start = performance.now();
   try {
-    experiments.running = await refreshRunningExperiments();
-    const count = Object.values(experiments.running).reduce((acc, values) => acc + values.length, 0);
+    const { runningCount, deployedCount } = await refreshRunningExperiments();
 
     const websiteCount = Object.keys(experiments.running).length;
-    console.log(new Date(), 'running', count, 'experiments', 'on', websiteCount, 'websites');
+    console.log(new Date(), 'running', runningCount, 'experiments', 'on', websiteCount, 'websites');
+    console.log(deployedCount, 'deployed experiments');
   } catch (ex) {
     console.error(ex);
   } finally {
