@@ -33,7 +33,7 @@ export const DashboardLayout = ({ children }) => {
   if (location.pathname.startsWith('/auth')) return children;
 
   return (
-    <div className="flex min-h-[100vh] flex-col">
+    <div className="flex min-h-[100vh] flex-col opacity-10">
       <div className="fixed z-50 w-full">
         <TopNav />
       </div>
