@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'shadcn/tabs';
 import { OrganizationSettings } from './OrganizationSettings';
+import { OrganizationBilling } from './OrganizationBilling';
 import { OrganizationTeams } from './OrganizationTeams';
 import { useAuth } from 'hooks/useAuth';
 import { useQueryState } from 'hooks/useQueryState';
@@ -10,7 +11,7 @@ export const OrganizationDetailsScreen = () => {
   const { user } = useAuth();
   const { organization } = useOrganizations();
   const [screen, setScreen] = useQueryState('screen', 'general');
-  if (!user) return;
+  if (!user || !organization) return;
 
   return (
     <div className="flex flex-col gap-5">
@@ -18,6 +19,7 @@ export const OrganizationDetailsScreen = () => {
       <Tabs value={screen} defaultValue="general" onValueChange={setScreen}>
         <TabsList className="flex gap-5">
           <TabsTrigger value="general">General</TabsTrigger>
+          <TabsTrigger value="billing">Billing</TabsTrigger>
           {user.company.type === 'Agency' ? (
             <>
               <TabsTrigger value="agency">Agency Team</TabsTrigger>
@@ -35,6 +37,9 @@ export const OrganizationDetailsScreen = () => {
         </TabsContent>
         <TabsContent value="organization">
           <OrganizationTeams user={user} organization={organization} />
+        </TabsContent>
+        <TabsContent value="billing">
+          <OrganizationBilling user={user} organization={organization} />
         </TabsContent>
       </Tabs>
     </div>

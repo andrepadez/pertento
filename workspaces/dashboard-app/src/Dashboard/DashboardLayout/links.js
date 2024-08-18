@@ -1,5 +1,5 @@
 import { FlaskConical, Activity, Building, Link } from 'lucide-react';
-import { CandlestickChart, UserRound, Landmark } from 'lucide-react';
+import { CandlestickChart, UserRound, Landmark, Wallet } from 'lucide-react';
 const { VITE_GOOGLE_AUTH_CLIENT_ID } = import.meta.env;
 
 export const getLinks = (user) => {
