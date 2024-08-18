@@ -60,7 +60,7 @@ async function loop() {
     console.error(ex);
   } finally {
     console.log('took', performance.now() - start, 'ms');
-    // setTimeout(loop, 30000);
+    setTimeout(loop, 30000);
   }
 }
 
