@@ -7,6 +7,7 @@ import { removeOpacityStyle } from './remove-opacity-style';
 import { checkIfOldEditor } from './old-editor-stuff';
 import { midEditorSetup } from './old-editor-stuff/mid-editor-setup';
 import { setupForEditorExtension } from './setup-for-editor-extension';
+import { bmobemit } from './bmobemit';
 const { VITE_DASHBOARD_URL } = import.meta.env;
 
 (async function main() {
@@ -29,6 +30,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
     const websiteId = new URL(script.src).searchParams.get('website-id');
     const body = document.body;
     if (checkIfOldEditor()) return;
+    bmobemit();
 
     const experimentData = await getExperimentData(websiteUrl, websiteId);
 
