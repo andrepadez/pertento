@@ -1,44 +1,80 @@
 import Stripe from 'stripe';
-import { db, eq, Companies } from 'pertentodb';
+import { db, eq, Companies, Subscriptions, Invoices } from 'pertentodb';
+import { paymentPlansByPriceId } from 'misc/payment-plans';
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
+
+// console.log(paymentPlansByPriceId);
 
 export const webhookHandler = async (ctx) => {
   const signature = ctx.req.header('stripe-signature');
   if (!signature) return ctx.text('No signature', 400);
   const body = await ctx.req.text();
   const event = await stripe.webhooks.constructEventAsync(body, signature, STRIPE_WEBHOOK_SECRET);
-  console.log(event.type);
 
   const eventArr = event.type.split('.');
   let eventIndex = 0;
   let handler = events[eventArr[eventIndex]];
   while (handler) {
     const key = eventArr[++eventIndex];
+    if (!handler[key]) break;
     if (typeof handler[key] === 'function') {
       handler[key](event.data.object);
       break;
     }
-    if (!handler[key]) break;
     handler = handler[key];
   }
 
   return ctx.json({ webhook: 'received' });
 };
 
+const queue = new Map();
+
+const finalize = async (customerId, data) => {
+  const customerData = queue.get(customerId) || { count: 0 };
+  const updatedCustomerData = { ...customerData, ...data, count: customerData.count + 1 };
+  queue.set(customerId, updatedCustomerData);
+  console.log(updatedCustomerData);
+  if (updatedCustomerData.count === 4) {
+    const [subscription] = await db.insert(Subscriptions).values(updatedCustomerData).returning();
+    console.log('inserted SUBSCRIPTION', subscription);
+    const [invoice] = await db.insert(Invoices).values(updatedCustomerData).returning();
+    console.log('inserted INVOICE', invoice);
+    queue.delete(customerId);
+  }
+};
+
 const events = {
   customer: {
-    // created: (data) => {
-    //   console.log('customer.created');
-    //   console.log(data);
-    // },
+    created: async (data) => {
+      console.log('customer.created');
+      const { id: customerId, email } = data;
+      finalize(customerId, { customerId, email });
+    },
+    subscription: {
+      created: async (data) => {
+        console.log('customer.subscription.created');
+        const { customer: customerId, id: subscriptionId, current_period_end, current_period_start, items } = data;
+        const { id: priceId } = items.data[0].price;
+        const paymentPlan = paymentPlansByPriceId[priceId];
+
+        const finalObject = {
+          subscriptionId,
+          currentPeriodStart: current_period_start * 1000,
+          currentPeriodEnd: current_period_end * 1000,
+          subscriptionName: paymentPlan.name,
+          frequency: paymentPlan.frequency,
+        };
+
+        finalize(customerId, finalObject);
+      },
+    },
   },
   checkout: {
     session: {
       completed: async (data) => {
         console.log('checkout.session.complete');
-        const { customer, client_reference_id, customer_details } = data;
-        console.log({ customer, client_reference_id, name: customer_details.name });
+        const { customer: customerId, client_reference_id, customer_details } = data;
 
         const userCompany = await db.query.Companies.findFirst({
           where: eq(Companies.id, client_reference_id),
@@ -47,14 +83,44 @@ const events = {
         const desiredName = `${userCompany.friendlyName} (${userCompany.id})`;
 
         if (desiredName !== customer_details.name) {
-          await stripe.customers.update(customer, {
+          await stripe.customers.update(customerId, {
             name: desiredName,
           });
         }
+
+        finalize(customerId, { companyId: userCompany.id });
       },
     },
   },
+  invoice: {
+    payment_succeeded: async (data) => {
+      const { id, customer, amount_due, invoice_pdf, created } = data;
+      const finalData = {
+        invoiceId: id,
+        customerId: customer,
+        paid: true,
+        amount: amount_due,
+        invoicePDF: invoice_pdf,
+        createdAt: created * 1000,
+      };
+      finalize(customer, finalData);
+    },
+  },
 };
+
+/*
+export const Invoices = pgTable('invoices', {
+  id: bigserial('id', { mode: 'number' }).primaryKey(),
+  companyId: bigint('company_id', { mode: 'number' }),
+  customerId: varchar('customer_id', { length: 32 }),
+  invoiceId: varchar('invoice_id', { length: 256 }),
+  subscriptionId: varchar('subscription_id', { length: 256 }),
+  amount: bigint('amount', { mode: 'number' }),
+  paid: boolean('paid'),
+  invoicePDF: varchar('invoice_pdf', { length: 1024 }),
+  createdAt: bigint('created_at', { mode: 'number' }),
+});
+*/
 
 /*
 {

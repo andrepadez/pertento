@@ -169,6 +169,27 @@
       "when": 1722606572950,
       "tag": "0023_overconfident_gressill",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1724123776969,
+      "tag": "0024_chunky_shotgun",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1724125364137,
+      "tag": "0025_dashing_dragon_lord",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1724126649591,
+      "tag": "0026_shocking_nemesis",
+      "breakpoints": true
     }
   ]
 }

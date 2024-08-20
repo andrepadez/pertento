@@ -3,10 +3,10 @@ import { useBilling } from '@/state/useBilling';
 
 export const OrganizationBilling = ({ user }) => {
   const { paymentPlans } = useBilling();
-
   if (!paymentPlans) return null;
+
   const queryString = `prefilled_email=${user.email}&client_reference_id=${user.companyId}`;
-  console.log(queryString);
+
   return (
     <div className="p-5">
       <div className="flex justify-around">
