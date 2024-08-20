@@ -10,6 +10,7 @@ export const Subscriptions = pgTable('subscriptions', {
   id: bigserial('id', { mode: 'number' }).primaryKey(),
   companyId: bigint('company_id', { mode: 'number' }),
   customerId: varchar('customer_id', { length: 32 }),
+  email: varchar('email', { length: 256 }),
   subscriptionId: varchar('subscription_id', { length: 256 }),
   subscriptionName: subscriptionPlanEnum('subscription_name'),
   frequency: frequencyEnum('frequency'),
