@@ -29,3 +29,12 @@ export const paymentPlans = [
     },
   },
 ];
+
+export const paymentPlansByPriceId = {
+  price_1PltoN009aFOms2R9J2aHlcq: { name: paymentPlans[0].name, frequency: 'yearly', price: 999 },
+  price_1Pltng009aFOms2RCVhpbr0D: { name: paymentPlans[0].name, frequency: 'monthly', price: 99 },
+  price_1Pltpl009aFOms2RvBgVp4tr: { name: paymentPlans[1].name, frequency: 'yearly', price: 2499 },
+  price_1PltpL009aFOms2RSYmAPGIH: { name: paymentPlans[1].name, frequency: 'monthly', price: 249 },
+};
+
+export const paymentPlansNames = paymentPlans.map((plan) => plan.name);
