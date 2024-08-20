@@ -1,5 +1,5 @@
 import Stripe from 'stripe';
-import { db, eq, Companies, Subscriptions } from 'pertentodb';
+import { db, eq, Companies, Subscriptions, Invoices } from 'pertentodb';
 import { paymentPlansByPriceId } from 'misc/payment-plans';
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
@@ -35,9 +35,11 @@ const finalize = async (customerId, data) => {
   const updatedCustomerData = { ...customerData, ...data, count: customerData.count + 1 };
   queue.set(customerId, updatedCustomerData);
   console.log(updatedCustomerData);
-  if (updatedCustomerData.count === 3) {
+  if (updatedCustomerData.count === 4) {
     const [subscription] = await db.insert(Subscriptions).values(updatedCustomerData).returning();
-    console.log('inserted', subscription);
+    console.log('inserted SUBSCRIPTION', subscription);
+    const [invoice] = await db.insert(Invoices).values(updatedCustomerData).returning();
+    console.log('inserted INVOICE', invoice);
     queue.delete(customerId);
   }
 };
@@ -68,11 +70,6 @@ const events = {
       },
     },
   },
-  invoice: {
-    payment_succeeded: async (data) => {
-      // finalize(data);
-    },
-  },
   checkout: {
     session: {
       completed: async (data) => {
@@ -90,12 +87,40 @@ const events = {
             name: desiredName,
           });
         }
-        console.log('--------------------------');
+
         finalize(customerId, { companyId: userCompany.id });
       },
     },
   },
+  invoice: {
+    payment_succeeded: async (data) => {
+      const { id, customer, amount_due, invoice_pdf, created } = data;
+      const finalData = {
+        invoiceId: id,
+        customerId: customer,
+        paid: true,
+        amount: amount_due,
+        invoicePDF: invoice_pdf,
+        createdAt: created * 1000,
+      };
+      finalize(customer, finalData);
+    },
+  },
 };
+
+/*
+export const Invoices = pgTable('invoices', {
+  id: bigserial('id', { mode: 'number' }).primaryKey(),
+  companyId: bigint('company_id', { mode: 'number' }),
+  customerId: varchar('customer_id', { length: 32 }),
+  invoiceId: varchar('invoice_id', { length: 256 }),
+  subscriptionId: varchar('subscription_id', { length: 256 }),
+  amount: bigint('amount', { mode: 'number' }),
+  paid: boolean('paid'),
+  invoicePDF: varchar('invoice_pdf', { length: 1024 }),
+  createdAt: bigint('created_at', { mode: 'number' }),
+});
+*/
 
 /*
 {
