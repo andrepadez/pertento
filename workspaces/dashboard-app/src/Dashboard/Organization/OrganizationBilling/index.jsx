@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Card } from 'shadcn/card';
 import { Label } from 'shadcn/label';
+import { Button } from 'shadcn/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'shadcn/tabs';
 import { BadgeCheck, Check } from 'lucide-react';
 import { useBilling } from '@/state/useBilling';
@@ -8,13 +9,15 @@ import { formatCurrency } from 'helpers/formatters';
 
 export const OrganizationBilling = ({ user }) => {
   const [interval, setInterval] = useState('month');
-  const { paymentPlans } = useBilling();
+  const { paymentPlans, createCheckoutSession } = useBilling();
   if (!paymentPlans) return null;
+
+  const subscribedPlan = paymentPlans.find((plan) => plan.id === user.company.subscription?.productId);
 
   return (
     <div>
       <h3 className="my-8 text-center">
-        {true ? <span>You are currently on the Free Plan</span> : <span>&nbsp;</span>}
+        {!subscribedPlan ? <span>You are currently on the Free Plan</span> : <span>&nbsp;</span>}
       </h3>
       <Tabs className="mx-auto my-6 w-96" value={interval} onValueChange={setInterval}>
         <TabsList className="grid w-full grid-cols-2">
@@ -28,7 +31,7 @@ export const OrganizationBilling = ({ user }) => {
             key={plan.name}
             className="relative flex flex-col items-center max-w-sm p-8 rounded-lg shadow-lg bg-slate-100"
           >
-            {false && <BadgeCheck className="absolute w-16 h-16 -right-8 -top-8 fill-green-400" />}
+            {plan === subscribedPlan && <BadgeCheck className="absolute w-16 h-16 -left-8 -top-8 fill-green-400" />}
             <div>
               <h2 className="mb-2 text-3xl font-extrabold text-center">{plan.name}</h2>
               <p className="text-center opacity-60">{plan.description || ''}</p>
@@ -53,9 +56,11 @@ export const OrganizationBilling = ({ user }) => {
               ))}
             </div>
             <div className="flex justify-center mt-8">
-              <button className="px-4 py-2 border-4 rounded-xl border-violet-400 hover:bg-violet-100">
-                Get Started
-              </button>
+              {plan !== subscribedPlan && (
+                <Button onClick={() => createCheckoutSession(plan.prices[interval].id)}>
+                  {subscribedPlan ? <span>Upgrade</span> : <span>Get Started</span>}
+                </Button>
+              )}
             </div>
           </div>
         ))}

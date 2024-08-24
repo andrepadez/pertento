@@ -20,7 +20,11 @@ const existingCompanyIds = existingCustomers.map((c) => +c.metadata.companyId);
 console.log(existingCompanyIds);
 
 const companies = await db.query.Companies.findMany({
-  where: and(ne(Companies.id, 1), eq(Companies.parentCompanyId, 0), notInArray(Companies.id, existingCompanyIds)),
+  where: and(
+    ne(Companies.id, 1),
+    eq(Companies.parentCompanyId, 0),
+    // existingCompanyIds.length > 0 ? notInArray(Companies.id, existingCompanyIds) : null,
+  ),
   with: {
     users: {
       where: eq(Users.role, 'Owner'),

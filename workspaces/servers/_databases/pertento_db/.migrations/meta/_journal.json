@@ -204,6 +204,27 @@
       "when": 1724350030822,
       "tag": "0028_even_molten_man",
       "breakpoints": true
+    },
+    {
+      "idx": 29,
+      "version": "7",
+      "when": 1724510717471,
+      "tag": "0029_minor_scourge",
+      "breakpoints": true
+    },
+    {
+      "idx": 30,
+      "version": "7",
+      "when": 1724510752802,
+      "tag": "0030_magenta_franklin_richards",
+      "breakpoints": true
+    },
+    {
+      "idx": 31,
+      "version": "7",
+      "when": 1724510873409,
+      "tag": "0031_stale_may_parker",
+      "breakpoints": true
     }
   ]
 }

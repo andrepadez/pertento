@@ -2,6 +2,7 @@ import { Hono } from 'hono';
 import { userMiddleware } from 'hono-server';
 import { webhookHandler } from './webhook-handler';
 import { paymentPlansHandler } from './payment-plans-handler';
+import { createCheckoutSessionHandler } from './checkout-session';
 import { db, eq, Subscriptions } from 'pertentodb';
 
 export const stripeRouter = new Hono();
@@ -19,3 +20,5 @@ stripeRouter.get('/subscription', async (ctx) => {
   });
   return ctx.json(subscription);
 });
+
+stripeRouter.post('/checkout-session', createCheckoutSessionHandler);

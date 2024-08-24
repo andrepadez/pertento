@@ -4,8 +4,6 @@ import { db, eq, Companies, Subscriptions, Invoices } from 'pertentodb';
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-// console.log(paymentPlansByPriceId);
-
 export const webhookHandler = async (ctx) => {
   const signature = ctx.req.header('stripe-signature');
   if (!signature) return ctx.text('No signature', 400);
@@ -34,10 +32,13 @@ const finalize = async (customerId, data) => {
   const customerData = queue.get(customerId) || { count: 0 };
   const updatedCustomerData = { ...customerData, ...data, count: customerData.count + 1 };
   queue.set(customerId, updatedCustomerData);
-  console.log(updatedCustomerData);
-  if (updatedCustomerData.count === 4) {
-    const [subscription] = await db.insert(Subscriptions).values(updatedCustomerData).returning();
-    console.log('inserted SUBSCRIPTION', subscription);
+  if (updatedCustomerData.count === 3) {
+    const [subscription] = await db
+      .update(Subscriptions)
+      .set(updatedCustomerData)
+      .where(eq(Subscriptions.customerId, customerId))
+      .returning();
+    console.log('updated SUBSCRIPTION', subscription);
     const [invoice] = await db.insert(Invoices).values(updatedCustomerData).returning();
     console.log('inserted INVOICE', invoice);
     queue.delete(customerId);
@@ -46,25 +47,21 @@ const finalize = async (customerId, data) => {
 
 const events = {
   customer: {
-    created: async (data) => {
-      console.log('customer.created');
-      const { id: customerId, email } = data;
-      finalize(customerId, { customerId, email });
-    },
     subscription: {
       created: async (data) => {
         console.log('customer.subscription.created');
         const { customer: customerId, id: subscriptionId, current_period_end, current_period_start, items } = data;
-        const { id: priceId } = items.data[0].price;
-        const paymentPlan = paymentPlansByPriceId[priceId];
+        const { product: productId, interval } = items.data[0].plan;
 
         const finalObject = {
           subscriptionId,
+          productId,
+          interval,
           currentPeriodStart: current_period_start * 1000,
           currentPeriodEnd: current_period_end * 1000,
-          subscriptionName: paymentPlan.name,
-          frequency: paymentPlan.frequency,
         };
+
+        console.log('finalObject', finalObject);
 
         finalize(customerId, finalObject);
       },
@@ -74,21 +71,7 @@ const events = {
     session: {
       completed: async (data) => {
         console.log('checkout.session.complete');
-        const { customer: customerId, client_reference_id, customer_details } = data;
-
-        const userCompany = await db.query.Companies.findFirst({
-          where: eq(Companies.id, client_reference_id),
-        });
-
-        const desiredName = `${userCompany.friendlyName} (${userCompany.id})`;
-
-        if (desiredName !== customer_details.name) {
-          await stripe.customers.update(customerId, {
-            name: desiredName,
-          });
-        }
-
-        finalize(customerId, { companyId: userCompany.id });
+        finalize(data.customer, {});
       },
     },
   },

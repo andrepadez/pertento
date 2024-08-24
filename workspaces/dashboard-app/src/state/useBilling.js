@@ -1,5 +1,4 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'sonner';
 import { useAuth } from 'hooks/useAuth';
 import { useClient } from 'hooks/useClient';
 
@@ -20,5 +19,14 @@ export const useBilling = () => {
     queryFn: async () => billingClient.get(`/stripe/subscription`),
   });
 
-  return { paymentPlans };
+  const createCheckoutSession = async (priceId) => {
+    try {
+      const { url } = await billingClient.post('/stripe/checkout-session', { priceId });
+      window.location.href = url;
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
+
+  return { paymentPlans, subscription, createCheckoutSession };
 };
