@@ -27,3 +27,7 @@ export const formatDate = (num) => {
 export const formatDateTime = (num) => {
   return !!num ? `${formatDate(num)} ${formatTime(num)}` : '';
 };
+
+export const formatCurrency = (val) => {
+  return (val / 100).toFixed(2);
+};

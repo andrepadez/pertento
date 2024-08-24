@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { db, eq, Companies, Subscriptions, Invoices } from 'pertentodb';
-import { paymentPlansByPriceId } from 'misc/payment-plans';
+// import { paymentPlansByPriceId } from 'misc/payment-plans';
 const { STRIPE_SECRET_KEY, STRIPE_WEBHOOK_SECRET } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 

@@ -2,9 +2,9 @@ import { pgTable, pgEnum, json, varchar } from 'drizzle-orm/pg-core';
 import { bigint, bigserial } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 import { Companies } from 'pertentodb';
-import { paymentPlansNames } from 'misc/payment-plans';
+// import { paymentPlansNames } from 'misc/payment-plans';
 
-export const subscriptionPlanEnum = pgEnum('subscription_name', paymentPlansNames);
+// export const subscriptionPlanEnum = pgEnum('subscription_name', paymentPlansNames);
 export const frequencyEnum = pgEnum('frequency', ['monthly', 'yearly']);
 
 export const Subscriptions = pgTable('subscriptions', {

@@ -4,60 +4,121 @@ const isDev = BUILD_ENV !== 'production';
 
 const stripe = Stripe(STRIPE_SECRET_KEY);
 
-// const products = await stripe.products.list({ active: true, limit: 100 });
-// console.log('products', products.data.length);
-// console.log(JSON.stringify(products.data));
-// const prices = await stripe.prices.list({ active: true, limit: 100 });
-// console.log('prices', prices.data.length);
-// console.log(JSON.stringify(prices.data));
+const { data: products } = await stripe.products.list({ active: true, limit: 100 });
+const { data: prices } = await stripe.prices.list({ active: true, limit: 100 });
+
 // const paymentLinks = await stripe.paymentLinks.list();
 // console.log(JSON.stringify(paymentLinks.data));
 
 // console.log(products.data.map((product) => product.name));
 
-export const paymentPlans = [
-  {
-    name: 'Pertento Subscription Starter',
-    yearly: {
-      link: isDev ? 'https://buy.stripe.com/test_dR66rje9Aabt316002' : '',
-      priceId: isDev ? 'price_1PltoN009aFOms2R9J2aHlcq' : '',
-      price: 999,
-    },
-    monthly: {
-      link: isDev ? 'https://buy.stripe.com/test_28oaHz5D4fvNcBG3cf' : '',
-      priceId: isDev ? 'price_1Pltng009aFOms2RCVhpbr0D' : '',
-      price: 99,
-    },
-  },
-  {
-    name: 'Pertento Subscription Pro',
-    yearly: {
-      link: isDev ? 'https://buy.stripe.com/test_bIY5nfe9A5VdeJObII' : '',
-      priceId: isDev ? 'price_1Pltpl009aFOms2RvBgVp4tr' : '',
-      price: 2499,
-    },
-    monthly: {
-      link: isDev ? 'https://buy.stripe.com/test_28o3f78Pg83l0SYbIJ' : '',
-      priceId: isDev ? 'price_1PltpL009aFOms2RSYmAPGIH' : '',
-      price: 249,
-    },
-  },
-];
+const fetchedPaymentPlans = products.map((product) => {
+  const { id, name, metadata } = product;
+  const { companyType } = metadata;
+  const productPrices = prices
+    .filter((price) => price.product === id)
+    .reduce((acc, price) => {
+      const { interval } = price.recurring;
+      acc[interval] = { id: price.id, value: price.unit_amount };
+      return acc;
+    }, {});
 
-// andre.padez+agency_owner@pertento.ai
+  return { id, name, companyType, prices: productPrices };
+});
 
-export const paymentPlansByPriceId = {
-  price_1PltoN009aFOms2R9J2aHlcq: { name: paymentPlans[0].name, frequency: 'yearly', price: 999 },
-  price_1Pltng009aFOms2RCVhpbr0D: { name: paymentPlans[0].name, frequency: 'monthly', price: 99 },
-  price_1Pltpl009aFOms2RvBgVp4tr: { name: paymentPlans[1].name, frequency: 'yearly', price: 2499 },
-  price_1PltpL009aFOms2RSYmAPGIH: { name: paymentPlans[1].name, frequency: 'monthly', price: 249 },
+export const paymentPlans = {
+  Agency: [
+    {
+      id: 'prod_Qhvau56mOCOX95',
+      name: 'Agency Starter',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqVkQ009aFOms2RsMqFk7m9',
+          value: 299900,
+        },
+        month: {
+          id: 'price_1PqVja009aFOms2Rh6KIfc6T',
+          value: 29900,
+        },
+      },
+    },
+    {
+      id: 'prod_Qhw89PtPzonlTr',
+      name: 'Agency Standard',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqWHY009aFOms2R2Hwhjqie',
+          value: 499900,
+        },
+        month: {
+          id: 'price_1PqWGh009aFOms2Rf1MWyFTT',
+          value: 49900,
+        },
+      },
+    },
+    {
+      id: 'prod_QhwA5yYbfhXra6',
+      name: 'Agency Pro',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqWJm009aFOms2RLV1r7nJL',
+          value: 699900,
+        },
+        month: {
+          id: 'price_1PqWIW009aFOms2Rk4V3eoWP',
+          value: 69900,
+        },
+      },
+    },
+  ],
+  'Client Account': [
+    {
+      id: 'prod_QhufkyvOcVWyI9',
+      name: 'Pertento Pro',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqUqc009aFOms2RaBvPVEou',
+          value: 249900,
+        },
+        month: {
+          id: 'price_1PqUqI009aFOms2RtoiDB3dY',
+          value: 24900,
+        },
+      },
+    },
+    {
+      id: 'prod_QhudiAXBm5r9Es',
+      name: 'Pertento Standard',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqUoI009aFOms2RsXhws9h2',
+          value: 149900,
+        },
+        month: {
+          id: 'price_1PqUnk009aFOms2RAYK4UxOy',
+          value: 14900,
+        },
+      },
+    },
+    {
+      id: 'prod_QhuVo0yZI72RJw',
+      name: 'Pertento Starter',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      prices: {
+        year: {
+          id: 'price_1PqUgK009aFOms2R8cKHXjVk',
+          value: 99900,
+        },
+        month: {
+          id: 'price_1PqUg2009aFOms2RrsL9L3Lo',
+          value: 9900,
+        },
+      },
+    },
+  ],
 };
-
-export const paymentPlansNames = [
-  'Agency Pro',
-  'Agency Standard',
-  'Agency Starter',
-  'Pertento Pro',
-  'Pertento Standard',
-  'Pertento Starter',
-];
