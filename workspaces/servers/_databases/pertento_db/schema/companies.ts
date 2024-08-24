@@ -1,7 +1,7 @@
 import { pgTable, pgEnum, serial, varchar, text, boolean } from 'drizzle-orm/pg-core';
 import { smallint, bigint, bigserial, uuid } from 'drizzle-orm/pg-core';
 import { integer, numeric, decimal } from 'drizzle-orm/pg-core';
-import { Websites, Users } from './';
+import { Websites, Users, Subscriptions, Invoices } from './';
 import { relations } from 'drizzle-orm';
 import { COMPANY_SIZES, COMPANY_TYPES } from 'misc';
 
@@ -30,4 +30,5 @@ export const CompaniesRelations = relations(Companies, ({ many, one }) => ({
   }),
   websites: many(Websites),
   users: many(Users),
+  subscription: one(Subscriptions),
 }));

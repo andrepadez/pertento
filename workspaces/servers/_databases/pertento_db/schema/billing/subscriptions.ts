@@ -1,6 +1,7 @@
 import { pgTable, pgEnum, json, varchar } from 'drizzle-orm/pg-core';
 import { bigint, bigserial } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
+import { Companies } from 'pertentodb';
 import { paymentPlansNames } from 'misc/payment-plans';
 
 export const subscriptionPlanEnum = pgEnum('subscription_name', paymentPlansNames);
@@ -23,3 +24,11 @@ export const Subscriptions = pgTable('subscriptions', {
   // createdAt: bigint('created_at', { mode: 'number' }),
   // updatedAt: bigint('updated_at', { mode: 'number' }),
 });
+
+export const SubscriptionRelations = relations(Subscriptions, ({ many, one }) => ({
+  // clients: many(Companies, { relationName: 'clients' }),
+  company: one(Companies, {
+    fields: [Subscriptions.companyId],
+    references: [Companies.id],
+  }),
+}));
