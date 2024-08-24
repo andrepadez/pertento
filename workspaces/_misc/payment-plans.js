@@ -4,27 +4,27 @@ const isDev = BUILD_ENV !== 'production';
 
 const stripe = Stripe(STRIPE_SECRET_KEY);
 
-const { data: products } = await stripe.products.list({ active: true, limit: 100 });
-const { data: prices } = await stripe.prices.list({ active: true, limit: 100 });
+// const { data: products } = await stripe.products.list({ active: true, limit: 100 });
+// const { data: prices } = await stripe.prices.list({ active: true, limit: 100 });
 
 // const paymentLinks = await stripe.paymentLinks.list();
 // console.log(JSON.stringify(paymentLinks.data));
 
 // console.log(products.data.map((product) => product.name));
 
-const fetchedPaymentPlans = products.map((product) => {
-  const { id, name, metadata } = product;
-  const { companyType } = metadata;
-  const productPrices = prices
-    .filter((price) => price.product === id)
-    .reduce((acc, price) => {
-      const { interval } = price.recurring;
-      acc[interval] = { id: price.id, value: price.unit_amount };
-      return acc;
-    }, {});
+// const fetchedPaymentPlans = products.map((product) => {
+//   const { id, name, metadata } = product;
+//   const { companyType } = metadata;
+//   const productPrices = prices
+//     .filter((price) => price.product === id)
+//     .reduce((acc, price) => {
+//       const { interval } = price.recurring;
+//       acc[interval] = { id: price.id, value: price.unit_amount };
+//       return acc;
+//     }, {});
 
-  return { id, name, companyType, prices: productPrices };
-});
+//   return { id, name, companyType, prices: productPrices };
+// });
 
 export const paymentPlans = {
   Agency: [
