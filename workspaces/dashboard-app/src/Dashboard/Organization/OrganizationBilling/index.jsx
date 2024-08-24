@@ -1,22 +1,43 @@
 import { useState } from 'react';
 import { Card } from 'shadcn/card';
 import { Label } from 'shadcn/label';
+import { DataTable } from 'components/DataTable';
 import { Button } from 'shadcn/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'shadcn/tabs';
 import { BadgeCheck, Check } from 'lucide-react';
 import { useBilling } from '@/state/useBilling';
-import { formatCurrency } from 'helpers/formatters';
+import { formatCurrency, formatDate } from 'helpers/formatters';
 
 export const OrganizationBilling = ({ user }) => {
   const [interval, setInterval] = useState('month');
-  const { paymentPlans, createCheckoutSession } = useBilling();
+  const { paymentPlans, createCheckoutSession, invoices } = useBilling();
   if (!paymentPlans) return null;
+
+  console.log(invoices);
 
   const subscribedPlan = paymentPlans.find((plan) => plan.id === user.company.subscription?.productId);
 
   return (
     <div>
-      <h3 className="my-8 text-center">
+      {invoices?.length > 0 && (
+        <Card className="p-5 mt-10">
+          <h4>Invoices</h4>
+          <DataTable
+            data={invoices}
+            columns={[
+              { field: 'createdAt', label: 'date', format: ({ value }) => formatDate(value) },
+              { field: 'amount', label: 'Amount', format: ({ value }) => <span>€{formatCurrency(value)}</span> },
+              { field: 'paid', label: 'Status', format: ({ value }) => <Label>{value ? 'Paid' : 'Unpaid'}</Label> },
+              {
+                field: 'invoicePDF',
+                label: ' ',
+                format: ({ value }) => <a href={value}>Download</a>,
+              },
+            ]}
+          />
+        </Card>
+      )}
+      <h3 className="my-4 text-center">
         {!subscribedPlan ? <span>You are currently on the Free Plan</span> : <span>&nbsp;</span>}
       </h3>
       <Tabs className="mx-auto my-6 w-96" value={interval} onValueChange={setInterval}>

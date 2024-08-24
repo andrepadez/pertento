@@ -78,7 +78,13 @@ const events = {
   invoice: {
     payment_succeeded: async (data) => {
       const { id, customer, amount_due, invoice_pdf, created } = data;
+
+      const dbSubscription = await db.query.Subscriptions.findFirst({
+        where: eq(Subscriptions.customerId, customer),
+      });
+
       const finalData = {
+        companyId: dbSubscription.companyId,
         invoiceId: id,
         customerId: customer,
         paid: true,

@@ -19,6 +19,12 @@ export const useBilling = () => {
     queryFn: async () => billingClient.get(`/stripe/subscription`),
   });
 
+  const { data: invoices } = useQuery({
+    queryKey: ['INVOICES'],
+    enabled: !!user,
+    queryFn: async () => billingClient.get(`/stripe/invoices`),
+  });
+
   const createCheckoutSession = async (priceId) => {
     try {
       const { url } = await billingClient.post('/stripe/checkout-session', { priceId });
@@ -28,5 +34,5 @@ export const useBilling = () => {
     }
   };
 
-  return { paymentPlans, subscription, createCheckoutSession };
+  return { paymentPlans, subscription, invoices, createCheckoutSession };
 };
