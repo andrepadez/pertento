@@ -11,7 +11,8 @@ export const OrganizationDetailsScreen = () => {
   const { user } = useAuth();
   const { organization } = useOrganizations();
   const [screen, setScreen] = useQueryState('screen', 'general');
-  if (!user || !organization) return;
+
+  if (!user) return;
 
   return (
     <div className="flex flex-col gap-5">

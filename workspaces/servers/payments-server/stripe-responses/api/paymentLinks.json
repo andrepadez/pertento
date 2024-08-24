@@ -1,0 +1,246 @@
+[
+  {
+    "id": "plink_1PovMC009aFOms2RE4xj1L1t",
+    "object": "payment_link",
+    "active": true,
+    "after_completion": {
+      "hosted_confirmation": {
+        "custom_message": "Go back to your dashboard and refresh to unlock the services. Thanks for your trust in Pertento."
+      },
+      "type": "hosted_confirmation"
+    },
+    "allow_promotion_codes": false,
+    "application": null,
+    "application_fee_amount": null,
+    "application_fee_percent": null,
+    "automatic_tax": { "enabled": false, "liability": null },
+    "billing_address_collection": "auto",
+    "consent_collection": { "payment_method_reuse_agreement": null, "promotions": "none", "terms_of_service": "none" },
+    "currency": "eur",
+    "custom_fields": [],
+    "custom_text": {
+      "after_submit": null,
+      "shipping_address": null,
+      "submit": null,
+      "terms_of_service_acceptance": null
+    },
+    "customer_creation": "if_required",
+    "inactive_message": "You are already subscribed",
+    "invoice_creation": {
+      "enabled": false,
+      "invoice_data": {
+        "account_tax_ids": null,
+        "custom_fields": null,
+        "description": null,
+        "footer": null,
+        "issuer": null,
+        "metadata": {},
+        "rendering_options": null
+      }
+    },
+    "livemode": false,
+    "metadata": {},
+    "on_behalf_of": null,
+    "payment_intent_data": null,
+    "payment_method_collection": "always",
+    "payment_method_types": null,
+    "phone_number_collection": { "enabled": false },
+    "restrictions": null,
+    "shipping_address_collection": null,
+    "shipping_options": [],
+    "submit_type": "auto",
+    "subscription_data": {
+      "description": null,
+      "invoice_settings": { "issuer": { "type": "self" } },
+      "metadata": {},
+      "trial_period_days": null,
+      "trial_settings": { "end_behavior": { "missing_payment_method": "create_invoice" } }
+    },
+    "tax_id_collection": { "enabled": true },
+    "transfer_data": null,
+    "url": "https://buy.stripe.com/test_28oaHz5D4fvNcBG3cf"
+  },
+  {
+    "id": "plink_1PovIS009aFOms2R34HQX5Wd",
+    "object": "payment_link",
+    "active": true,
+    "after_completion": {
+      "hosted_confirmation": {
+        "custom_message": "Go back to your dashboard and refresh to unlock the services. Thanks for your trust in Pertento."
+      },
+      "type": "hosted_confirmation"
+    },
+    "allow_promotion_codes": false,
+    "application": null,
+    "application_fee_amount": null,
+    "application_fee_percent": null,
+    "automatic_tax": { "enabled": false, "liability": null },
+    "billing_address_collection": "auto",
+    "consent_collection": { "payment_method_reuse_agreement": null, "promotions": "none", "terms_of_service": "none" },
+    "currency": "eur",
+    "custom_fields": [],
+    "custom_text": {
+      "after_submit": null,
+      "shipping_address": null,
+      "submit": null,
+      "terms_of_service_acceptance": null
+    },
+    "customer_creation": "if_required",
+    "inactive_message": null,
+    "invoice_creation": {
+      "enabled": false,
+      "invoice_data": {
+        "account_tax_ids": null,
+        "custom_fields": null,
+        "description": null,
+        "footer": null,
+        "issuer": null,
+        "metadata": {},
+        "rendering_options": null
+      }
+    },
+    "livemode": false,
+    "metadata": {},
+    "on_behalf_of": null,
+    "payment_intent_data": null,
+    "payment_method_collection": "always",
+    "payment_method_types": null,
+    "phone_number_collection": { "enabled": false },
+    "restrictions": null,
+    "shipping_address_collection": null,
+    "shipping_options": [],
+    "submit_type": "auto",
+    "subscription_data": {
+      "description": null,
+      "invoice_settings": { "issuer": { "type": "self" } },
+      "metadata": {},
+      "trial_period_days": null,
+      "trial_settings": { "end_behavior": { "missing_payment_method": "create_invoice" } }
+    },
+    "tax_id_collection": { "enabled": true },
+    "transfer_data": null,
+    "url": "https://buy.stripe.com/test_dR66rje9Aabt316002"
+  },
+  {
+    "id": "plink_1PovGP009aFOms2Rm9riCA6i",
+    "object": "payment_link",
+    "active": true,
+    "after_completion": {
+      "hosted_confirmation": {
+        "custom_message": "Go back to your dashboard and refresh to unlock the services. Thanks for your trust in Pertento."
+      },
+      "type": "hosted_confirmation"
+    },
+    "allow_promotion_codes": false,
+    "application": null,
+    "application_fee_amount": null,
+    "application_fee_percent": null,
+    "automatic_tax": { "enabled": false, "liability": null },
+    "billing_address_collection": "auto",
+    "consent_collection": { "payment_method_reuse_agreement": null, "promotions": "none", "terms_of_service": "none" },
+    "currency": "eur",
+    "custom_fields": [],
+    "custom_text": {
+      "after_submit": null,
+      "shipping_address": null,
+      "submit": null,
+      "terms_of_service_acceptance": null
+    },
+    "customer_creation": "if_required",
+    "inactive_message": null,
+    "invoice_creation": {
+      "enabled": false,
+      "invoice_data": {
+        "account_tax_ids": null,
+        "custom_fields": null,
+        "description": null,
+        "footer": null,
+        "issuer": null,
+        "metadata": {},
+        "rendering_options": null
+      }
+    },
+    "livemode": false,
+    "metadata": {},
+    "on_behalf_of": null,
+    "payment_intent_data": null,
+    "payment_method_collection": "always",
+    "payment_method_types": null,
+    "phone_number_collection": { "enabled": false },
+    "restrictions": null,
+    "shipping_address_collection": null,
+    "shipping_options": [],
+    "submit_type": "auto",
+    "subscription_data": {
+      "description": null,
+      "invoice_settings": { "issuer": { "type": "self" } },
+      "metadata": {},
+      "trial_period_days": null,
+      "trial_settings": { "end_behavior": { "missing_payment_method": "create_invoice" } }
+    },
+    "tax_id_collection": { "enabled": true },
+    "transfer_data": null,
+    "url": "https://buy.stripe.com/test_28o3f78Pg83l0SYbIJ"
+  },
+  {
+    "id": "plink_1Pov7C009aFOms2RB0g57kpI",
+    "object": "payment_link",
+    "active": true,
+    "after_completion": {
+      "hosted_confirmation": {
+        "custom_message": "Go back to your dashboard and refresh to unlock the services. Thanks for your trust in Pertento."
+      },
+      "type": "hosted_confirmation"
+    },
+    "allow_promotion_codes": false,
+    "application": null,
+    "application_fee_amount": null,
+    "application_fee_percent": null,
+    "automatic_tax": { "enabled": false, "liability": null },
+    "billing_address_collection": "auto",
+    "consent_collection": { "payment_method_reuse_agreement": null, "promotions": "none", "terms_of_service": "none" },
+    "currency": "eur",
+    "custom_fields": [],
+    "custom_text": {
+      "after_submit": null,
+      "shipping_address": null,
+      "submit": null,
+      "terms_of_service_acceptance": null
+    },
+    "customer_creation": "if_required",
+    "inactive_message": null,
+    "invoice_creation": {
+      "enabled": false,
+      "invoice_data": {
+        "account_tax_ids": null,
+        "custom_fields": null,
+        "description": null,
+        "footer": null,
+        "issuer": null,
+        "metadata": {},
+        "rendering_options": null
+      }
+    },
+    "livemode": false,
+    "metadata": {},
+    "on_behalf_of": null,
+    "payment_intent_data": null,
+    "payment_method_collection": "always",
+    "payment_method_types": null,
+    "phone_number_collection": { "enabled": false },
+    "restrictions": null,
+    "shipping_address_collection": null,
+    "shipping_options": [],
+    "submit_type": "auto",
+    "subscription_data": {
+      "description": null,
+      "invoice_settings": { "issuer": { "type": "self" } },
+      "metadata": {},
+      "trial_period_days": null,
+      "trial_settings": { "end_behavior": { "missing_payment_method": "create_invoice" } }
+    },
+    "tax_id_collection": { "enabled": true },
+    "transfer_data": null,
+    "url": "https://buy.stripe.com/test_bIY5nfe9A5VdeJObII"
+  }
+]

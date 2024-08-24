@@ -1,5 +1,19 @@
-const { BUILD_ENV } = process.env;
+import Stripe from 'stripe';
+const { BUILD_ENV, STRIPE_SECRET_KEY } = process.env;
 const isDev = BUILD_ENV !== 'production';
+
+const stripe = Stripe(STRIPE_SECRET_KEY);
+
+// const products = await stripe.products.list({ active: true, limit: 100 });
+// console.log('products', products.data.length);
+// console.log(JSON.stringify(products.data));
+// const prices = await stripe.prices.list({ active: true, limit: 100 });
+// console.log('prices', prices.data.length);
+// console.log(JSON.stringify(prices.data));
+// const paymentLinks = await stripe.paymentLinks.list();
+// console.log(JSON.stringify(paymentLinks.data));
+
+// console.log(products.data.map((product) => product.name));
 
 export const paymentPlans = [
   {
@@ -30,6 +44,8 @@ export const paymentPlans = [
   },
 ];
 
+// andre.padez+agency_owner@pertento.ai
+
 export const paymentPlansByPriceId = {
   price_1PltoN009aFOms2R9J2aHlcq: { name: paymentPlans[0].name, frequency: 'yearly', price: 999 },
   price_1Pltng009aFOms2RCVhpbr0D: { name: paymentPlans[0].name, frequency: 'monthly', price: 99 },
@@ -37,4 +53,11 @@ export const paymentPlansByPriceId = {
   price_1PltpL009aFOms2RSYmAPGIH: { name: paymentPlans[1].name, frequency: 'monthly', price: 249 },
 };
 
-export const paymentPlansNames = paymentPlans.map((plan) => plan.name);
+export const paymentPlansNames = [
+  'Agency Pro',
+  'Agency Standard',
+  'Agency Starter',
+  'Pertento Pro',
+  'Pertento Standard',
+  'Pertento Starter',
+];

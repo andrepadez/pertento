@@ -12,7 +12,7 @@ export const Subscriptions = pgTable('subscriptions', {
   customerId: varchar('customer_id', { length: 32 }),
   email: varchar('email', { length: 256 }),
   subscriptionId: varchar('subscription_id', { length: 256 }),
-  subscriptionName: subscriptionPlanEnum('subscription_name'),
+  productId: varchar('product_id', { length: 256 }),
   frequency: frequencyEnum('frequency'),
   // trialStart: bigint('trial_start', { mode: 'number' }),
   // trialEnd: bigint('trial_end', { mode: 'number' }),
