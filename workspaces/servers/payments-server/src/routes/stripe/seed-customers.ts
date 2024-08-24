@@ -1,24 +1,47 @@
 import { Stripe } from 'stripe';
-import { db, eq, Companies, Subscriptions } from 'pertentodb';
+import { db, and, eq, ne, notInArray, asc, desc, Companies, Users, Subscriptions } from 'pertentodb';
 const { STRIPE_SECRET_KEY } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-const companies = await db.query.Companies.findMany({
-  where: eq(Companies.parentCompanyId, 0),
-  with: { users: true },
-});
+// console.log(companies.map((c) => c.users[0]?.email));
 
-// console.log('companies', companies.length);
+const existingCustomers = [];
+const limit = 100;
+let starting_after = null;
+while (true) {
+  const filter = starting_after ? { starting_after, limit } : { limit };
+  const res = await stripe.customers.list(filter);
+  existingCustomers.push(...res.data);
+  if (!res.has_more) break;
+  starting_after = res.data.at(-1).id;
+}
+
+const existingCompanyIds = existingCustomers.map((c) => +c.metadata.companyId);
+console.log(existingCompanyIds);
+
+const companies = await db.query.Companies.findMany({
+  where: and(ne(Companies.id, 1), eq(Companies.parentCompanyId, 0), notInArray(Companies.id, existingCompanyIds)),
+  with: {
+    users: {
+      where: eq(Users.role, 'Owner'),
+      limit: 1,
+      orderBy: asc(Users.createdAt),
+    },
+  },
+});
+console.log(companies.map((c) => c.id));
 
 for (let company of companies) {
-  if (company.users.length === 0) continue;
-
   const user = company.users.find((u) => u.role === 'Owner');
   if (!user) continue;
+  console.log('inserting customer for', company.friendlyName, user.email);
 
   const customer = await stripe.customers.create({
     email: user.email,
     name: company.friendlyName,
+    metadata: {
+      companyId: company.id,
+    },
   });
 
   const [subscription] = await db
@@ -30,5 +53,5 @@ for (let company of companies) {
     })
     .returning();
 
-  console.log(subscription);
+  console.log(subscription.id, subscription.companyId, subscription.customerId, subscription.email);
 }
