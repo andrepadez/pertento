@@ -30,5 +30,5 @@ export const CompaniesRelations = relations(Companies, ({ many, one }) => ({
   }),
   websites: many(Websites),
   users: many(Users),
-  subscription: one(Subscriptions),
+  // subscription: one(Subscriptions),
 }));

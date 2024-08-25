@@ -18,13 +18,13 @@ export const Subscriptions = pgTable('subscriptions', {
   // trialStart: bigint('trial_start', { mode: 'number' }),
   // trialEnd: bigint('trial_end', { mode: 'number' }),
   // canceledAtPeriodEnd: bigint('canceled_at_period_end', { mode: 'number' }),
-  // createdAt: bigint('created_at', { mode: 'number' }),
-  // updatedAt: bigint('updated_at', { mode: 'number' }),
+  createdAt: bigint('created_at', { mode: 'number' }),
+  updatedAt: bigint('updated_at', { mode: 'number' }),
 });
 
-export const SubscriptionRelations = relations(Subscriptions, ({ many, one }) => ({
-  company: one(Companies, {
-    fields: [Subscriptions.companyId],
-    references: [Companies.id],
-  }),
-}));
+// export const SubscriptionRelations = relations(Subscriptions, ({ many, one }) => ({
+//   company: one(Companies, {
+//     fields: [Subscriptions.companyId],
+//     references: [Companies.id],
+//   }),
+// }));

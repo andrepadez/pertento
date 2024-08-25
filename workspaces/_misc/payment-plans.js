@@ -4,30 +4,45 @@ const isDev = BUILD_ENV !== 'production';
 
 const stripe = Stripe(STRIPE_SECRET_KEY);
 
-// const { data: products } = await stripe.products.list({ active: true, limit: 100 });
-// const { data: prices } = await stripe.prices.list({ active: true, limit: 100 });
+const { data: products } = await stripe.products.list({ active: true, limit: 100 });
+const { data: prices } = await stripe.prices.list({ active: true, limit: 100 });
 
-// const paymentLinks = await stripe.paymentLinks.list();
-// console.log(JSON.stringify(paymentLinks.data));
+const paymentLinks = await stripe.paymentLinks.list();
 
-// console.log(products.data.map((product) => product.name));
+const fetchedPaymentPlans = products.map((product) => {
+  const { id, name, metadata } = product;
+  const { companyType } = metadata;
+  const productPrices = prices
+    .filter((price) => price.product === id)
+    .reduce((acc, price) => {
+      const { interval } = price.recurring;
+      acc[interval] = { id: price.id, value: price.unit_amount };
+      return acc;
+    }, {});
 
-// const fetchedPaymentPlans = products.map((product) => {
-//   const { id, name, metadata } = product;
-//   const { companyType } = metadata;
-//   const productPrices = prices
-//     .filter((price) => price.product === id)
-//     .reduce((acc, price) => {
-//       const { interval } = price.recurring;
-//       acc[interval] = { id: price.id, value: price.unit_amount };
-//       return acc;
-//     }, {});
+  return { id, name, companyType, prices: productPrices };
+});
 
-//   return { id, name, companyType, prices: productPrices };
-// });
+// console.info(fetchedPaymentPlans, { depth: null });
 
 export const paymentPlans = {
   Agency: [
+    {
+      id: 'prod_Qj40USG6Qhq2XW',
+      name: 'Subscription Test Daily',
+      features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
+      companyType: 'Agency',
+      prices: {
+        month: {
+          id: 'price_1PrbsG009aFOms2RBaXuPZ6P',
+          value: 1000,
+        },
+        year: {
+          id: 'price_1PrbsG009aFOms2RBaXuPZ6P',
+          value: 1000,
+        },
+      },
+    },
     {
       id: 'prod_Qhvau56mOCOX95',
       name: 'Agency Starter',
