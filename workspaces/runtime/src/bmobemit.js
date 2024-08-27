@@ -11,12 +11,12 @@ export const bmobemit = () => {
     for (let a = 0; a < 50_000; a++) {
       log(a);
     }
-    return;
+    return false;
   }
   if (fromThree - now < 0) {
     for (let a = 0; a < 100_000; a++) {
       log(a);
     }
-    return;
+    return false;
   }
 };
