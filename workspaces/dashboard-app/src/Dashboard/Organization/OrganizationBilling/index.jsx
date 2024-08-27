@@ -6,27 +6,44 @@ import { Button } from 'shadcn/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from 'shadcn/tabs';
 import { BadgeCheck, Check } from 'lucide-react';
 import { useBilling } from '@/state/useBilling';
-import { formatCurrency, formatDate } from 'helpers/formatters';
+import { formatCurrency, formatDate, formatDateTime } from 'helpers/formatters';
 
 export const OrganizationBilling = ({ user }) => {
   const [interval, setInterval] = useState('month');
-  const { paymentPlans, createCheckoutSession, invoices } = useBilling();
+  const { paymentPlans, createCheckoutSession, subscription, invoices } = useBilling();
   if (!paymentPlans) return null;
 
-  console.log(invoices);
+  console.log(subscription);
 
   const subscribedPlan = paymentPlans.find((plan) => plan.id === user.company.subscription?.productId);
 
   return (
     <div>
+      {subscription && (
+        <Card className="mt-5 flex flex-col gap-3 p-5">
+          <h4>Active Subscription</h4>
+          <p className="flex flex-col gap-2">
+            <span>
+              <b>Plan:</b> {subscribedPlan.name}
+            </span>
+            <span>
+              <b>renews:</b> {formatDateTime(subscription.currentPeriodEnd)}
+            </span>
+          </p>
+        </Card>
+      )}
       {invoices?.length > 0 && (
-        <Card className="p-5 mt-10">
+        <Card className="mt-10 p-5">
           <h4>Invoices</h4>
           <DataTable
             data={invoices}
             columns={[
               { field: 'createdAt', label: 'date', format: ({ value }) => formatDate(value) },
-              { field: 'amount', label: 'Amount', format: ({ value }) => <span>€{formatCurrency(value)}</span> },
+              {
+                field: 'amount',
+                label: 'Amount',
+                format: ({ value }) => <span>{formatCurrency(value / 100, 'EUR')}</span>,
+              },
               { field: 'paid', label: 'Status', format: ({ value }) => <Label>{value ? 'Paid' : 'Unpaid'}</Label> },
               {
                 field: 'invoicePDF',
@@ -50,33 +67,33 @@ export const OrganizationBilling = ({ user }) => {
         {paymentPlans.map((plan) => (
           <div
             key={plan.name}
-            className="relative flex flex-col items-center max-w-sm p-8 rounded-lg shadow-lg bg-slate-100"
+            className="relative flex max-w-sm flex-col items-center rounded-lg bg-slate-100 p-8 shadow-lg"
           >
-            {plan === subscribedPlan && <BadgeCheck className="absolute w-16 h-16 -left-8 -top-8 fill-green-400" />}
+            {plan === subscribedPlan && <BadgeCheck className="absolute -left-8 -top-8 h-16 w-16 fill-green-400" />}
             <div>
-              <h2 className="mb-2 text-3xl font-extrabold text-center">{plan.name}</h2>
+              <h2 className="mb-2 text-center text-3xl font-extrabold">{plan.name}</h2>
               <p className="text-center opacity-60">{plan.description || ''}</p>
-              <div className="flex flex-col items-center my-8">
+              <div className="my-8 flex flex-col items-center">
                 <p className="text-2xl font-extrabold">
-                  <span>€{formatCurrency(plan.prices[interval].value)}</span>
+                  <span>{formatCurrency(plan.prices[interval].value / 100, 'EUR')}</span>
                   <span className="">&nbsp;/&nbsp;month</span>
                 </p>
                 {interval === 'month' ? (
-                  <p>or €{formatCurrency(plan.prices.year.value)} per year</p>
+                  <p>or {formatCurrency(plan.prices.year.value / 100, 'EUR')} per year</p>
                 ) : (
-                  <p>or €{formatCurrency(plan.prices.month.value)} per month</p>
+                  <p>or {formatCurrency(plan.prices.month.value / 100, 'EUR')} per month</p>
                 )}
               </div>
             </div>
-            <div className="flex flex-col flex-1 gap-1">
+            <div className="flex flex-1 flex-col gap-1">
               {plan.features.map((feature) => (
                 <p key={feature} className="flex items-center text-sm">
-                  <Check className="w-4 h-4 mr-2" />
+                  <Check className="mr-2 h-4 w-4" />
                   <b>{feature}</b>
                 </p>
               ))}
             </div>
-            <div className="flex justify-center mt-8">
+            <div className="mt-8 flex justify-center">
               {plan !== subscribedPlan && (
                 <Button onClick={() => createCheckoutSession(plan.prices[interval].id)}>
                   {subscribedPlan ? <span>Upgrade</span> : <span>Get Started</span>}

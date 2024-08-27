@@ -28,6 +28,23 @@ export const formatDateTime = (num) => {
   return !!num ? `${formatDate(num)} ${formatTime(num)}` : '';
 };
 
-export const formatCurrency = (val) => {
-  return (val / 100).toFixed(2);
+// export const formatCurrency = (val) => {
+//   return (val / 100).toFixed(2);
+// };
+
+export const formatCurrency = (value, currency) => {
+  const locale = navigator.language || navigator.languages[0];
+  const formatter = new Intl.NumberFormat(locale, { style: 'currency', currency });
+  return formatter.format(value);
 };
+
+export const formatNumber = (value) => {
+  const locale = navigator.language || navigator.languages[0];
+  const formatter = new Intl.NumberFormat(locale);
+  return formatter.format(value || 0);
+};
+
+export const formatPercentage = (value) => (value ? `${value.toFixed(2)}%` : '00.00%');
+
+export const formatDiff = (value, isPercent, decimals = false) =>
+  value ? `${value > 0 ? '+' : ''}${value.toFixed(decimals ? 2 : 0)}${isPercent ? '%' : ''}` : '';

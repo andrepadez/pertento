@@ -3,8 +3,6 @@ import { db, and, eq, ne, notInArray, asc, desc, Companies, Users, Subscriptions
 const { STRIPE_SECRET_KEY } = process.env;
 const stripe = new Stripe(STRIPE_SECRET_KEY);
 
-// console.log(companies.map((c) => c.users[0]?.email));
-
 const existingCustomers = [];
 const limit = 100;
 let starting_after = null;

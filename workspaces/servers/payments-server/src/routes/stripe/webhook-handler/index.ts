@@ -49,10 +49,11 @@ const events = {
   customer: {
     subscription: {
       updated: async (data) => {
-        // console.log('customer.subscription.created');
         const { customer: customerId, id: subscriptionId, items } = data;
         const { current_period_end, current_period_start, created } = data;
         const { product: productId, interval } = items.data[0].plan;
+
+        console.log('customer.subscription.updated', subscriptionId);
 
         const finalObject = {
           subscriptionId,
@@ -60,8 +61,8 @@ const events = {
           interval,
           currentPeriodStart: current_period_start * 1000,
           currentPeriodEnd: current_period_end * 1000,
-          createdAt: created * 1000,
-          updatedAt: Date.now(),
+          createdAt: created * 1000, // 1724580140000
+          updatedAt: Date.now(), // 1724580144594
         };
 
         const [subscription] = await db
@@ -88,7 +89,18 @@ const events = {
   // },
   invoice: {
     payment_succeeded: async (data) => {
+      console.log('invoice.payment_succeeded', JSON.stringify(data));
+      console.log('------------------------------------');
+      const { subscription, status_transitions } = data;
+      await db
+        .update(Invoices)
+        .set({ paid: status_transitions.paid_at * 1000 })
+        .where(eq(Invoices.subscriptionId, subscription));
+    },
+    created: async (data) => {
       const { id, customer, amount_due, invoice_pdf, created, subscription } = data;
+      console.log('invoice.created', JSON.stringify(data));
+      console.log('------------------------------------');
 
       const dbSubscription = await db.query.Subscriptions.findFirst({
         where: eq(Subscriptions.customerId, customer),
@@ -99,7 +111,6 @@ const events = {
         customerId: customer,
         invoiceId: id,
         subscriptionId: subscription,
-        paid: true,
         amount: amount_due,
         invoicePDF: invoice_pdf,
         createdAt: created * 1000,

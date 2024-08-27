@@ -3,7 +3,7 @@ import { userMiddleware } from 'hono-server';
 import { webhookHandler } from './webhook-handler';
 import { paymentPlansHandler } from './payment-plans-handler';
 import { createCheckoutSessionHandler } from './checkout-session';
-import { db, eq, Subscriptions, Invoices } from 'pertentodb';
+import { db, eq, asc, desc, Subscriptions, Invoices } from 'pertentodb';
 
 export const stripeRouter = new Hono();
 
@@ -25,6 +25,7 @@ stripeRouter.get('/invoices', async (ctx) => {
   const { companyId } = ctx.user;
   const invoices = await db.query.Invoices.findMany({
     where: eq(Invoices.companyId, companyId),
+    orderBy: desc(Invoices.createdAt),
   });
 
   return ctx.json(invoices);

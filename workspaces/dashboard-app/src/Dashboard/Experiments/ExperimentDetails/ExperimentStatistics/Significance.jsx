@@ -5,7 +5,7 @@ import { DataTable } from 'components/DataTable';
 import { ConfirmDialog } from 'components/Dialogs/ConfirmDialog';
 import { useExperiment } from '@/state/experiments/useExperiment';
 import { cn } from 'helpers/cn';
-import { formatDateTime } from 'helpers/formatters';
+import { formatDateTime, formatCurrency, formatNumber, formatPercentage, formatDiff } from 'helpers/formatters';
 
 export const Significance = ({ experiment, manager }) => {
   const [wantsToDeploy, setWantsToDeploy] = useState(null);
@@ -138,20 +138,3 @@ export const Significance = ({ experiment, manager }) => {
     </div>
   );
 };
-
-const formatCurrency = (value, currency) => {
-  const locale = navigator.language || navigator.languages[0];
-  const formatter = new Intl.NumberFormat(locale, { style: 'currency', currency });
-  return formatter.format(value);
-};
-
-const formatNumber = (value) => {
-  const locale = navigator.language || navigator.languages[0];
-  const formatter = new Intl.NumberFormat(locale);
-  return formatter.format(value || 0);
-};
-
-const formatPercentage = (value) => (value ? `${value.toFixed(2)}%` : '00.00%');
-
-const formatDiff = (value, isPercent, decimals = false) =>
-  value ? `${value > 0 ? '+' : ''}${value.toFixed(decimals ? 2 : 0)}${isPercent ? '%' : ''}` : '';

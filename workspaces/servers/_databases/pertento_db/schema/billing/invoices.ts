@@ -9,7 +9,7 @@ export const Invoices = pgTable('invoices', {
   invoiceId: varchar('invoice_id', { length: 256 }),
   subscriptionId: varchar('subscription_id', { length: 256 }),
   amount: bigint('amount', { mode: 'number' }),
-  paid: boolean('paid'),
+  paid: bigint('paid', { mode: 'number' }),
   invoicePDF: varchar('invoice_pdf', { length: 1024 }),
   createdAt: bigint('created_at', { mode: 'number' }),
 });
