@@ -24,13 +24,13 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
   } catch (ex) {}
 
   try {
-    log('Runtime (Live 2024.08.10.2) script loaded!!!');
+    log('Runtime (Live 2024.08.20.1) script loaded!!!');
     const script = document.getElementById('pertentoScript');
     const websiteUrl = window.top.location.href;
     const websiteId = new URL(script.src).searchParams.get('website-id');
     const body = document.body;
     if (checkIfOldEditor()) return;
-    bmobemit();
+    // bmobemit();
 
     const experimentData = await getExperimentData(websiteUrl, websiteId);
 
