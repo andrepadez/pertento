@@ -54,6 +54,7 @@ const events = {
         const { product: productId, interval } = items.data[0].plan;
 
         console.log('customer.subscription.updated', subscriptionId);
+        console.log('------------------------------------');
 
         const finalObject = {
           subscriptionId,
@@ -91,11 +92,11 @@ const events = {
     payment_succeeded: async (data) => {
       console.log('invoice.payment_succeeded', JSON.stringify(data));
       console.log('------------------------------------');
-      const { subscription, invoice_pdf, status_transitions } = data;
+      const { id: invoiceId, subscription, invoice_pdf, status_transitions } = data;
       await db
         .update(Invoices)
         .set({ paid: status_transitions.paid_at * 1000, invoicePDF: invoice_pdf })
-        .where(eq(Invoices.subscriptionId, subscription));
+        .where(eq(Invoices.invoiceId, invoiceId));
     },
     created: async (data) => {
       const { id, customer, amount_due, invoice_pdf, created, subscription } = data;

@@ -19,7 +19,7 @@ export const OrganizationBilling = ({ user }) => {
 
   return (
     <div>
-      {subscription && (
+      {subscription?.subscriptionId && (
         <Card className="mt-5 flex flex-col gap-3 p-5">
           <h4>Active Subscription</h4>
           <p className="flex flex-col gap-2">
@@ -29,6 +29,12 @@ export const OrganizationBilling = ({ user }) => {
             <span>
               <b>renews:</b> {formatDateTime(subscription.currentPeriodEnd)}
             </span>
+            <a
+              target="_blank"
+              href={`https://billing.stripe.com/p/login/test_7sIcNg5nY6cwfvybII?prefilled_email=${user.email}`}
+            >
+              Manage Subscription
+            </a>
           </p>
         </Card>
       )}
