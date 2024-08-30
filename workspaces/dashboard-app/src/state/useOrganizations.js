@@ -84,7 +84,7 @@ export const useOrganizations = () => {
   useEffect(() => {
     if (clientAccounts) {
       setFilteredOrgs(
-        clientAccounts.filter((acc) => acc.friendlyName.toLowerCase().includes(searchText.toLowerCase())),
+        clientAccounts.filter((acc) => acc.friendlyName?.toLowerCase().includes(searchText?.toLowerCase())),
       );
     }
   }, [clientAccounts, searchText]);

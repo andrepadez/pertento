@@ -28,7 +28,7 @@ export const useWebsites = () => {
           if (!website) {
             const searchParams = new URLSearchParams(window.location.search);
             const qsWebsite = searchParams.get('ws');
-            setWebsite(+qsWebsite || websites[0].id);
+            setWebsite(+qsWebsite || websites[0]?.id);
           }
         }
       } else {
