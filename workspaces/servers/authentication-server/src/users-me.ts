@@ -5,7 +5,7 @@ export const usersMe = async (c) => {
     where: eq(Users.id, c.user.id),
     columns: { password: false, invitedBy: false },
     with: {
-      company: { with: { websites: true, subscription: true } },
+      company: { with: { websites: true } },
       passkeys: { where: eq(Passkeys.origin, c.origin) },
     },
   });
