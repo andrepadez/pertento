@@ -1,0 +1,46 @@
+export const basePortalConfig = {
+  business_profile: {
+    headline: 'Agency Starter',
+  },
+  default_return_url: null,
+  features: {
+    customer_update: {
+      allowed_updates: ['email', 'tax_id'],
+      enabled: true,
+    },
+    invoice_history: {
+      enabled: true,
+    },
+
+    payment_method_update: {
+      enabled: true,
+    },
+    subscription_cancel: {
+      cancellation_reason: {
+        enabled: true,
+        options: ['too_expensive', 'missing_features', 'switched_service', 'unused', 'other'],
+      },
+      enabled: false,
+      mode: 'at_period_end',
+      proration_behavior: 'none',
+    },
+    subscription_pause: {
+      enabled: false,
+    },
+    subscription_update: {
+      default_allowed_updates: ['price'],
+      enabled: true,
+      products: [
+        {
+          product: 'prod_Qhw89PtPzonlTr',
+          prices: ['price_1PqWHY009aFOms2R2Hwhjqie', 'price_1PqWGh009aFOms2Rf1MWyFTT'],
+        },
+        {
+          product: 'prod_QhwA5yYbfhXra6',
+          prices: ['price_1PqWJm009aFOms2RLV1r7nJL', 'price_1PqWIW009aFOms2Rk4V3eoWP'],
+        },
+      ],
+      proration_behavior: 'create_prorations',
+    },
+  },
+};

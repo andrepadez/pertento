@@ -39,7 +39,7 @@ const aggregateData = async () => {
       variantData[currencyCode] = variantData[currencyCode] || { count: 0, value: 0 };
       const currencyData = variantData[currencyCode];
 
-      const { revenue, value, tax, shipping } = data.actionField || data;
+      const { revenue, value, tax, shipping } = data.purchase?.actionField || data.actionField || data;
 
       const theRevenue = safeSum(+(revenue || value), +tax, +shipping);
       currencyData.count++;

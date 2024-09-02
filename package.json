@@ -35,7 +35,9 @@
     "db:gen": "cd workspaces/servers/_databases/pertento_db && bun generate",
     "db:push": "cd workspaces/servers/_databases/pertento_db && bun push",
     "db:studio": "cd workspaces/servers/_databases/pertento_db && bun studio",
-    "setup": "bun run scripts/setup.ts"
+    "setup": "bun run scripts/setup.ts",
+    "seed:stripe:products": "bun run workspaces/servers/_stripe-api/scripts/seed/seed-products.ts",
+    "seed:stripe:customers": "bun run workspaces/servers/_stripe-api/scripts/seed/seed-customers.ts"
   },
   "dependencies": {
     "@codeium/react-code-editor": "^1.0.12",

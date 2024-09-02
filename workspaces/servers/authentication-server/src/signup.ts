@@ -23,6 +23,7 @@ export const signupHandler = async (c) => {
     const [{ dbUserId }] = await tx.insert(Users).values(newUser).returning({ dbUserId: Users.id });
     const { companyName: name, companyType: type } = c.req.body;
     const newCompany = { name, type, createdAt: now, updatedAt: now };
+    newCompany.friendlyName = name;
     newCompany.parentCompanyId = 0;
     newCompany.ganAccountId = 0;
     newCompany.createdBy = dbUserId;
