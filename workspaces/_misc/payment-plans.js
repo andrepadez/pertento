@@ -91,17 +91,17 @@ export const paymentPlans = {
   ],
   'Client Account': [
     {
-      id: 'prod_QhufkyvOcVWyI9',
-      name: 'Pertento Pro',
+      id: 'prod_QhuVo0yZI72RJw',
+      name: 'Pertento Starter',
       features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
       prices: {
         year: {
-          id: 'price_1PqUqc009aFOms2RaBvPVEou',
-          value: 249900,
+          id: 'price_1PqUgK009aFOms2R8cKHXjVk',
+          value: 99900,
         },
         month: {
-          id: 'price_1PqUqI009aFOms2RtoiDB3dY',
-          value: 24900,
+          id: 'price_1PqUg2009aFOms2RrsL9L3Lo',
+          value: 9900,
         },
       },
     },
@@ -121,17 +121,17 @@ export const paymentPlans = {
       },
     },
     {
-      id: 'prod_QhuVo0yZI72RJw',
-      name: 'Pertento Starter',
+      id: 'prod_QhufkyvOcVWyI9',
+      name: 'Pertento Pro',
       features: ['Trending Dashboard', '10 Keywords', '100 Accounts Tracking', '3 Users'],
       prices: {
         year: {
-          id: 'price_1PqUgK009aFOms2R8cKHXjVk',
-          value: 99900,
+          id: 'price_1PqUqc009aFOms2RaBvPVEou',
+          value: 249900,
         },
         month: {
-          id: 'price_1PqUg2009aFOms2RrsL9L3Lo',
-          value: 9900,
+          id: 'price_1PqUqI009aFOms2RtoiDB3dY',
+          value: 24900,
         },
       },
     },

@@ -14,21 +14,26 @@ export const OrganizationBilling = ({ user }) => {
   if (!paymentPlans) return null;
 
   console.log(subscription);
+  console.log(paymentPlans);
 
-  const subscribedPlan = paymentPlans.find((plan) => plan.id === user.company.subscription?.productId);
+  const subscribedPlan = paymentPlans.find((plan) => plan.id === subscription?.productId);
 
   return (
     <div>
-      {subscription?.subscriptionId && (
+      {subscribedPlan && (
         <Card className="mt-5 flex flex-col gap-3 p-5">
           <h4>Active Subscription</h4>
-          <p className="flex flex-col gap-2">
+          <p>
             <span>
-              <b>Plan:</b> {subscribedPlan.name}
+              <b>Plan:</b> {subscribedPlan?.name}
             </span>
+          </p>
+          <p>
             <span>
               <b>renews:</b> {formatDateTime(subscription.currentPeriodEnd)}
             </span>
+          </p>
+          <p>
             <a
               target="_blank"
               href={`https://billing.stripe.com/p/login/test_7sIcNg5nY6cwfvybII?prefilled_email=${user.email}`}
@@ -77,7 +82,7 @@ export const OrganizationBilling = ({ user }) => {
           >
             {plan === subscribedPlan && <BadgeCheck className="absolute -left-8 -top-8 h-16 w-16 fill-green-400" />}
             <div>
-              <h2 className="mb-2 text-center text-3xl font-extrabold">{plan.name}</h2>
+              <h2 className="mb-2 flex h-12 items-center text-center text-3xl font-extrabold">{plan.name}</h2>
               <p className="text-center opacity-60">{plan.description || ''}</p>
               <div className="my-8 flex flex-col items-center">
                 <p className="text-2xl font-extrabold">
