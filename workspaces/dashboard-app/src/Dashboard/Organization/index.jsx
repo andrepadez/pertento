@@ -14,13 +14,15 @@ export const OrganizationDetailsScreen = () => {
 
   if (!user) return;
 
+  const showBilling = !!localStorage.getItem('PERTENTO-SHOW-BILLING');
+
   return (
     <div className="flex flex-col gap-5">
       <h1>Organization Settings</h1>
       <Tabs value={screen} defaultValue="general" onValueChange={setScreen}>
         <TabsList className="flex gap-5">
           <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="billing">Billing</TabsTrigger>
+          {showBilling && <TabsTrigger value="billing">Billing</TabsTrigger>}
           {user.company.type === 'Agency' ? (
             <>
               <TabsTrigger value="agency">Agency Team</TabsTrigger>
@@ -39,9 +41,11 @@ export const OrganizationDetailsScreen = () => {
         <TabsContent value="organization">
           <OrganizationTeams user={user} organization={organization} />
         </TabsContent>
-        <TabsContent value="billing">
-          <OrganizationBilling user={user} organization={organization} />
-        </TabsContent>
+        {showBilling && (
+          <TabsContent value="billing">
+            <OrganizationBilling user={user} organization={organization} />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   );
