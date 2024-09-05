@@ -67,7 +67,7 @@ export const useExperiment = (experimentId) => {
     console.log(0);
     try {
       const { ganMeasurementId, ganProperty } = website;
-      if (ganMeasurementId && ganProperty.hasEditPermission.length > 0) {
+      if (ganMeasurementId && ganProperty?.hasEditPermission.length > 0) {
         const res = await ganClient.post(`/create-audiences/${id}`);
       }
       await apiClient.post(`/experiments/${id}/start`, { variantWeights });
@@ -75,6 +75,7 @@ export const useExperiment = (experimentId) => {
       queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', id] });
       setTimeout(() => setIsStarting(false), 50);
     } catch (error) {
+      console.error(error);
       setTimeout(() => setIsStarting(false), 50);
     }
   };
