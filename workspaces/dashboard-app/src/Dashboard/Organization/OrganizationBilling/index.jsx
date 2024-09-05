@@ -30,7 +30,7 @@ export const OrganizationBilling = ({ user }) => {
           </p>
           <p>
             <span>
-              <b>renews:</b> {formatDateTime(subscription.currentPeriodEnd)}
+              <b>renews:</b> {formatDateTime(subscribedPlan?.currentPeriodEnd)}
             </span>
           </p>
           <p>
