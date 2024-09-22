@@ -30,7 +30,6 @@ export const AppRoutes = () => {
             )}
             <Route exact path="/organization" Component={Dash.OrganizationDetailsScreen} />
             <Route exact path="/account" Component={Dash.AccountScreen} />
-            <Route exact path="/billing" Component={Dash.BillingScreen} />
             <Route path="*" Component={Dash.FourOhFour} />
           </Routes>
         </AuthLayout>
