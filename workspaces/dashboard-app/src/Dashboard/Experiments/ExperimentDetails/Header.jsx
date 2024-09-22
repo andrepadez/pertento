@@ -33,7 +33,7 @@ export const Header = ({ experimentId, screen }) => {
             <Button
               variant={isRunning || isDeployed ? 'destructive' : 'default'}
               disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded}
-              onClick={() => (isRunning ? setWantsToEnd(true) : startExperiment(experimentId))}
+              onClick={() => (isRunning || isDeployed ? setWantsToEnd(true) : startExperiment(experimentId))}
             >
               {isEnded && <span>Ended</span>}
               {isStarting && <span>Starting...</span>}

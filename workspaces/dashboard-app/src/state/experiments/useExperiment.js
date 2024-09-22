@@ -64,7 +64,6 @@ export const useExperiment = (experimentId) => {
 
   const startExperiment = async (id) => {
     setIsStarting(true);
-    console.log(0);
     try {
       const { ganMeasurementId, ganProperty } = website;
       if (ganMeasurementId && ganProperty?.hasEditPermission.length > 0) {
@@ -82,7 +81,7 @@ export const useExperiment = (experimentId) => {
 
   const endExperiment = async (id) => {
     await apiClient.post(`/experiments/${id}/end`);
-    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', id] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', id] });
   };
 
@@ -93,7 +92,6 @@ export const useExperiment = (experimentId) => {
 
   const deployExperiment = async (variantId) => {
     const res = await apiClient.post(`/experiments/${experimentId}/deploy/${variantId}`);
-    console.log(res);
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
   };
 
