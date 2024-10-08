@@ -1,10 +1,10 @@
 import { log } from 'helpers/injector/console';
 
-export const checkIfForce = () => {
+export const checkIfForceVariant = () => {
   const url = URL(window.location.href);
   const isForceVariant = url.searchParams('pertento-force-variant');
   const isOnlyVariant = url.searchParams('pertento-only-variant');
-  log('checkIfForce', !isForceVariant && !isOnlyVariant, { isForceVariant, isOnlyVariant });
+  log('checkIfForceVariant', !isForceVariant && !isOnlyVariant, { isForceVariant, isOnlyVariant });
 
   if (!isForceVariant && !isOnlyVariant) return false;
 
