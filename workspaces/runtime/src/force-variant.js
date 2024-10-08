@@ -29,5 +29,6 @@ export const checkIfForceVariant = () => {
   }
 
   localStorage.setItem('PERTENTO_VARIANTS_URL_SEARCH', searchParams.toString());
-  window.location.href = url.toString();
+  log('checkIfForceVariant', searchParams.toString());
+  // window.location.href = url.toString();
 };
