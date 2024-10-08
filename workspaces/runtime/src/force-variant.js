@@ -11,7 +11,7 @@ export const checkIfForceVariant = () => {
   const variantsUrlSearch = localStorage.getItem('PERTENTO_VARIANTS_URL_SEARCH');
   const searchParams = new URLSearchParams(variantsUrlSearch);
 
-  const [experiment, variant] = (isForceVariant || isForceVariant).split('-');
+  const [experiment, variant] = (isForceVariant || isOnlyVariant).split('-');
 
   if (isForceVariant) {
     url.searchParams.delete('pertento-force-variant');

@@ -136,8 +136,8 @@ export const Significance = ({ experiment, manager }) => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
                       <DropdownMenuLabel>Force Variant</DropdownMenuLabel>
-                      <DropdownMenuItem onClick={() => window.open(urlForce)}>Only this Variant</DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => window.open(urlOnly)}>Keep other Variants</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => window.open(urlOnly)}>Only this Variant</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => window.open(urlForce)}>Keep other Variants</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 );
