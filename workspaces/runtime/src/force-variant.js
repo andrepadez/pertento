@@ -21,7 +21,7 @@ export const checkIfForceVariant = () => {
     searchParams.forEach((variant, expString) => {
       const [, exp] = expString.split('-');
       if (exp !== experiment) {
-        searchParams.set(expString, '0');
+        searchParams.set(expString, 'none');
       } else {
         searchParams.set(expString, variant);
       }
