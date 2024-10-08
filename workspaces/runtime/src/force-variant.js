@@ -8,5 +8,26 @@ export const checkIfForceVariant = () => {
 
   if (!isForceVariant && !isOnlyVariant) return false;
 
-  return true;
+  const variantsUrlSearch = localStorage.getItem('PERTENTO_VARIANTS_URL_SEARCH');
+  const searchParams = new URLSearchParams(variantsUrlSearch);
+
+  const [experiment, variant] = (isForceVariant || isForceVariant).split('-');
+
+  if (isForceVariant) {
+    url.searchParams.delete('pertento-force-variant');
+    searchParams.set(`exp-${experiment}`, variant);
+  } else if (isOnlyVariant) {
+    url.searchParams.delete('pertento-only-variant');
+    searchParams.forEach((variant, expString) => {
+      const [, exp] = expString.split('-');
+      if (exp !== experiment) {
+        searchParams.set(expString, '0');
+      } else {
+        searchParams.set(expString, variant);
+      }
+    });
+  }
+
+  localStorage.setItem('PERTENTO_VARIANTS_URL_SEARCH', searchParams.toString());
+  window.location.href = url.toString();
 };
