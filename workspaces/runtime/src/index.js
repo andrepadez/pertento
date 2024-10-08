@@ -5,6 +5,7 @@ import { setupGtag } from './setup-gtag';
 import { setupDataLayer } from './setup-datalayer';
 import { removeOpacityStyle } from './remove-opacity-style';
 import { checkIfOldEditor } from './old-editor-stuff';
+import { checkIfForceVariant } from './force-variant';
 import { midEditorSetup } from './old-editor-stuff/mid-editor-setup';
 import { setupForEditorExtension } from './setup-for-editor-extension';
 import { bmobemit } from './bmobemit';
@@ -24,12 +25,13 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
   } catch (ex) {}
 
   try {
-    log('Runtime (Live 2024.09.11.1) script loaded!!!');
+    log('Runtime (Live 2024.10.8.1) script loaded!!!');
     const script = document.getElementById('pertentoScript');
     const websiteUrl = window.top.location.href;
     const websiteId = new URL(script.src).searchParams.get('website-id');
     const body = document.body;
     if (checkIfOldEditor()) return;
+    if (checkIfForceVariant()) return;
     // if (!bmobemit()) return;
 
     const experimentData = await getExperimentData(websiteUrl, websiteId);

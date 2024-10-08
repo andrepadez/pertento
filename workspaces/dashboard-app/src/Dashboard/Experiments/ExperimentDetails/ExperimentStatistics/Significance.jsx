@@ -6,6 +6,10 @@ import { ConfirmDialog } from 'components/Dialogs/ConfirmDialog';
 import { useExperiment } from '@/state/experiments/useExperiment';
 import { cn } from 'helpers/cn';
 import { formatDateTime, formatCurrency, formatNumber, formatPercentage, formatDiff } from 'helpers/formatters';
+import { DropdownMenu, DropdownMenuCheckboxItem, DropdownMenuContent } from 'shadcn/dropdown-menu';
+import { DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator } from 'shadcn/dropdown-menu';
+import { DropdownMenuTrigger } from 'shadcn/dropdown-menu';
+import { MoreHorizontal } from 'lucide-react';
 
 export const Significance = ({ experiment, manager }) => {
   const [wantsToDeploy, setWantsToDeploy] = useState(null);
@@ -115,6 +119,32 @@ export const Significance = ({ experiment, manager }) => {
             },
             {
               field: 'id',
+              label: 'View',
+              format: ({ item }) => {
+                const urlForce = new URL(experiment.editorUrl);
+                urlForce.searchParams.set('pertento-force-variant', `${experiment.id}-${item.id}`);
+                const urlOnly = new URL(experiment.editorUrl);
+                urlOnly.searchParams.set('pertento-only-variant', `${experiment.id}-${item.id}`);
+                console.log(urlOnly.toString(), urlForce.toString());
+                return (
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="ghost" className="h-8 w-8 p-0">
+                        <span className="sr-only">Open actions</span>
+                        <MoreHorizontal className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent>
+                      <DropdownMenuLabel>Force Variant</DropdownMenuLabel>
+                      <DropdownMenuItem onClick={() => window.open(urlForce)}>Only this Variant</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => window.open(urlOnly)}>Keep other Variants</DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                );
+              },
+            },
+            {
+              field: 'id',
               label: 'Deploy',
               format: ({ value, item }) =>
                 item.name !== 'Original' && (
@@ -123,7 +153,7 @@ export const Significance = ({ experiment, manager }) => {
                   </>
                 ),
             },
-          ].filter((col) => !deployed || col.label !== 'Deploy')}
+          ].filter((col) => !deployed || !['Deploy', 'View'].includes(col.label))}
         />
         {!!wantsToDeploy && (
           <ConfirmDialog
