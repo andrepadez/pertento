@@ -127,7 +127,6 @@ export const Significance = ({ experiment, manager }) => {
                 urlOnly.searchParams.set('pertento-only-variant', `${experiment.id}-${item.id}`);
                 const urlReset = new URL(experiment.editorUrl);
                 urlReset.searchParams.set('pertento-reset-variants', 'true');
-                console.log(urlOnly.toString(), urlForce.toString());
                 return (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
