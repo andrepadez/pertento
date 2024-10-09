@@ -1,9 +1,13 @@
-export const applyGlobals = (body, { globalJavascript, globalCSS }) => {
+import { log } from 'helpers/injector/console';
+
+export const applyGlobals = (body, { globalJavascript, globalCSS, id: experimentId }) => {
+  log('applyGlobals', { experimentId });
   try {
     if (globalJavascript) {
-      const existingScript = document.querySelector('#pertento-global-javascript');
+      const id = `pertento-global-javascript-${experimentId}`;
+      const existingScript = document.querySelector(id);
       const script = document.createElement('script');
-      script.id = 'pertento-global-javascript';
+      script.id = id;
       script.innerHTML = `;(function(){${globalJavascript}})();`;
 
       if (existingScript) existingScript.remove();
@@ -11,9 +15,10 @@ export const applyGlobals = (body, { globalJavascript, globalCSS }) => {
     }
 
     if (globalCSS) {
-      const existingStyle = document.querySelector('#pertento-global-css');
+      const id = `pertento-global-css-${experimentId}`;
+      const existingStyle = document.querySelector(id);
       const style = document.createElement('style');
-      style.id = 'pertento-global-css';
+      style.id = id;
       style.innerHTML = globalCSS;
       if (existingStyle) existingStyle.remove();
       document.head.appendChild(style);

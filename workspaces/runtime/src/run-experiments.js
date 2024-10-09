@@ -11,6 +11,8 @@ export const runExperiments = (experimentData = {}, websiteId) => {
   const data = getExperimentsByUrlTarget(experimentData);
   const { expVariantMap, experimentsToCount } = data;
 
+  log('experimentsToCount', experimentsToCount);
+
   const allChanges = [];
   for (let experiment of experimentsToCount) {
     applyGlobals(document.body, experiment);
@@ -54,7 +56,7 @@ const getExperimentsByUrlTarget = (experimentData) => {
     const cookieMatch = matchCookieTargeting(document.cookie, experiment.cookieTargeting);
     log('cookieMatch', expId, cookieMatch);
     if (!cookieMatch) continue;
-    experimentsToCount.push(experiment);
+    experimentsToCount.push({ ...experiment, id: expId });
     expVariantMap[expId] = variantId;
   }
 
