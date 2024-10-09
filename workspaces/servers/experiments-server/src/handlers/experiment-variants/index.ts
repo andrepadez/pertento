@@ -39,6 +39,7 @@ export const experimentVariantsHandler = async (c) => {
       const isDeployed = experiment.status === 'Deployed';
 
       const queryKey = `exp-${experiment.id}`;
+      console.log(queryKey, query[queryKey]);
       const variantId = isDeployed
         ? experiment.deployedVariant.id
         : query[queryKey] || pickRandomVariant(experiment.variants)?.id;

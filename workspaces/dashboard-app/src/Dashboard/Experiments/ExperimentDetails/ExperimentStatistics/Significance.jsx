@@ -125,6 +125,8 @@ export const Significance = ({ experiment, manager }) => {
                 urlForce.searchParams.set('pertento-force-variant', `${experiment.id}-${item.id}`);
                 const urlOnly = new URL(experiment.editorUrl);
                 urlOnly.searchParams.set('pertento-only-variant', `${experiment.id}-${item.id}`);
+                const urlReset = new URL(experiment.editorUrl);
+                urlReset.searchParams.set('pertento-reset-variants', 'true');
                 console.log(urlOnly.toString(), urlForce.toString());
                 return (
                   <DropdownMenu>
@@ -138,6 +140,7 @@ export const Significance = ({ experiment, manager }) => {
                       <DropdownMenuLabel>Force Variant</DropdownMenuLabel>
                       <DropdownMenuItem onClick={() => window.open(urlOnly)}>Only this Variant</DropdownMenuItem>
                       <DropdownMenuItem onClick={() => window.open(urlForce)}>Keep other Variants</DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => window.open(urlReset)}>Reset</DropdownMenuItem>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 );

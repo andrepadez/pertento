@@ -12,6 +12,7 @@ export const getExperimentData = async (websiteUrl, websiteId) => {
   const lsVariantsUrlSearch = localStorage.getItem('PERTENTO_VARIANTS_URL_SEARCH');
   if (uuid) url += `&uuid=${uuid}`;
   if (lsVariantsUrlSearch && lsVariantsUrlSearch !== 'null') url += lsVariantsUrlSearch;
+
   const response = await experimentsClient.get(url);
 
   if (Object.keys(response).length === 0) return {};
