@@ -60,6 +60,6 @@ export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) =
 
     url += theExpSearch;
     log('posting to', url);
-    experimentsClient.post(url, { data: dataToSend, expSearch: theExpSearch });
+    experimentsClient.post(url, { dataPayload: dataToSend, expSearch: theExpSearch });
   };
 };
