@@ -22,7 +22,7 @@ export const eventsMiddleware = async (c, next) => {
         return { experimentId: expId.replace('exp-', ''), variantId };
       }) || [];
 
-  const experimentIds = experimentVariantMap.map((ev) => ev.experimentId);
+  const experimentIds = (experimentVariantMap1 || experimentVariantMap).map((ev) => ev.experimentId);
 
   for (let event of c.req.body) {
     if (Array.isArray(event)) {
