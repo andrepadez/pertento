@@ -15,7 +15,7 @@ export const eventsMiddleware = async (c, next) => {
       ?.split('&')
       .filter(Boolean)
       .map((item) => {
-        const [expId, variant] = item.split('=');
+        const [expId, variantId] = item.split('=');
         return { experimentId: expId.replace('exp-', ''), variantId };
       }) || [];
 
