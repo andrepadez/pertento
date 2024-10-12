@@ -16,7 +16,7 @@ export const eventsMiddleware = async (c, next) => {
       .filter(Boolean)
       .map((item) => {
         const [expId, variant] = item.split('=');
-        return { expId: expId.replace('exp-', ''), variant };
+        return { experimentId: expId.replace('exp-', ''), variantId };
       }) || [];
 
   const experimentIds = experimentVariantMap.map((ev) => ev.experimentId);
@@ -25,7 +25,7 @@ export const eventsMiddleware = async (c, next) => {
   for (let event of c.req.body.dataPayload || c.req.body) {
     if (Array.isArray(event)) {
       for (let { experimentId, variantId } of experimentVariantMap) {
-        const data = JSON.stringify({ ...event[1], experimentVariantMap });
+        const data = JSON.stringify({ ...event[1], expVariantMap });
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
         await client.HSET(key, nowValue, data);
         const actionField = event[1]?.actionField || event[1];
