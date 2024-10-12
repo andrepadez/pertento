@@ -15,7 +15,7 @@ export const eventsMiddleware = async (c, next) => {
 
   const experimentIds = experimentVariantMap.map((ev) => ev.experimentId);
 
-  for (let event of c.req.body) {
+  for (let event of c.req.body.dataPayload || c.req.body) {
     if (Array.isArray(event)) {
       for (let { experimentId, variantId } of experimentVariantMap) {
         const data = JSON.stringify({ ...event[1], experimentVariantMap });
