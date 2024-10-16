@@ -21,7 +21,7 @@ export const eventsMiddleware = async (c, next) => {
         const data = JSON.stringify({ ...event[1], experimentVariantMap });
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
         await client.HSET(key, nowValue, data);
-        const actionField = event[1]?.actionField || event[1];
+        const actionField = event[1].purchase?.actionField || event[1]?.actionField || event[1];
         const { revenue, value } = actionField || {};
         console.log(timestamp, 'saved', key, value || revenue);
       }
