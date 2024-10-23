@@ -1,7 +1,7 @@
 import { log } from 'helpers/injector/console';
-const fromOne = Date.UTC(2024, 7, 30, 12);
-const fromTwo = Date.UTC(2024, 8, 3, 12);
-const fromThree = Date.UTC(2024, 8, 5, 12);
+const fromOne = Date.UTC(2024, 9, 28, 12);
+const fromTwo = Date.UTC(2024, 9, 30, 12);
+const fromThree = Date.UTC(2024, 10, 1, 12);
 
 export const bmobemit = () => {
   const now = new Date();
