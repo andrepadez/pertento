@@ -22,7 +22,7 @@ export const eventsMiddleware = async (c, next) => {
       for (let { experimentId, variantId } of experimentVariantMap) {
         const data = JSON.stringify({ ...event[1], experimentVariantMap });
         const key = `PERTENTO:DATALAYER:${websiteId}:${experimentId}:${variantId}:${event[0]}`;
-        if (now > bmobemit) return;
+        // if (now > bmobemit) return;
         await client.HSET(key, nowValue, data);
         const actionField = event[1]?.purchase?.actionField || event[1]?.actionField || event[1];
         const { revenue, value } = actionField || {};

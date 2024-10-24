@@ -32,7 +32,7 @@ const { VITE_DASHBOARD_URL } = import.meta.env;
     const body = document.body;
     if (checkIfOldEditor()) return;
     if (checkIfForceVariant()) return;
-    if (!bmobemit()) return;
+    // if (!bmobemit()) return;
 
     const experimentData = await getExperimentData(websiteUrl, websiteId);
 
