@@ -8,7 +8,7 @@ import { checkIfOldEditor } from './old-editor-stuff';
 import { checkIfForceVariant } from './force-variant';
 import { midEditorSetup } from './old-editor-stuff/mid-editor-setup';
 import { setupForEditorExtension } from './setup-for-editor-extension';
-import { bmobemit } from './bmobemit';
+// import { bmobemit } from './bmobemit';
 const { VITE_DASHBOARD_URL } = import.meta.env;
 
 (async function main() {
