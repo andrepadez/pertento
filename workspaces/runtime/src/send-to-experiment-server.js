@@ -1,7 +1,7 @@
 import { log } from 'helpers/injector/console';
 import { createClient } from 'hooks/useClient';
 const { VITE_EXPERIMENTS_URL } = import.meta.env;
-const WEBSITES_TO_LISTEN = [433];
+const WEBSITES_TO_LISTEN = [];
 
 export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) => {
   const experimentsClient = createClient(VITE_EXPERIMENTS_URL);
@@ -17,7 +17,7 @@ export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) =
   const experimentIds = Array.from(new URLSearchParams(expSearch).keys()).map((key) => +key.split('-').at(1));
 
   return async (data, isMultiple) => {
-    log('sending data', websiteId, WEBSITES_TO_LISTEN.includes(+websiteId));
+    log('sending test data?', websiteId, WEBSITES_TO_LISTEN);
     if (WEBSITES_TO_LISTEN.includes(+websiteId)) {
       console.log('sending test-data to experiments server');
       let url = `/test-data`;
