@@ -5,6 +5,7 @@ console.log('service worker loaded');
 let bearerToken = null;
 
 self.addEventListener('message', async (event) => {
+  console.log('Service worker received message:', event.data);
   if (event.data && event.data.type === 'SIGN_IN') {
     bearerToken = event.data.token;
     idbSet('PERTENTO_BEARER_TOKEN', event.data.token);
@@ -22,9 +23,26 @@ self.addEventListener('activate', async (event) => {
   bearerToken = await idbGet('PERTENTO_BEARER_TOKEN');
 });
 
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.type === 'pertentoExtensionCheckRequest') {
+    // Perform any necessary checks here
+    const isInstalled = true; // Replace with actual check logic
+
+    // Send a response back to the content script
+    sendResponse({ type: 'extensionCheckResponse', installed: isInstalled });
+  }
+});
+
 chrome.windows.onFocusChanged.addListener(async (windowId) => {
+  console.log('chrome.windows.onFocusChanged', windowId);
   // onTabOrWindowChanged({ windowId, bearerToken });
 });
+
+chrome.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
+  console.log('Tab activated:', tabId, windowId);
+});
+
+chrome.tabs.onUpdated.addListener(async (tabId, changeInfo, tab) => {});
 
 // chrome.tabs.onActivated.addListener(async ({ tabId, windowId }) => {
 //   // console.log('chrome.tabs.onActivated', tabId, windowId);

@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pertento Editor",
-  "version": "2024.06.24.3",
+  "version": "2024.11.5.1",
   "icons": {
     "16": "logos/logo-16.png",
     "48": "logos/logo-48.png",
@@ -11,6 +11,12 @@
     "service_worker": "service-worker.js",
     "type": "module"
   },
+  "content_scripts": [
+    {
+      "matches": ["http://localhost:3000/*", "https://app.pertento.ai/*"],
+      "js": ["content-script.js"]
+    }
+  ],
   "action": {
     "default_popup": "index.html"
   },
