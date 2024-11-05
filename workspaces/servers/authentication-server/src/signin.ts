@@ -24,7 +24,7 @@ export const signinHandler = async (c) => {
 
   const tokenUser = { id, email, companyId, parentCompanyId, firstName, lastName, role, passkeys: passkeys.length };
 
-  if (passkeys.length > 0) {
+  if (passkeys.length > 0 && !c.origin.startsWith('chrome-extension://')) {
     return c.json({ user: tokenUser });
   }
 
