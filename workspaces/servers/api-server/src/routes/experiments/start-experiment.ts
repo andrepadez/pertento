@@ -17,7 +17,10 @@ export const startExperimentHandler = async (c) => {
 
     for (let variant of variantWeights) {
       const where = eq(Variants.id, variant.id);
-      await tx.update(Variants).set({ weight: variant.weight }).where(where);
+      await tx
+        .update(Variants)
+        .set({ weight: variant.weight || 0 })
+        .where(where);
     }
 
     const where = eq(Experiments.id, experimentId);

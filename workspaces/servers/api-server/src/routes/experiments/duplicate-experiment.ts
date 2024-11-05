@@ -24,6 +24,7 @@ export const duplicateExperimentHandler = async (c) => {
       const dbChanges = await tx.select().from(Changes).where(eq(Changes.variantId, dbVariant.id));
       delete dbVariant.id;
       dbVariant.experimentId = newExp.id;
+      if (dbVariant.weight === 0) dbVariant.weight = null;
       const [newVariant] = await tx.insert(Variants).values(dbVariant).returning();
       if (dbChanges.length === 0) continue;
       dbVariant.experimentId = newExp.id;
