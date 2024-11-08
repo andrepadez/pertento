@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Pertento Editor",
-  "version": "2024.11.5.1",
+  "version": "2024.11.8.1",
   "icons": {
     "16": "logos/logo-16.png",
     "48": "logos/logo-48.png",
