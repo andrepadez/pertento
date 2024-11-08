@@ -16,7 +16,7 @@ export const ExperimentVariantsTable = ({ experiments }) => {
         {
           field: 'name',
           label: 'Name',
-          format: ({ value }) => <div className="text-sm text-wrap">{value}</div>,
+          format: ({ value }) => <div className="text-wrap text-sm">{value}</div>,
         },
         {
           field: 'variants',
@@ -36,20 +36,25 @@ export const ExperimentVariantsTable = ({ experiments }) => {
                 </a>
               )}
               {experimentId === experiment.id && (
-                <ul className="flex flex-col min-w-[250px] gap-4 my-5">
-                  {variants?.map((variant) => (
-                    <li className="flex justify-between text-sm" key={variant.id}>
-                      <div>{variant.id}</div>
-                      {isEditorIframeOpen ? (
-                        <label>{variant.name}</label>
-                      ) : (
-                        <a data-variant={variant.id} data-experiment={experiment.id} onClick={changeVariant}>
-                          {variant.name}
-                        </a>
-                      )}
-                      <div> {variant.changes.length || 0} changes</div>
-                    </li>
-                  ))}
+                <ul className="my-5 flex min-w-[250px] flex-col gap-4">
+                  {variants?.map((variant) => {
+                    let changesCount = variant.changes.length;
+                    if (variant.globalJavascript) changesCount++;
+                    if (variant.globalCSS) changesCount++;
+                    return (
+                      <li className="flex justify-between text-sm" key={variant.id}>
+                        <div>{variant.id}</div>
+                        {isEditorIframeOpen ? (
+                          <label>{variant.name}</label>
+                        ) : (
+                          <a data-variant={variant.id} data-experiment={experiment.id} onClick={changeVariant}>
+                            {variant.name}
+                          </a>
+                        )}
+                        <div> {variant.changes.length || 0} changes</div>
+                      </li>
+                    );
+                  })}
                 </ul>
               )}
             </div>

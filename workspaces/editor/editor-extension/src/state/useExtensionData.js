@@ -128,10 +128,10 @@ export const useExtensionData = () => {
 };
 
 const VIEW_OPTIONS = [
-  {
-    label: 'All Experiments',
-    value: 'All',
-  },
+  // {
+  //   label: 'All Experiments',
+  //   value: 'All',
+  // },
   {
     label: 'Running',
     value: 'Running',
