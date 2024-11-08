@@ -57,7 +57,7 @@ editorDataRouter.get('/variants/:experimentId', canExperiment, async (c) => {
 editorDataRouter.get('/websites/:websiteId/experiments', canWebsite, async (c) => {
   const { websiteId } = c.req.param();
   const experiments = await db.query.Experiments.findMany({
-    where: and(eq(Experiments.websiteId, websiteId), inArray(Experiments.status, ['Draft', 'Running'])),
+    where: and(eq(Experiments.websiteId, websiteId)),
     with: { variants: { with: { changes: true } } },
     orderBy: desc(Experiments.id),
   });

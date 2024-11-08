@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { get as idbGet } from 'idb-keyval';
 import { useQuery } from '@tanstack/react-query';
 import { useGlobal } from 'hooks/useGlobal';
@@ -42,29 +42,50 @@ export const useExtensionData = () => {
     enabled: !!user && !!websiteId && !!tabId,
     queryFn: async () => {
       try {
-        const all = await client.get(`/editor-data/websites/${websiteId}/experiments`);
-        const reduced = all.reduce(
+        const All = await client.get(`/editor-data/websites/${websiteId}/experiments`);
+        const reduced = All.reduce(
           (acc, experiment) => {
             const { status } = experiment;
-            const bucket = status === 'Draft' ? 'drafts' : 'running';
-            acc[bucket].push(experiment);
+            // const bucket = status === 'Draft' ? 'drafts' : 'running';
+            // acc[status] = acc[status] || [];
+            acc[status].push(experiment);
             return acc;
           },
-          { drafts: [], running: [] },
+          { Running: [], Draft: [], Ended: [], Archived: [] },
         );
-
-        return { all, ...reduced };
+        return { All, ...reduced };
       } catch (ex) {
         alert(ex.message);
       }
     },
   });
 
+  const counts = useMemo(() => {
+    if (!experiments) return null;
+
+    const counts = {
+      All: experiments.All.filter((exp) => !exp.archived).length,
+      Archived: 0,
+      Running: 0,
+      Ended: 0,
+      Draft: 0,
+    };
+
+    for (let exp of experiments.All) {
+      if (!!exp.archived) {
+        counts.Archived++;
+        continue;
+      }
+      counts[exp.status]++;
+    }
+    return counts;
+  }, [experiments]);
+
   useEffect(() => {
     const experimentId = +localStorage.getItem(lsKeyExperimentId);
     const variantId = +localStorage.getItem(lsKeyVariantId);
 
-    const selectedExperiment = experiments?.all.find((exp) => exp.id === experimentId);
+    const selectedExperiment = experiments?.All.find((exp) => exp.id === experimentId);
     const selectedVariant = selectedExperiment?.variants.find((variant) => variant.id === variantId);
 
     if (selectedExperiment) setExperimentId(selectedExperiment.id);
@@ -97,9 +118,34 @@ export const useExtensionData = () => {
     tabId,
     websiteId,
     experiments,
+    counts,
     variantId,
     experimentId,
     changeVariant,
     changeExperiment,
+    VIEW_OPTIONS,
   };
 };
+
+const VIEW_OPTIONS = [
+  {
+    label: 'All Experiments',
+    value: 'All',
+  },
+  {
+    label: 'Running',
+    value: 'Running',
+  },
+  {
+    label: 'Drafts',
+    value: 'Draft',
+  },
+  {
+    label: 'Ended',
+    value: 'Ended',
+  },
+  // {
+  //   label: 'Archived',
+  //   value: 'Archived',
+  // },
+];
