@@ -64,7 +64,7 @@ export const ExperimentVariantsTable = ({ experiments }) => {
     />
   ) : (
     <div>
-      <h1>No Experiments</h1>
+      <h3>No Experiments</h3>
     </div>
   );
 };

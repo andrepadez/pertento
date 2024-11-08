@@ -144,8 +144,8 @@ const VIEW_OPTIONS = [
     label: 'Ended',
     value: 'Ended',
   },
-  // {
-  //   label: 'Archived',
-  //   value: 'Archived',
-  // },
+  {
+    label: 'Archived',
+    value: 'Archived',
+  },
 ];
