@@ -1,15 +1,16 @@
 import { useState } from 'react';
+import { cn } from 'helpers/cn';
 import { Button } from 'shadcn/button';
 import { Dialog, DialogContent, DialogDescription, DialogFooter } from 'shadcn/dialog';
 import { DialogHeader, DialogTitle, DialogTrigger } from 'shadcn/dialog';
 
-export const ConfirmDialog = ({ children, ...props }) => {
+export const ConfirmDialog = ({ children, className, ...props }) => {
   const { title, text, confirmLabel, onConfirm, onClose, disabled } = props;
   const { open = true, level = 'default' } = props;
 
   return (
     <Dialog className="" open={open} onOpenChange={onClose}>
-      <DialogContent className="w-auto min-w-[30%]">
+      <DialogContent className={cn('w-auto min-w-[30%]', className)}>
         <DialogHeader className="grid gap-3">
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{text}</DialogDescription>

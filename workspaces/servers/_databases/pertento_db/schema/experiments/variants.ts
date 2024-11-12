@@ -6,6 +6,7 @@ import { Experiments, Changes, VisitorCount } from './';
 export const Variants = pgTable('variants', {
   id: bigserial('id', { mode: 'number' }).primaryKey(),
   name: varchar('name', { length: 256 }).notNull(),
+  redirectUrl: varchar('redirect_url', { length: 1024 }),
   experimentId: bigint('experiment_id', { mode: 'number' }),
   websiteId: bigint('website_id', { mode: 'number' }),
   companyId: bigint('company_id', { mode: 'number' }),

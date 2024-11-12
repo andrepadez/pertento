@@ -1,0 +1,1 @@
+ALTER TABLE "variants" ADD COLUMN "redirect_url" varchar(1024);
