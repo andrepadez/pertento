@@ -19,3 +19,5 @@ export const URL_TARGETING_CONDITIONS = [
 ];
 
 export const HTML_CODE_EDITOR_ACTIONS = ['replace', 'insert', 'append', 'before', 'after'];
+
+export const EXPERIMENT_TYPES = ['Multi Variant', 'Server Side', 'URL Redirect'];

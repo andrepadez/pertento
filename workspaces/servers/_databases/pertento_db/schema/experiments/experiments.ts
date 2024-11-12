@@ -1,15 +1,17 @@
 import { pgTable, pgEnum, json, varchar } from 'drizzle-orm/pg-core';
 import { bigint, bigserial } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
-import { EXPERIMENT_STATUSES } from 'misc';
+import { EXPERIMENT_STATUSES, EXPERIMENT_TYPES } from 'misc';
 import { Websites } from '../websites';
 import { Variants, ActivityLog, VisitorCount } from './';
 import { CookieTargeting, DeviceTargeting, UrlTargeting } from './';
 
 export const experimentStatusEnum = pgEnum('status', EXPERIMENT_STATUSES);
+export const experimentTypesEnum = pgEnum('type', EXPERIMENT_TYPES);
 
 export const Experiments = pgTable('experiments', {
   id: bigserial('id', { mode: 'number' }).primaryKey(),
+  type: experimentTypesEnum('type').default(EXPERIMENT_TYPES[0]),
   name: varchar('name', { length: 256 }).notNull(),
   createdBy: bigint('created_by', { mode: 'number' }),
   websiteId: bigint('website_id', { mode: 'number' }),
