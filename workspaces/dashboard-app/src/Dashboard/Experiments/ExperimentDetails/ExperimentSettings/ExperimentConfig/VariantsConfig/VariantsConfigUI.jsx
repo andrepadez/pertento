@@ -35,10 +35,7 @@ export const VariantsConfigUI = (props) => {
           <div key={variant.id} className="flex items-center">
             <div className="flex-1">
               <a
-                className={cn(
-                  'block text-secondary-foreground',
-                  !isOriginal && 'cursor-pointer  hover:underline',
-                )}
+                className={cn('text-secondary-foreground block', !isOriginal && 'cursor-pointer hover:underline')}
                 onClick={() => !isOriginal && seOpenModal({ action: 'EditName', variant })}
               >
                 <strong>
@@ -48,9 +45,7 @@ export const VariantsConfigUI = (props) => {
               {isOriginal ? (
                 <p>{weight.toFixed(2)}%</p>
               ) : (
-                <a onClick={() => seOpenModal({ action: 'EditWeights', variant })}>
-                  {weight.toFixed(2)}%
-                </a>
+                <a onClick={() => seOpenModal({ action: 'EditWeights', variant })}>{weight.toFixed(2)}%</a>
               )}
             </div>
             <div className="flex-1">
@@ -64,12 +59,8 @@ export const VariantsConfigUI = (props) => {
                     <a>Open Editor</a>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
-                    <DropdownMenuItem onClick={() => openEditor(variant)}>
-                      New Editor
-                    </DropdownMenuItem>
-                    <DropdownMenuItem onClick={() => openEditor(variant, true)}>
-                      Original Editor
-                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openEditor(variant)}>New Editor</DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => openEditor(variant, true)}>Original Editor</DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
@@ -79,20 +70,13 @@ export const VariantsConfigUI = (props) => {
             </div>
             <Trash2
               onClick={() => !isOriginal && seOpenModal({ action: 'DeleteVariant', variant })}
-              className={cn(
-                'text-muted-foreground cursor-pointer',
-                isOriginal && 'opacity-0 cursor-auto',
-              )}
+              className={cn('text-muted-foreground cursor-pointer', isOriginal && 'cursor-auto opacity-0')}
             />
           </div>
         );
       })}
       <div className="flex justify-between mt-5">
-        <Button
-          className="font-bold"
-          variant="ghost"
-          onClick={() => seOpenModal({ action: 'AddNewVariant' })}
-        >
+        <Button className="font-bold" variant="ghost" onClick={() => seOpenModal({ action: 'AddNewVariant' })}>
           + Add new variant
         </Button>
 
@@ -102,7 +86,7 @@ export const VariantsConfigUI = (props) => {
           title={editorUrl}
           onClick={() => seOpenModal({ action: 'ChangeEditorUrl' })}
         >
-          Editor page: {editorUrl.substr(0, 75)} {editorUrl.length > 75 ? '...' : ''} (<a>edit</a>)
+          Editor page: {editorUrl?.substr(0, 75)} {editorUrl?.length > 75 ? '...' : ''} (<a>edit</a>)
         </Button>
       </div>
     </div>

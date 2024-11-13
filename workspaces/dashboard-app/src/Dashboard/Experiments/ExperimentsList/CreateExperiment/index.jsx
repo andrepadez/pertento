@@ -1,34 +1,29 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'shadcn/button';
-import { Label } from 'shadcn/label';
-import { Select } from 'components/select';
-import { Input } from 'shadcn/input';
 import { ConfirmDialog } from 'components/Dialogs';
-import { MultiVariantForm } from './MultiVariantForm';
-import { ServerSideForm } from './ServerSideForm';
-import { UrlRedirectForm } from './UrlRedirectForm';
+import { CreateExperimentForm } from './CreateExperimentForm';
 import { useExperiment } from '@/state/experiments/useExperiment';
 import { useForm } from 'hooks/useForm';
 import { EXPERIMENT_TYPES } from 'misc';
 
-const emptyExperiment = { type: EXPERIMENT_TYPES[0], name: '', variants: [{ name: '' }] };
+const emptyExperiment = { type: EXPERIMENT_TYPES[0], name: '', variants: [{ name: '', redirectUrl: '' }] };
 
 export const CreateExperiment = () => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
   const [creating, setCreating] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { createExperiment } = useExperiment();
   const { state: newExperiment, formRef, update } = useForm(emptyExperiment);
-
-  const { name, type } = newExperiment;
 
   const onSubmit = async (ev) => {
     setIsSubmitting(true);
     ev.preventDefault();
-    const newExperiment = await createExperiment(newExperiment);
+    const dbExperiment = await createExperiment(newExperiment);
+    setIsSubmitting(false);
+    console.log({ dbExperiment });
     setCreating(false);
-    navigate(`/experiments/${newExperiment.id}`);
+    navigate(`/experiments/${dbExperiment.id}`);
   };
 
   return (
@@ -38,27 +33,24 @@ export const CreateExperiment = () => {
         <ConfirmDialog
           title="Create Experiment"
           className="min-w-[50%]"
-          text="Choose a discriptive name for your new experiment"
+          text={COPIES[newExperiment.type]}
           confirmLabel="Create"
           onConfirm={onSubmit}
           onClose={() => setCreating(false)}
           disabled={isSubmitting}
         >
-          <form ref={formRef} className="flex flex-col gap-4" onSubmit={onSubmit}>
-            <div className="grid gap-2">
-              <Label>Experiment Type </Label>
-              <Select value={type} name="type" options={EXPERIMENT_TYPES} update={update} />
-            </div>
-            <div className="grid gap-2">
-              <Label>Experiment Name </Label>
-              <Input name="name" />
-            </div>
-            {type === 'Multi Variant' && <MultiVariantForm newExperiment={newExperiment} update={update} />}
-            {type === 'Server Side' && <ServerSideForm newExperiment={newExperiment} update={update} />}
-            {type === 'URL Redirect' && <UrlRedirectForm newExperiment={newExperiment} update={update} />}
-          </form>
+          <CreateExperimentForm newExperiment={newExperiment} update={update} formRef={formRef} onSubmit={onSubmit} />
         </ConfirmDialog>
       )}
     </div>
   );
+};
+
+const COPIES = {
+  'Multi Variant':
+    'Easily edit and test variations on your UI. Create multiple variations of a page to see what works best.',
+  'Server Side':
+    'Make complex, targeted changes with ease. Implement a small code snippet so our system can control what users see based on your specified targeting and experiment settings',
+  'URL Redirect':
+    'Split traffic across different URLs to test performance. Set up original and variant URLs, and control how much traffic each version receives.',
 };

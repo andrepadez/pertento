@@ -4,9 +4,5 @@ import { ExperimentConfig } from './ExperimentConfig';
 import { useExperiment } from '@/state/experiments/useExperiment';
 
 export const ExperimentSettingsScreen = ({ experiment }) => {
-  return experiment.editorUrl ? (
-    <ExperimentConfig experiment={experiment} />
-  ) : (
-    <ExperimentSetup experiment={experiment} />
-  );
+  return <ExperimentConfig experiment={experiment} />;
 };

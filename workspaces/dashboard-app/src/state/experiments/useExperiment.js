@@ -32,13 +32,13 @@ export const useExperiment = (experimentId) => {
     }
   }, [experiment, organizations]);
 
-  const createExperiment = async ({ name }) => {
+  const createExperiment = async (newExperiment) => {
     const { id: websiteId } = website;
     const { id: companyId, parentCompanyId } = organization;
-    const payload = { name, websiteId, companyId, parentCompanyId };
-    const newExperiment = await apiClient.post('/experiments', payload);
+    const payload = { ...newExperiment, websiteId, companyId, parentCompanyId };
+    const dbExperiment = await apiClient.post('/experiments', payload);
     queryClient.invalidateQueries({ queryKey: ['EXPERIMENTS', website.id] });
-    return newExperiment;
+    return dbExperiment;
   };
 
   const finishSetup = async (id, payload) => {
