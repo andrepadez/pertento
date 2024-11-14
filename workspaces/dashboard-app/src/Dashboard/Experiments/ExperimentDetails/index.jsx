@@ -36,14 +36,17 @@ export const ExperimentDetailsScreen = (props) => {
         <TabsList className="relative flex gap-10">
           <TabsTrigger value="settings">Settings</TabsTrigger>
           <TabsTrigger value="statistics">Statistics</TabsTrigger>
-          <div className="absolute left-0 mx-5 inline w-48">
+          <div className="absolute left-0 inline w-48 mx-5">
             <BackButton className="text-sm" label="Back to Experiments" href="/experiments" />
+          </div>
+          <div className="absolute right-0 inline w-48 mx-5">
+            <strong>{experiment.type}</strong>
           </div>
         </TabsList>
       </Tabs>
 
       {screen === 'statistics' && isDraft && (
-        <div className="text-muted-foreground text-center">Statistics will be available once the experiment starts</div>
+        <div className="text-center text-muted-foreground">Statistics will be available once the experiment starts</div>
       )}
 
       {screen === 'settings' && <ExperimentSettingsScreen experiment={experiment} />}

@@ -33,21 +33,21 @@ export const CreateExperimentForm = ({ newExperiment, update, formRef, onSubmit 
 
   return (
     <form ref={formRef} className="flex flex-col gap-4" onSubmit={onSubmit}>
-      <div className="grid gap-2">
+      <div className="grid gap-3">
         <Label>Experiment Type </Label>
         <Select value={type} name="type" options={EXPERIMENT_TYPES} update={update} />
       </div>
-      <div className="grid gap-2">
+      <div className="grid gap-3">
         <Label>Experiment Name </Label>
         <Input name="name" />
       </div>
       {type === 'Multi Variant' && (
-        <div className="grid gap-2">
+        <div className="grid gap-3">
           <Label>Editor URL </Label>
           <Input name="editorUrl" />
         </div>
       )}
-      <div className="grid gap-2">
+      <div className="grid gap-3 mb-4">
         <Label>Variants: </Label>
         {variants.map((variant, idx) => (
           <div key={idx} className="flex items-center gap-3">

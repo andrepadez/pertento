@@ -72,6 +72,11 @@ export const useWebsites = () => {
     queryClient.invalidateQueries({ queryKey: ['WEBSITES'] });
   };
 
+  const setServerContainerUrl = async (websiteId, url) => {
+    await apiClient.put(`/websites/${websiteId}`, { serverContainerUrl: url });
+    queryClient.invalidateQueries({ queryKey: ['CLIENT_ACCOUNTS'] });
+  };
+
   const recheckPermissions = async (ganPropertyId) => {
     setRechecking(true);
     await ganClient.get(`/google-oauth/recheck-permissions/${ganPropertyId}`);
@@ -87,6 +92,7 @@ export const useWebsites = () => {
     setWebsite,
     createWebsite,
     refreshPropertyTags,
+    setServerContainerUrl,
     deleteWebsite,
     recheckPermissions,
   };

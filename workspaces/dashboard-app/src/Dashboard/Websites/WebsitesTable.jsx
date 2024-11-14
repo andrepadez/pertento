@@ -5,6 +5,8 @@ import { Avatar, AvatarImage } from 'shadcn/avatar';
 import { Button } from 'shadcn/button';
 import { BadgeCheck, BadgeAlert } from 'lucide-react';
 import { DataTable } from 'components/DataTable';
+import { ScriptsModal } from './ScriptsModal';
+import { ServerContainerUrl } from './ServerContainerUrl';
 
 export const WebsitesTable = ({ manager }) => {
   const [copied, setCopied] = useState(null);
@@ -37,7 +39,7 @@ export const WebsitesTable = ({ manager }) => {
             field: 'url',
             label: ' ',
             format: ({ value: url }) => (
-              <div className="h-10 w-10 rounded-md">
+              <div className="w-10 h-10 rounded-md">
                 <Avatar>
                   <AvatarImage src={url + '/favicon.ico'} />
                 </Avatar>
@@ -50,15 +52,8 @@ export const WebsitesTable = ({ manager }) => {
           },
           {
             field: 'id',
-            label: 'Script',
-            format: ({ value }) => {
-              return (
-                <Button className="w-20" variant="outline" onClick={() => copyScriptTag(value)}>
-                  {copied === value ? 'Copied!' : 'Copy'}
-                </Button>
-              );
-              return <span className="text-xs">{scriptTag(value)}</span>;
-            },
+            label: 'Scripts',
+            format: ({ value }) => <ScriptsModal websiteId={value} />,
           },
           {
             field: 'ganPropertyId',
@@ -69,6 +64,11 @@ export const WebsitesTable = ({ manager }) => {
             field: 'ganMeasurementId',
             label: 'Measurement ID',
             format: ({ value }) => <div className="text-sm">{value}</div>,
+          },
+          {
+            field: 'serverContainerUrl',
+            label: 'Server Container URL',
+            format: ({ value, item }) => <ServerContainerUrl website={item} />,
           },
           {
             field: 'ganPropertyId',
@@ -85,12 +85,12 @@ export const WebsitesTable = ({ manager }) => {
             label: 'Can Edit?',
             format: ({ value, item }) =>
               value && (
-                <div className="flex w-32 items-center gap-3">
+                <div className="flex items-center w-32 gap-3">
                   <div>
                     {value.hasEditPermission?.length > 0 ? (
-                      <BadgeCheck className="h-8 w-8 text-green-500" />
+                      <BadgeCheck className="w-8 h-8 text-green-500" />
                     ) : (
-                      <BadgeAlert className="h-8 w-8 text-red-500" />
+                      <BadgeAlert className="w-8 h-8 text-red-500" />
                     )}
                   </div>
                   <Button disabled={rechecking} onClick={() => recheckPermissions(item.ganPropertyId)} variant="ghost">

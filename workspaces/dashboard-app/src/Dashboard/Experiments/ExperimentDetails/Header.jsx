@@ -14,12 +14,13 @@ export const Header = ({ experimentId, screen }) => {
   const { experiment, isStarting, startExperiment, endExperiment } = useExperiment(experimentId);
   if (!experiment || !website) return null;
 
-  const { status } = experiment;
+  const { status, type } = experiment;
   const isDraft = status === 'Draft';
   const isEnded = status === 'Ended';
   const isDeployed = status === 'Deployed';
   const isRunning = status === 'Running';
   const noEditPermissions = isDraft && ganProperty && !ganProperty.hasEditPermission.length;
+  const isNotImplemented = ['Server Side', 'URL Redirect'].includes(type);
 
   return (
     <div className="grid gap-5">
@@ -32,7 +33,7 @@ export const Header = ({ experimentId, screen }) => {
           {experiment.editorUrl && (
             <Button
               variant={isRunning || isDeployed ? 'destructive' : 'default'}
-              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded}
+              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isNotImplemented}
               onClick={() => (isRunning || isDeployed ? setWantsToEnd(true) : startExperiment(experimentId))}
             >
               {isEnded && <span>Ended</span>}
