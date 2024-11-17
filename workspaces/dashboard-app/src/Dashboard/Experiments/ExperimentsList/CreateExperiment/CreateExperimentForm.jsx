@@ -1,5 +1,5 @@
 import { Label } from 'shadcn/label';
-import { Select } from 'components/select';
+import { Select } from 'components/Select';
 import { Input } from 'shadcn/input';
 import { CircleX } from 'lucide-react';
 import { cn } from 'shadcn/cn';
