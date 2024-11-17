@@ -32,8 +32,7 @@ export const CreateExperiment = () => {
       return (
         !!newExperiment.name &&
         newExperiment.variants.length > 0 &&
-        newExperiment.variants.every((v) => v.name && v.redirectUrl) &&
-        !!newExperiment.editorUrl
+        newExperiment.variants.every((v) => v.name && v.redirectUrl)
       );
     },
   };

@@ -2,9 +2,13 @@ import { db, eq, Variants, ActivityLog } from 'pertentodb';
 
 export const changeNameHandler = async (c) => {
   const { variantId } = c.req.param();
-  const { name, testing } = c.req.body;
+  const { name, redirectUrl, testing } = c.req.body;
   const variant = await db.query.Variants.findFirst({ where: eq(Variants.id, variantId) });
-  const [dbVariant] = await db.update(Variants).set({ name }).where(eq(Variants.id, variantId)).returning();
+  const [dbVariant] = await db
+    .update(Variants)
+    .set({ name, redirectUrl })
+    .where(eq(Variants.id, variantId))
+    .returning();
 
   if (testing) return c.json(dbVariant);
 

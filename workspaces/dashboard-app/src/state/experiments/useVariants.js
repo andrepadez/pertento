@@ -29,8 +29,8 @@ export const useVariants = (experimentId, variantId = null) => {
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
-  const changeName = async (variantId, name) => {
-    await apiClient.put(`/variants/${variantId}/change-name`, { name });
+  const changeName = async (variantId, name, redirectUrl) => {
+    await apiClient.put(`/variants/${variantId}/change-name`, { name, redirectUrl });
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };

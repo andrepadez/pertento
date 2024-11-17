@@ -6,12 +6,13 @@ import { useExperiment } from '@/state/experiments/useExperiment';
 import { useVariantWeights } from '@/state/experiments/useVariantWeights';
 import { useVariants } from '@/state/experiments/useVariants';
 
-export const VariantsConfig = ({ experimentId }) => {
-  const [openModal, seOpenModal] = useState(null);
+export const VariantsConfig = ({ experiment }) => {
+  const { id: experimentId } = experiment;
+  const [openModal, setOpenModal] = useState(null);
   const TheModal = Modals[openModal?.action];
 
   const experimentManager = useExperiment(experimentId);
-  const { experiment, updateExperiment } = experimentManager;
+  const { updateExperiment } = experimentManager;
   const variantsManager = useVariants(experimentId);
   const { variants, createVariant, deleteVariant, changeName } = variantsManager;
   const { floatingWeight, originalWeight } = useVariantWeights(experimentId);
@@ -27,7 +28,7 @@ export const VariantsConfig = ({ experimentId }) => {
         <VariantsConfigUI
           variants={variants}
           experiment={experiment}
-          seOpenModal={seOpenModal}
+          setOpenModal={setOpenModal}
           originalWeight={originalWeight}
           floatingWeight={floatingWeight}
         />
@@ -40,7 +41,7 @@ export const VariantsConfig = ({ experimentId }) => {
           variants={variants}
           manager={variantsManager}
           experimentManager={experimentManager}
-          onClose={() => seOpenModal(null)}
+          onClose={() => setOpenModal(null)}
         />
       )}
     </Card>

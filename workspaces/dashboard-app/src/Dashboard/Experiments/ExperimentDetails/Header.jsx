@@ -22,6 +22,8 @@ export const Header = ({ experimentId, screen }) => {
   const noEditPermissions = isDraft && ganProperty && !ganProperty.hasEditPermission.length;
   const isNotImplemented = ['Server Side', 'URL Redirect'].includes(type);
 
+  console.log('!noEditPermissions && isDraft && !isStarting', !noEditPermissions && isDraft && !isStarting);
+
   return (
     <div className="grid gap-5">
       <div className="flex justify-between text-center">
@@ -30,21 +32,26 @@ export const Header = ({ experimentId, screen }) => {
         </h1>
         <div className="flex items-center gap-3 text-right">
           {isDeployed && <strong className="text-lg text-green-500">Deployed</strong>}
-          {experiment.editorUrl && (
-            <Button
-              variant={isRunning || isDeployed ? 'destructive' : 'default'}
-              disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isNotImplemented}
-              onClick={() => (isRunning || isDeployed ? setWantsToEnd(true) : startExperiment(experimentId))}
-            >
-              {isEnded && <span>Ended</span>}
-              {isStarting && <span>Starting...</span>}
-              {noEditPermissions && <span>No Edit Permissions (Google Analytics)</span>}
-              {!noEditPermissions && isDraft && !isStarting && <span>Start Experiment</span>}
-              {(isRunning || isDeployed) && <span>End Experiment</span>}
-            </Button>
-          )}
+
+          <Button
+            variant={isRunning || isDeployed ? 'destructive' : 'default'}
+            disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isNotImplemented}
+            onClick={() => (isRunning || isDeployed ? setWantsToEnd(true) : startExperiment(experimentId))}
+          >
+            {isEnded && <span>Ended</span>}
+            {isStarting && <span>Starting...</span>}
+            {noEditPermissions && <span>No Edit Permissions (Google Analytics)</span>}
+            {!noEditPermissions && isDraft && !isStarting && <span>Start Experiment</span>}
+            {(isRunning || isDeployed) && <span>End Experiment</span>}
+          </Button>
         </div>
       </div>
+      {isNotImplemented && (
+        <div className="p-2 text-center bg-yellow-400">
+          <p>{type} experiments are not implemented yet.</p>
+          <p>You can configure it for now, we'll let you know when they are available for launch.</p>
+        </div>
+      )}
       <ConfirmDialog
         title="End Experiment?"
         text="Are you sure you want to end this experiment?"
