@@ -16,12 +16,33 @@ export const CreateExperiment = () => {
   const { createExperiment } = useExperiment();
   const { state: newExperiment, formRef, update } = useForm(emptyExperiment);
 
+  const validations = {
+    'Multi Variant': (newExperiment) => {
+      return (
+        !!newExperiment.name &&
+        newExperiment.variants.length > 0 &&
+        newExperiment.variants.every((v) => v.name) &&
+        !!newExperiment.editorUrl
+      );
+    },
+    'Server Side': (newExperiment) => {
+      return !!newExperiment.name && newExperiment.variants.length > 0 && newExperiment.variants.every((v) => v.name);
+    },
+    'URL Redirect': (newExperiment) => {
+      return (
+        !!newExperiment.name &&
+        newExperiment.variants.length > 0 &&
+        newExperiment.variants.every((v) => v.name && v.redirectUrl) &&
+        !!newExperiment.editorUrl
+      );
+    },
+  };
+
   const onSubmit = async (ev) => {
     setIsSubmitting(true);
     ev.preventDefault();
     const dbExperiment = await createExperiment(newExperiment);
     setIsSubmitting(false);
-    console.log({ dbExperiment });
     setCreating(false);
     navigate(`/experiments/${dbExperiment.id}`);
   };
@@ -37,7 +58,7 @@ export const CreateExperiment = () => {
           confirmLabel="Create"
           onConfirm={onSubmit}
           onClose={() => setCreating(false)}
-          disabled={isSubmitting}
+          disabled={isSubmitting || !validations[newExperiment.type](newExperiment)}
         >
           <CreateExperimentForm newExperiment={newExperiment} update={update} formRef={formRef} onSubmit={onSubmit} />
         </ConfirmDialog>

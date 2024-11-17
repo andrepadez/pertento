@@ -70,16 +70,16 @@ export const WebsitesTable = ({ manager }) => {
             label: 'Server Container URL',
             format: ({ value, item }) => <ServerContainerUrl website={item} />,
           },
-          {
-            field: 'ganPropertyId',
-            label: 'Event Tags',
-            format: ({ value, item }) =>
-              value && (
-                <Button onClick={() => refreshPropertyTags(item)} variant="outline" disabled={rechecking}>
-                  {rechecking ? 'Refreshing...' : 'Refresh'} ({item.ganPropertyTags?.length || 0})
-                </Button>
-              ),
-          },
+          // {
+          //   field: 'ganPropertyId',
+          //   label: 'Event Tags',
+          //   format: ({ value, item }) =>
+          //     value && (
+          //       <Button onClick={() => refreshPropertyTags(item)} variant="outline" disabled={rechecking}>
+          //         {rechecking ? 'Refreshing...' : 'Refresh'} ({item.ganPropertyTags?.length || 0})
+          //       </Button>
+          //     ),
+          // },
           {
             field: 'ganProperty',
             label: 'Can Edit?',
