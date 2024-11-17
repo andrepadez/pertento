@@ -22,8 +22,6 @@ export const Header = ({ experimentId, screen }) => {
   const noEditPermissions = isDraft && ganProperty && !ganProperty.hasEditPermission.length;
   const isNotImplemented = ['Server Side', 'URL Redirect'].includes(type);
 
-  console.log('!noEditPermissions && isDraft && !isStarting', !noEditPermissions && isDraft && !isStarting);
-
   return (
     <div className="grid gap-5">
       <div className="flex justify-between text-center">
