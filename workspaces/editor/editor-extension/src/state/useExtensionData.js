@@ -47,11 +47,11 @@ export const useExtensionData = () => {
           (acc, experiment) => {
             const { status } = experiment;
             // const bucket = status === 'Draft' ? 'drafts' : 'running';
-            // acc[status] = acc[status] || [];
+            acc[status] = acc[status] || [];
             acc[status].push(experiment);
             return acc;
           },
-          { Running: [], Draft: [], Ended: [], Archived: [] },
+          { Running: [], Draft: [], Ended: [], Archived: [], Deployed: [] },
         );
         return { All, ...reduced };
       } catch (ex) {
