@@ -4,7 +4,7 @@ import { createChallenge, hexToString } from 'helpers/passkeys';
 import argon2 from 'argon2';
 import * as errors from 'custom-errors';
 
-const TEST_USER = 134;
+const TEST_USER = 0; // zero if not testing (bypass authentication) any user
 
 export const signinHandler = async (c) => {
   const { email, password } = c.req.body;
