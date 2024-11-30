@@ -2,13 +2,13 @@ import { log } from 'helpers/injector/console';
 
 export const checkUrlTargeting = function (urlTargeting, url) {
   const pageUrl = (url || window.location.href).replace(/\/$/, '');
-  log(3871, 'pageUrl', pageUrl);
   let hasHitTargetUrl = urlTargeting.length === 0;
   let reason = null;
 
   for (let target of urlTargeting) {
+    const targetUrl = target.url.replace(/\/$/, '');
     if (target.condition === 'does not contain') {
-      if (pageUrl.indexOf(target.url) > -1) {
+      if (pageUrl.indexOf(targetUrl) > -1) {
         hasHitTargetUrl = false;
         return false;
       } else {
@@ -17,35 +17,35 @@ export const checkUrlTargeting = function (urlTargeting, url) {
     }
 
     if (target.condition === 'matches regex') {
-      hasHitTargetUrl = testRegex(target.url, pageUrl);
+      hasHitTargetUrl = testRegex(targetUrl, pageUrl);
     }
 
     if (target.condition === 'starts with') {
-      if ((pageUrl + '/').indexOf(target.url) === 0) {
+      if ((pageUrl + '/').indexOf(targetUrl) === 0) {
         hasHitTargetUrl = true;
       }
     }
 
     if (target.condition === 'contains') {
-      if (pageUrl.indexOf(target.url) > -1) {
+      if (pageUrl.indexOf(targetUrl) > -1) {
         hasHitTargetUrl = true;
       }
     }
 
     if (target.condition === 'ends with') {
-      if (pageUrl.endsWith(target.url)) {
+      if (pageUrl.endsWith(targetUrl)) {
         hasHitTargetUrl = true;
       }
     }
 
     if (target.condition === 'not equals') {
-      if (pageUrl !== target.url) {
+      if (pageUrl !== targetUrl) {
         hasHitTargetUrl = true;
       }
     }
 
     if (target.condition === 'equals') {
-      if (pageUrl === target.url) {
+      if (pageUrl === targetUrl) {
         hasHitTargetUrl = true;
         return true;
       }
