@@ -1,7 +1,7 @@
 import { log } from 'helpers/injector/console';
 
 export const checkUrlTargeting = function (urlTargeting, url) {
-  const pageUrl = url || window.location.href;
+  const pageUrl = (url || window.location.href).replace(/\/$/, '');
   log(3871, 'pageUrl', pageUrl);
   let hasHitTargetUrl = urlTargeting.length === 0;
   let reason = null;
