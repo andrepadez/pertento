@@ -1,5 +1,8 @@
+import { log } from 'helpers/injector/console';
+
 export const checkUrlTargeting = function (urlTargeting, url) {
   const pageUrl = url || window.location.href;
+  log(3871, 'pageUrl', pageUrl);
   let hasHitTargetUrl = urlTargeting.length === 0;
   let reason = null;
 
@@ -56,12 +59,4 @@ export const testRegex = (regexStr, url) => {
   return regex.test(url);
 };
 
-[
-  'equals',
-  'starts with',
-  'contains',
-  'ends with',
-  'matches regex',
-  'not equals',
-  'does not contain',
-];
+['equals', 'starts with', 'contains', 'ends with', 'matches regex', 'not equals', 'does not contain'];
