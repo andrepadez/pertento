@@ -50,7 +50,7 @@ const getExperimentsByUrlTarget = (experimentData) => {
 
   for (let [expId, experiment] of Object.entries(experiments)) {
     const hasHitUrlTargeting = checkUrlTargeting(experiment.urlTargeting);
-    log('hasHitUrlTargeting', expId, hasHitUrlTargeting);
+    log('hasHitUrlTargeting', expId, hasHitUrlTargeting, experiment.urlTargeting);
     const variantId = experimentData['exp-' + expId];
     log('variantId', expId, variantId);
     allExpVariantMap[expId] = variantId;
