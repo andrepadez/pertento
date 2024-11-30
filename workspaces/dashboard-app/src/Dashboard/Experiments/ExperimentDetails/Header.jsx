@@ -20,7 +20,7 @@ export const Header = ({ experimentId, screen }) => {
   const isDeployed = status === 'Deployed';
   const isRunning = status === 'Running';
   const noEditPermissions = isDraft && ganProperty && !ganProperty.hasEditPermission.length;
-  const isNotImplemented = ['Server Side', 'URL Redirect'].includes(type);
+  const noUrlTargeting = experiment.type === 'URL Redirect' && experiment.urlTargeting.length === 0;
 
   return (
     <div className="grid gap-5">
@@ -33,7 +33,7 @@ export const Header = ({ experimentId, screen }) => {
 
           <Button
             variant={isRunning || isDeployed ? 'destructive' : 'default'}
-            disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || isNotImplemented}
+            disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || noUrlTargeting}
             onClick={() => (isRunning || isDeployed ? setWantsToEnd(true) : startExperiment(experimentId))}
           >
             {isEnded && <span>Ended</span>}
@@ -44,10 +44,11 @@ export const Header = ({ experimentId, screen }) => {
           </Button>
         </div>
       </div>
-      {isNotImplemented && (
+      {experiment.type === 'URL Redirect' && experiment.urlTargeting.length === 0 && (
         <div className="p-2 text-center bg-yellow-400">
-          <p>{type} experiments are not implemented yet.</p>
-          <p>You can configure it for now, we'll let you know when they are available for launch.</p>
+          <p>This experiment cannot be started with the current settings.</p>
+          <p>You need to configure at least one rule for URL Targeting.</p>
+          <p>Be careful setting those rules, so the website doesn't fall on an infinite redirect loop.</p>
         </div>
       )}
       <ConfirmDialog

@@ -9,17 +9,22 @@ export const DataTable = (props) => {
     <Table>
       <TableHeader>
         <TableRow>
-          {columns.map(({ label, sortKey, field }, idx) => (
-            <TableHead key={idx}>
-              <div
-                className={cn('flex items-center gap-2', sortKey && 'cursor-pointer')}
-                onClick={() => sortKey && onSort && onSort(sortKey)}
-              >
-                <strong>{label || field}</strong>
-                {sortKey && <ArrowUpDown className="w-4 h-4 ml-2" />}
-              </div>
-            </TableHead>
-          ))}
+          {columns.map((column, idx) => {
+            const { label, sortKey, field, condition = true } = column;
+            return (
+              condition && (
+                <TableHead key={idx}>
+                  <div
+                    className={cn('flex items-center gap-2', sortKey && 'cursor-pointer')}
+                    onClick={() => sortKey && onSort && onSort(sortKey)}
+                  >
+                    <strong>{label || field}</strong>
+                    {sortKey && <ArrowUpDown className="w-4 h-4 ml-2" />}
+                  </div>
+                </TableHead>
+              )
+            );
+          })}
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -27,11 +32,9 @@ export const DataTable = (props) => {
           <TableRow key={item[uniqueKey]}>
             {columns.map((column, idx) => {
               const value = item[column.field];
-              const { format } = column;
+              const { format, condition = true } = column;
               return (
-                <TableCell key={idx}>
-                  {format ? format({ value, item, data, idx }) : value}
-                </TableCell>
+                condition && <TableCell key={idx}>{format ? format({ value, item, data, idx }) : value}</TableCell>
               );
             })}
           </TableRow>

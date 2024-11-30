@@ -55,13 +55,21 @@ export const experimentVariantsHandler = async (c) => {
       if (!experiment.variants[variantId]) continue;
       const { globalJavascript, globalCSS } = experiment.variants[variantId];
 
+      const variant = experiment.variants[variantId];
+
       response.experiments[experiment.id] = {};
       const resExp = response.experiments[experiment.id];
+      resExp.type = experiment.type;
       resExp.urlTargeting = experiment.urlTargeting;
       resExp.cookieTargeting = experiment.cookieTargeting;
-      resExp.changes = [...experiment.variants[variantId].changes];
+
+      if (experiment.type === 'URL Redirect') {
+        resExp.redirectUrl = variant.redirectUrl;
+      }
+      resExp.changes = [...variant.changes];
       resExp.globalCSS = globalCSS;
       resExp.globalJavascript = globalJavascript;
+
       if (isDeployed) {
         resExp.deployed = true;
       }

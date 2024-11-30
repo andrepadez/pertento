@@ -11,18 +11,18 @@ export const useUrlTargeting = (experimentId) => {
   const addUrlTargeting = async ({ url, condition }) => {
     const payload = { url, condition, experimentId };
     await apiClient.post(`/url-targeting`, payload);
-    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
   };
 
   const editUrlTargeting = async ({ id, url, condition }) => {
     const payload = { url, condition };
     await apiClient.put(`/url-targeting/${id}`, payload);
-    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
   };
 
   const deleteUrlTargeting = async (id) => {
     await apiClient.delete(`/url-targeting/${id}`);
-    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
   };
 
   return {

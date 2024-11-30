@@ -33,7 +33,7 @@ export const Significance = ({ experiment, manager }) => {
   return (
     <div className="grid gap-4">
       {deployed && (
-        <Card className="grid gap-2 bg-green-100 p-5">
+        <Card className="grid gap-2 p-5 bg-green-100">
           <div className="flex items-center justify-between">
             <h4>Deployed Variant</h4>
             <h6>since {formatDateTime(deployed.deployed)}</h6>
@@ -120,7 +120,9 @@ export const Significance = ({ experiment, manager }) => {
             {
               field: 'id',
               label: 'View',
+              condition: !!experiment.editorUrl && !deployed,
               format: ({ item }) => {
+                if (!experiment.editorUrl) return null;
                 const urlForce = new URL(experiment.editorUrl);
                 urlForce.searchParams.set('pertento-force-variant', `${experiment.id}-${item.id}`);
                 const urlOnly = new URL(experiment.editorUrl);
@@ -130,9 +132,9 @@ export const Significance = ({ experiment, manager }) => {
                 return (
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="ghost" className="h-8 w-8 p-0">
+                      <Button variant="ghost" className="w-8 h-8 p-0">
                         <span className="sr-only">Open actions</span>
-                        <MoreHorizontal className="h-4 w-4" />
+                        <MoreHorizontal className="w-4 h-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent>
@@ -148,14 +150,11 @@ export const Significance = ({ experiment, manager }) => {
             {
               field: 'id',
               label: 'Deploy',
+              condition: !deployed,
               format: ({ value, item }) =>
-                item.name !== 'Original' && (
-                  <>
-                    <Button onClick={() => setWantsToDeploy(item)}>Deploy</Button>
-                  </>
-                ),
+                item.name !== 'Original' && <Button onClick={() => setWantsToDeploy(item)}>Deploy</Button>,
             },
-          ].filter((col) => !deployed || !['Deploy', 'View'].includes(col.label))}
+          ]}
         />
         {!!wantsToDeploy && (
           <ConfirmDialog

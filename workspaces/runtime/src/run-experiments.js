@@ -11,10 +11,12 @@ export const runExperiments = (experimentData = {}, websiteId) => {
   const data = getExperimentsByUrlTarget(experimentData);
   const { expVariantMap, experimentsToCount } = data;
 
-  log('experimentsToCount', experimentsToCount);
-
   const allChanges = [];
   for (let experiment of experimentsToCount) {
+    log('experiment.type', experiment.id, experiment.type);
+    if (experiment.type === 'URL Redirect') {
+      return window.location.replace(experiment.redirectUrl);
+    }
     applyGlobals(document.body, experiment);
     allChanges.push(...experiment.changes);
   }
