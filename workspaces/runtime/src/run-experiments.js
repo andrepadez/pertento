@@ -15,6 +15,8 @@ export const runExperiments = (experimentData = {}, websiteId) => {
   for (let experiment of experimentsToCount) {
     log('experiment.type', experiment.id, experiment.type);
     if (experiment.type === 'URL Redirect') {
+      const variantId = expVariantMap[experiment.id];
+      registerVisitor({ websiteId, expVariantMap, rawExperimentData: experimentData.experiments });
       return window.location.replace(experiment.redirectUrl);
     }
     applyGlobals(document.body, experiment);
