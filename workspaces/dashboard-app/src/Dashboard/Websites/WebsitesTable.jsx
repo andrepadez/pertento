@@ -38,13 +38,14 @@ export const WebsitesTable = ({ manager }) => {
           {
             field: 'url',
             label: ' ',
-            format: ({ value: url }) => (
-              <div className="w-10 h-10 rounded-md">
-                <Avatar>
-                  <AvatarImage src={url + '/favicon.ico'} />
-                </Avatar>
-              </div>
-            ),
+            format: ({ value: url }) =>
+              url.startsWith('https') && (
+                <div className="w-10 h-10 rounded-md">
+                  <Avatar>
+                    <AvatarImage src={url + '/favicon.ico'} />
+                  </Avatar>
+                </div>
+              ),
           },
           {
             field: 'url',
