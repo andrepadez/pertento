@@ -16,7 +16,7 @@ export const setupSendToExperimentsServer = (experimentData, allExpVariantMap) =
     '';
   const experimentIds = Array.from(new URLSearchParams(expSearch).keys()).map((key) => +key.split('-').at(1));
 
-  return async (data, isMultiple) => {
+  return async (data) => {
     log('sending test data?', websiteId, WEBSITES_TO_LISTEN);
     if (WEBSITES_TO_LISTEN.includes(+websiteId)) {
       console.log('sending test-data to experiments server');
