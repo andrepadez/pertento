@@ -18,8 +18,8 @@ export const setupDataLayer = function (experimentData, expVariantMap, tries = 0
   const sendToExperimentsServer = setupSendToExperimentsServer(experimentData, expVariantMap);
   const initialData = window.dataLayer;
 
-  window.pertentoReportPurchase = function (data) {
-    sendToExperimentsServer([['event', 'purchase', data]]);
+  window.pertentoReportPurchase = function (event, data) {
+    sendToExperimentsServer([['event', event, data]]);
   };
 
   if (initialData.length > 0) {
