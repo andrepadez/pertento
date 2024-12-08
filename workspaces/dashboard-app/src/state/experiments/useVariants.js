@@ -20,36 +20,42 @@ export const useVariants = (experimentId, variantId = null) => {
     const payload = { ...variant, companyId, parentCompanyId };
     await apiClient.post(`/variants`, payload);
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
   const deleteVariant = async (variantId) => {
     await apiClient.delete(`/variants/${variantId}`);
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
   const changeName = async (variantId, name, redirectUrl) => {
     await apiClient.put(`/variants/${variantId}/change-name`, { name, redirectUrl });
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
   const changeWeight = async (variantId, weight) => {
     await apiClient.put(`/variants/${variantId}/change-weight`, { weight });
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
   const resetWeight = async (variantId) => {
     await apiClient.put(`/variants/${variantId}/reset-weight`);
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 
   const setMaxWeight = async (variantId) => {
     await apiClient.put(`/variants/${variantId}/set-max-weight`);
     queryClient.invalidateQueries({ queryKey: ['VARIANTS', experimentId] });
+    queryClient.invalidateQueries({ queryKey: ['EXPERIMENT'] });
     queryClient.invalidateQueries({ queryKey: ['ACTIVITY_LOG', experimentId] });
   };
 

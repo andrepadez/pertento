@@ -10,19 +10,14 @@ export const useVariantWeights = (expermentId, variantId = null) => {
   const [variantWeight, setVariantWeight] = useState(isFloating ? null : variant?.weight);
 
   if (!variant) {
-    const availableWeight =
-      10000 - variants?.reduce((sum, variant) => sum + variant.weight || 0, 0);
-    const notWeightedVariants = variants?.filter(
-      (variant) => variant.name !== 'Original' && variant.weight === null,
-    );
+    const availableWeight = 10000 - variants?.reduce((sum, variant) => sum + variant.weight || 0, 0);
+    const notWeightedVariants = variants?.filter((variant) => variant.name !== 'Original' && variant.weight === null);
     const weightedVariants = variants?.filter((variant) => variant.weight !== null);
     const totalWeighted = weightedVariants?.reduce((sum, variant) => sum + variant.weight, 0);
     const floatingWeight = Math.floor(availableWeight / (notWeightedVariants?.length + 1));
     const totalFloating = floatingWeight * notWeightedVariants?.length;
     const originalWeight =
-      originalVariant?.weight !== null
-        ? originalVariant?.weight
-        : 10000 - totalWeighted - totalFloating;
+      originalVariant?.weight !== null ? originalVariant?.weight : 10000 - totalWeighted - totalFloating;
 
     const variantWeights = variants?.map((variant) => {
       return variant.name === 'Original'
@@ -57,8 +52,7 @@ export const useVariantWeights = (expermentId, variantId = null) => {
   let floatingWeight = availableWeight / floatingVariants.length;
   const floatingSum = floatingWeight * floatingVariants.length;
   const remainder = 10000 - totalWeighted - floatingSum;
-  const originalWeight =
-    floatingWeight + remainder - (variantWeight || 0) + (isFloating ? 0 : variant?.weight);
+  const originalWeight = floatingWeight + remainder - (variantWeight || 0) + (isFloating ? 0 : variant?.weight);
 
   return {
     originalVariant,

@@ -25,7 +25,7 @@ export const VariantsConfigUI = (props) => {
     <div className="flex flex-col gap-5">
       {variants.map((variant) => {
         const isOriginal = variant.name === 'Original';
-        const weight = (isOriginal ? originalWeight : variant.weight || floatingWeight) / 100;
+        const weight = (isOriginal ? originalWeight : variant.weight !== null ? variant.weight : floatingWeight) / 100;
         let changesCount = variant.changes.length;
         const { globalCSS, globalJavascript } = variant;
         if (globalCSS) changesCount++;

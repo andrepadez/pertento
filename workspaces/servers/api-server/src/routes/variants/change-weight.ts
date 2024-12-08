@@ -11,8 +11,8 @@ export const changeWeightHandler = async (c) => {
 
   const message =
     dbVariant.weight !== null
-      ? `changed ${dbVariant.name} Variant weight from  ${dbVariant.weight}% to ${weight}%`
-      : `set  ${dbVariant.name} Variant weight to ${weight}%`;
+      ? `changed ${dbVariant.name} Variant weight from  ${dbVariant.weight / 100}% to ${weight / 100}%`
+      : `set  ${dbVariant.name} Variant weight to ${weight / 100}%`;
 
   await db.insert(ActivityLog).values({
     experimentId: dbVariant.experimentId,
