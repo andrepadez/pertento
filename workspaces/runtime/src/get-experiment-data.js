@@ -13,6 +13,8 @@ export const getExperimentData = async (websiteUrl, websiteId) => {
   if (uuid) url += `&uuid=${uuid}`;
   if (lsVariantsUrlSearch && lsVariantsUrlSearch !== 'null') url += lsVariantsUrlSearch;
 
+  log('!!! URL', url);
+
   const response = await experimentsClient.get(url);
 
   if (Object.keys(response).length === 0) return {};
