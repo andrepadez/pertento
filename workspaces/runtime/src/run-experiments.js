@@ -17,7 +17,12 @@ export const runExperiments = (experimentData = {}, websiteId) => {
     if (experiment.type === 'URL Redirect') {
       const variantId = expVariantMap[experiment.id];
       registerVisitor({ websiteId, expVariantMap, rawExperimentData: experimentData.experiments });
-      return experiment.redirectUrl && window.location.replace(experiment.redirectUrl);
+      if (experiment.redirectUrl) {
+        data.isRedirected = true;
+        localStorage.setItem('PERTENTO_VARIANTS_URL_SEARCH', experimentData.variantsUrlSearch);
+        window.location.replace(experiment.redirectUrl);
+      }
+      return data;
     }
     applyGlobals(document.body, experiment);
     allChanges.push(...experiment.changes);
