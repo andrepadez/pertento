@@ -17,7 +17,7 @@ export const Timeline = ({ experiment }) => {
   ];
   const startsAt = [
     formatDate(experiment.startsAt),
-    daysAgo(experiment.startsAt, endsAt || deployedVariant?.deployed || new Date()),
+    daysAgo(experiment.startsAt, experiment.endsAt || deployedVariant?.deployed || new Date()),
   ];
   const { status } = experiment;
   const hasStarted = status !== 'Draft';
