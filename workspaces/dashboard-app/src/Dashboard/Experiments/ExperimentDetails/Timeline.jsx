@@ -11,7 +11,10 @@ export const Timeline = ({ experiment }) => {
   const updatedAt = formatDateTime(experiment.updatedAt);
   const endsAt = formatDateTime(experiment.endsAt);
   const deployedVariant = experiment.variants.find((v) => v.deployed);
-  const deployedAt = [formatDate(deployedVariant?.deployed), daysAgo(deployedVariant?.deployed, endsAt || new Date())];
+  const deployedAt = deployedVariant?.deployed && [
+    formatDate(deployedVariant?.deployed),
+    daysAgo(deployedVariant?.deployed, endsAt || new Date()),
+  ];
   const startsAt = [
     formatDate(experiment.startsAt),
     daysAgo(experiment.startsAt, endsAt || deployedVariant?.deployed || new Date()),
@@ -59,13 +62,13 @@ export const Timeline = ({ experiment }) => {
 
         <div className="flex-2 flex items-center justify-center gap-4">
           <div className="mt-2 flex-col">
-            <CheckMark className={!hasStarted && 'bg-gray-400'} />
+            <CheckMark className={!deployedVariant && 'bg-gray-400'} />
           </div>
           <div>
-            <h3 className={cn('text-sm font-bold text-gray-400', hasStarted && 'text-black dark:text-white')}>
+            <h3 className={cn('text-sm font-bold text-gray-400', !!deployedVariant && 'text-black dark:text-white')}>
               DEPLOYED
             </h3>
-            {hasStarted && <span className="text-xs">at {deployedAt.at(0)}</span>}
+            {!!deployedVariant && <span className="text-xs">at {deployedAt.at(0)}</span>}
           </div>
         </div>
 
