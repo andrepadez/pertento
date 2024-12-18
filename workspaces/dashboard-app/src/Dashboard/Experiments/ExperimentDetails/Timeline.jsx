@@ -68,14 +68,14 @@ export const Timeline = ({ experiment }) => {
             <h3 className={cn('text-sm font-bold text-gray-400', !!deployedVariant && 'text-black dark:text-white')}>
               DEPLOYED
             </h3>
-            {!!deployedVariant && <span className="text-xs">at {deployedAt.at(0)}</span>}
+            {!!deployedVariant && <span className="text-xs">at {deployedAt?.at(0)}</span>}
           </div>
         </div>
 
         <div className="grid flex-1 items-center">
           <Separator className="col-start-1 row-start-1 h-[2px]" />
           <div className="col-start-1 row-start-1 text-center">
-            <span className="bg-white px-2">for {deployedAt.at(1)} days</span>
+            <span className="bg-white px-2">for {deployedAt?.at(1)} days</span>
           </div>
         </div>
 
