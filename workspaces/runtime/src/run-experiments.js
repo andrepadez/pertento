@@ -4,6 +4,7 @@ import { checkUrlTargeting } from 'helpers/url-match';
 import { matchCookieTargeting } from 'helpers/injector/cookie-target-match';
 import { listenForUrlChange } from 'helpers/listen-for-url-changes';
 import { registerVisitor } from './register-visitor';
+
 let mutationObserver = null;
 
 export const runExperiments = (experimentData = {}, websiteId) => {

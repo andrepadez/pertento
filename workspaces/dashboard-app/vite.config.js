@@ -16,7 +16,9 @@ const envs = Object.entries(process.env)
     return acc;
   }, {});
 
-console.log(envs);
+if (isProduction) {
+  console.log(envs);
+}
 
 // https://vitejs.dev/config/
 export default defineConfig({

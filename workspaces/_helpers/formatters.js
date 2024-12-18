@@ -44,6 +44,10 @@ export const formatNumber = (value) => {
   return formatter.format(value || 0);
 };
 
+export const daysAgo = (first, last) => {
+  return Math.ceil(Math.abs(first - last) / (1000 * 60 * 60 * 24));
+};
+
 export const formatPercentage = (value) => (value ? `${value.toFixed(2)}%` : '00.00%');
 
 export const formatDiff = (value, isPercent, decimals = false) =>

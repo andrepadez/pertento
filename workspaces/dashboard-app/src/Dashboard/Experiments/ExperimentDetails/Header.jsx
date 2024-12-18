@@ -29,8 +29,6 @@ export const Header = ({ experimentId, screen }) => {
           <span>{experiment.name}</span> <span className="text-xl"> ({experiment.id})</span>
         </h1>
         <div className="flex items-center gap-3 text-right">
-          {isDeployed && <strong className="text-lg text-green-500">Deployed</strong>}
-
           <Button
             variant={isRunning || isDeployed ? 'destructive' : 'default'}
             disabled={(status === 'Draft' && isStarting) || noEditPermissions || isEnded || noUrlTargeting}
@@ -45,7 +43,7 @@ export const Header = ({ experimentId, screen }) => {
         </div>
       </div>
       {experiment.type === 'URL Redirect' && experiment.urlTargeting.length === 0 && (
-        <div className="p-2 text-center bg-yellow-400">
+        <div className="bg-yellow-400 p-2 text-center">
           <p>This experiment cannot be started with the current settings.</p>
           <p>You need to configure at least one rule for URL Targeting.</p>
           <p>Be careful setting those rules, so the website doesn't fall on an infinite redirect loop.</p>
